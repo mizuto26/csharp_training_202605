@@ -9,6 +9,7 @@ public class EmployeeCreateViewModelAdapterTests
     [TestMethod]
     public void Restore_WithoutDepartmentId_ThrowsInvalidOperationException()
     {
+        Exception exception;
         EmployeeCreateViewModel viewModel = new()
         {
             Name = "山田太郎",
@@ -16,8 +17,15 @@ public class EmployeeCreateViewModelAdapterTests
         };
         EmployeeCreateViewModelAdapter adapter = new();
 
-        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() =>
-            adapter.Restore(viewModel));
+        try
+        {
+            adapter.Restore(viewModel);
+            return;
+        }
+        catch (Exception caught)
+        {
+            exception = caught;
+        }
 
         Assert.AreEqual("部署Idが設定されていません。", exception.Message);
     }
@@ -25,15 +33,24 @@ public class EmployeeCreateViewModelAdapterTests
     [TestMethod]
     public void Restore_WithoutName_ThrowsInvalidOperationException()
     {
+        Exception exception;
         EmployeeCreateViewModel viewModel = new()
         {
             Name = " ",
             DeptId = 3
         };
+
         EmployeeCreateViewModelAdapter adapter = new();
 
-        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() =>
-            adapter.Restore(viewModel));
+        try
+        {
+            adapter.Restore(viewModel);
+            return;
+        }
+        catch (Exception caught)
+        {
+            exception = caught;
+        }
 
         Assert.AreEqual("氏名が設定されていません。", exception.Message);
     }

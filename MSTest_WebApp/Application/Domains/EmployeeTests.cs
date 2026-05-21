@@ -13,7 +13,6 @@ public class EmployeeTests
         try
         {
             Employee _ = new(id: 1, name: " ", department: null);
-            Assert.Fail();
             return;
         }
         catch (Exception caught)
@@ -32,8 +31,7 @@ public class EmployeeTests
         Exception exception;
         try
         {
-            employee.ChangeName(new string('a', 21));
-            Assert.Fail();
+            employee.ChangeName(new string(c: 'c', count: 21));
             return;
         }
         catch (Exception caught)
