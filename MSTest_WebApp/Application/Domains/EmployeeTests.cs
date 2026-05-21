@@ -12,7 +12,7 @@ public class EmployeeTests
         Exception exception;
         try
         {
-            Employee _ = new(id: 1, name: " ", department: null);
+            Employee _ = new(id: 1, name: " ", phone: "", mail: "", department: null);
             return;
         }
         catch (Exception caught)
@@ -26,7 +26,7 @@ public class EmployeeTests
     [TestMethod]
     public void ChangeName_WithTooLongName_ThrowsException()
     {
-        Employee employee = new(id: 1, name: "山田太郎", department: null);
+        Employee employee = new(id: 1, name: "山田太郎", phone: null, mail: null, department: null);
 
         Exception exception;
         try

@@ -13,6 +13,15 @@ public class EmployeeEntity
     [Column("name")]
     /// 従業員名
     public string EmpName { get; set; } = string.Empty;
+
+    [Column("phone_number")]
+    /// 従業員名
+    public string? EmpPhone { get; set; } = string.Empty;
+
+    [Column("mail_address")]
+    /// 従業員名
+    public string? EmpMail { get; set; } = string.Empty;
+
     /// 所属部署Id(外部キー)
     [Column("dept_id")]
     public int? DeptId { get; set; }

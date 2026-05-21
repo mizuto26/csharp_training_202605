@@ -23,6 +23,8 @@ public class EmployeeCreateViewModelAdapter : IRestorer<Employee, EmployeeCreate
         // 登録するEmployee(従業員)を作成する
         Employee? employee = new(
             name: target.Name,
+            phone: target.Phone,
+            mail: target.Mail,
             department: department
         );
 

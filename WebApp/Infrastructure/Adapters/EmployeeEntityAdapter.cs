@@ -12,7 +12,9 @@ public class EmployeeEntityAdapter
     {
         EmployeeEntity entity = new()
         {
-            EmpName = domain.Name
+            EmpName = domain.Name,
+            EmpPhone = domain.Phone,
+            EmpMail = domain.Mail
         };
 
         if (domain.Id != null) entity.EmpId = domain.Id.Value;
@@ -26,6 +28,8 @@ public class EmployeeEntityAdapter
         Employee employee = new(
             id: target.EmpId,
             name: target.EmpName,
+            phone: target.EmpPhone,
+            mail: target.EmpMail,
             department: null
         );
 

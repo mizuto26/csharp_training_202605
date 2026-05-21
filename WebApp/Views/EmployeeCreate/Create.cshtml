@@ -20,6 +20,20 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
+                    @* Tag Helperがname属性やid属性を自動生成 Model Bindingに必要なHTMLが作成される*@
+                    <label asp-for="Phone" class="form-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    @*バリデーション(ModelState)エラーを表示する*@
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    @* Tag Helperがname属性やid属性を自動生成 Model Bindingに必要なHTMLが作成される*@
+                    <label asp-for="Mail" class="form-label"></label>
+                    <input asp-for="Mail" class="form-control" />
+                    @*バリデーション(ModelState)エラーを表示する*@
+                    <span asp-validation-for="Mail" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
                     <label asp-for="DeptId" class="form-label"></label>
                     @*asp-itemsはSelectListItemのリストを受け取る*@
                     <select asp-for="DeptId" asp-items="Model.Departments" class="form-control"></select>

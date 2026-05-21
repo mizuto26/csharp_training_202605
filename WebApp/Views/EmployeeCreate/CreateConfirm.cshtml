@@ -16,6 +16,14 @@
                         <td>@Html.DisplayFor(m => m.Name)</td>
                     </tr>
                     <tr>
+                        <td class="fw-bold">@Html.DisplayNameFor(m => m.Phone)</td>
+                        <td>@Html.DisplayFor(m => m.Phone)</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">@Html.DisplayNameFor(m => m.Mail)</td>
+                        <td>@Html.DisplayFor(m => m.Mail)</td>
+                    </tr>
+                    <tr>
                         <td class="fw-bold">@Html.DisplayNameFor(m => m.DeptName)</td>
                         <td>@Html.DisplayFor(m => m.DeptName)</td>
                     </tr>
@@ -24,6 +32,8 @@
 
             <form>
                 <input type="hidden" asp-for="Name" />
+                <input type="hidden" asp-for="Phone" />
+                <input type="hidden" asp-for="Mail" />
                 <input type="hidden" asp-for="DeptId" />
                 <input type="hidden" asp-for="DeptName" />
                 <div class="text-center mt-4">
