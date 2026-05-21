@@ -13,12 +13,12 @@ public class EmployeeEntityAdapter
         EmployeeEntity entity = new()
         {
             EmpName = domain.Name,
-            EmpPhone = domain.Phone,
-            EmpMail = domain.Mail
         };
 
         if (domain.Id != null) entity.EmpId = domain.Id.Value;
         if (domain.Department != null) entity.DeptId = domain.Department.Id;
+        if (domain.Mail != null) entity.EmpMail = domain.Mail;
+        if (domain.Phone != null) entity.EmpPhone = domain.Phone;
 
         return entity;
     }
