@@ -7,7 +7,7 @@ namespace MSTest_WebApp.Presentation.ViewModels;
 public class EmployeeCreateViewModelAdapterTests
 {
     [TestMethod]
-    public void Restore_WithoutDepartmentId_ThrowsInvalidOperationException()
+    public void Restore_WithoutDepartmentId_ThrowsException()
     {
         Exception exception;
         EmployeeCreateViewModel viewModel = new()
@@ -31,7 +31,7 @@ public class EmployeeCreateViewModelAdapterTests
     }
 
     [TestMethod]
-    public void Restore_WithoutName_ThrowsInvalidOperationException()
+    public void Restore_WithoutName_ThrowsException()
     {
         Exception exception;
         EmployeeCreateViewModel viewModel = new()

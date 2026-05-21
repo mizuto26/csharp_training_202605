@@ -7,7 +7,7 @@ namespace MSTest_WebApp.Application.Domains;
 public class EmployeeTests
 {
     [TestMethod]
-    public void Constructor_WithBlankName_ThrowsExceptionWithExpectedMessage()
+    public void Constructor_WithBlankName_ThrowsException()
     {
         Exception exception;
         try
@@ -24,7 +24,7 @@ public class EmployeeTests
     }
 
     [TestMethod]
-    public void ChangeName_WithTooLongName_ThrowsExceptionWithExpectedMessage()
+    public void ChangeName_WithTooLongName_ThrowsException()
     {
         Employee employee = new(id: 1, name: "山田太郎", department: null);
 
