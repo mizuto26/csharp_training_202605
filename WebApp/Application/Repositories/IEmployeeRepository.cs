@@ -1,0 +1,9 @@
+using WebApp.Application.Domains;
+namespace WebApp.Application.Repositories;
+
+/// ドメインオブジェクト:従業員のCRUD操作インターフェイス
+public interface IEmployeeRepository
+{
+    /// 従業員を永続化する
+    bool Create(Employee employee);
+}

@@ -1,0 +1,23 @@
+@using WebApp.Presentation.ViewModels
+@model EmployeeCreateViewModel
+@{
+    ViewData[index: "Title"] = "従業員登録(完了)";
+}
+
+<h2 class="text-center mt-4">@ViewData[index: "Title"]</h2>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-sm-8 text-center">
+            <div class="alert alert-success" role="alert">
+                従業員情報の登録が完了しました。
+            </div>
+            <a asp-action="Create" asp-controller="EmployeeCreate" class="btn btn-primary mt-3">
+                続けて登録する
+            </a>
+            <a asp-action="Index" asp-controller="Home" class="btn btn-primary mt-3">
+                メニューに戻る
+            </a>
+        </div>
+    </div>
+</div>
