@@ -6,7 +6,7 @@ namespace MSTest_WebApp.Presentation.ViewModels;
 [TestClass]
 public class EmployeeCreateViewModelAdapterTests
 {
-    [TestMethod]
+    [TestMethod("部署idを設定していない場合")]
     public void Restore_WithoutDepartmentId_ThrowsException()
     {
         Exception exception;
@@ -30,7 +30,7 @@ public class EmployeeCreateViewModelAdapterTests
         Assert.AreEqual("部署Idが設定されていません。", exception.Message);
     }
 
-    [TestMethod]
+    [TestMethod("氏名を設定していない場合")]
     public void Restore_WithoutName_ThrowsException()
     {
         Exception exception;

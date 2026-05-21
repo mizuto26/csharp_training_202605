@@ -6,7 +6,7 @@ namespace MSTest_WebApp.Application.Domains;
 [TestClass]
 public class EmployeeTests
 {
-    [TestMethod]
+    [TestMethod("氏名が空白の場合")]
     public void Constructor_WithBlankName_ThrowsException()
     {
         Exception exception;
@@ -23,7 +23,7 @@ public class EmployeeTests
         Assert.AreEqual("氏名は必須です", exception.Message);
     }
 
-    [TestMethod]
+    [TestMethod("氏名が20文字を超えている場合")]
     public void ChangeName_WithTooLongName_ThrowsException()
     {
         Employee employee = new(id: 1, name: "山田太郎", phone: null, mail: null, department: null);
