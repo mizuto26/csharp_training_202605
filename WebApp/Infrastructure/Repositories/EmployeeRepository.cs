@@ -1,9 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using WebApp.Infrastructure.Context;
 using WebApp.Application.Domains;
 using WebApp.Application.Repositories;
 using WebApp.Infrastructure.Adapters;
-using WebApp.Infrastructure.Entities;
 namespace WebApp.Infrastructure.Repositories;
 
 /// ドメインオブジェクト:従業員のCRUD操作インターフェイスの実装
