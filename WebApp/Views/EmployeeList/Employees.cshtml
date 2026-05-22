@@ -1,0 +1,36 @@
+@using WebApp.Presentation.ViewModels
+@model EmployeeListViewModel
+@{
+    ViewData[index: "Title"] = "従業員一覧";
+}
+
+<h2 class="text-center mt-4">@ViewData[index: "Title"]</h2>
+
+<div class="container mt-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>従業員ID</th>
+                <th>氏名</th>
+                <th>メールアドレス</th>
+                <th>電話番号</th>
+                <th>部署ID</th>
+                <th>部署名</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (EmployeeListItemViewModel employee in Model.Employees)
+            {
+                <tr>
+                    <td>@employee.EmployeeId</td>
+                    <td>@employee.EmployeeName</td>
+                    <td>@employee.Email</td>
+                    <td>@employee.Phone</td>
+                    <td>@employee.DepartmentId</td>
+                    <td>@employee.DepartmentName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

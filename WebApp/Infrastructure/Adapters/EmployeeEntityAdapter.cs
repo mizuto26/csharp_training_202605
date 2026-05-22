@@ -42,7 +42,7 @@ public class EmployeeEntityAdapter
                 email: employeeEntity.EmpEmail ?? string.Empty,
                 phone: employeeEntity.EmpPhone ?? string.Empty,
                 department: department
-            );
+        );
 
         return employee;
     }

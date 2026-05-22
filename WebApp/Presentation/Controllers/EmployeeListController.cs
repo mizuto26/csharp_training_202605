@@ -3,7 +3,7 @@ using WebApp.Application.Domains;
 using WebApp.Application.Services;
 using WebApp.Presentation.ViewModels;
 
-namespace WebApp_Sample.Presentation.Controllers;
+namespace WebApp.Presentation.Controllers;
 
 /// 従業員一覧コントローラ
 [Route("Employee")]
@@ -25,12 +25,5 @@ public class EmployeeListController(
         EmployeeListViewModel viewModel = _employeeListViewModelAdapter.Restore(employees);
 
         return View(model: viewModel);
-    }
-
-    /// 一覧画面へ戻るアクションメソッド
-    [HttpPost("Employees")]
-    public IActionResult BackToEmployees()
-    {
-        return RedirectToAction(actionName: "Employees");
     }
 }
