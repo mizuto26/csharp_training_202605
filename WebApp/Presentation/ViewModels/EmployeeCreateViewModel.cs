@@ -9,6 +9,7 @@ public class EmployeeCreateViewModel
     /// 氏名
     [Display(Name = "氏名")]
     [Required(ErrorMessage = "{0}は入力必須です。")]
+    [StringLength(20)]
     public string? Name { get; set; } = string.Empty;
     /// 所属部署
     [Display(Name = "所属部署")]
@@ -16,11 +17,11 @@ public class EmployeeCreateViewModel
     public int? DeptId { get; set; } = 0;
 
     [Display(Name = "電話番号")]
-    [Phone]
+    [RegularExpression(@"^0\d{1,4}-\d{1,4}-\d{4}$", ErrorMessage = "{0}の形式が正しくありません。")]
     public string? Phone { get; set; } = string.Empty;
 
     [Display(Name = "メールアドレス")]
-    [EmailAddress]
+    [EmailAddress(ErrorMessage = "{0}の形式が正しくありません。")]
     public string? Email { get; set; } = string.Empty;
 
     /// 選択された部署名
