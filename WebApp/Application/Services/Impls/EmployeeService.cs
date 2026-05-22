@@ -29,8 +29,7 @@ public class EmployeeService(
         catch (Exception exception)
         {
             transaction.Rollback();
-            throw new Exception(message: "従業員を登録できませんでした。",
-                                        innerException: exception);
+            throw new Exception(message: "従業員を登録できませんでした。", innerException: exception);
         }
     }
 }
