@@ -25,8 +25,6 @@ public class DepartmentEntityAdapter
             DeptName = domain.Name,
         };
 
-        if (domain.Id != null) entity.DeptId = domain.Id.Value;
-
         return entity;
     }
 }
