@@ -8,4 +8,6 @@ public interface IDepartmentRepository
     IReadOnlyList<Department> FindAll();
     /// 指定された部署Idの部署を取得する
     Department? FindById(int id);
+    /// 部署を永続化する
+    bool Create(Department department);
 }

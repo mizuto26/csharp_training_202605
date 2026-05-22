@@ -2,6 +2,7 @@ using WebApp.Infrastructure.Context;
 using WebApp.Application.Domains;
 using WebApp.Application.Repositories;
 using WebApp.Infrastructure.Adapters;
+using WebApp.Infrastructure.Entities;
 
 namespace WebApp.Infrastructure.Repositories;
 
@@ -51,6 +52,24 @@ public class DepartmentRepository(
         catch (Exception exception)
         {
             throw new Exception(message: "指定された部署Idの部署を取得できませんでした。",
+                                        innerException: exception);
+        }
+    }
+
+    public bool Create(Department department)
+    {
+        try
+        {
+            DepartmentEntity? entity = _adapter.Convert(domain: department);
+
+            if (entity is null) return false;
+
+            _context.Departments.Add(entity: entity);
+            return true;
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "部署の永続化ができませんでした。",
                                         innerException: exception);
         }
     }

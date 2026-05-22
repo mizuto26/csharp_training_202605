@@ -7,7 +7,8 @@ public interface IDepartmentService
 {
     /// すべての部署を取得する
     IReadOnlyList<Department> GetDepartments();
-
     /// 指定された部署Idの部署を取得する
     Department GetDepartmentById(int id);
+    /// 新しい部署を登録する
+    void Create(Department department);
 }

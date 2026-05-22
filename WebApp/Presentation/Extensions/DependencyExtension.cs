@@ -69,5 +69,10 @@ public static class DependencyExtension
         services.AddScoped(
             provider => new TempDataStore<EmployeeCreateViewModel>(key: "EmployeeCreateViewModel")
         );
+        // TempDataへのDepartmentViewの保存・復元するためのクラス
+        // コンストラクタを利用して明示的にDIコンテナにインスタンスを登録する
+        services.AddScoped(
+            provider => new TempDataStore<DepartmentCreateViewModel>(key: "DepartmentCreateViewModel")
+        );
     }
 }

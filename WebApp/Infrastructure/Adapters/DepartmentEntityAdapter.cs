@@ -5,7 +5,7 @@ namespace WebApp.Infrastructure.Adapters;
 
 /// ドメインオブジェクト:DepartmentとDepartmentEntityの相互変換インターフェイスの実装
 public class DepartmentEntityAdapter
-: IRestorer<Department, DepartmentEntity>
+: IRestorer<Department, DepartmentEntity>, IConverter<Department, DepartmentEntity>
 {
     /// DepartmentEntityからドメインオブジェクト:Departmentを復元する
     public Department Restore(DepartmentEntity target)
@@ -16,5 +16,17 @@ public class DepartmentEntityAdapter
         );
 
         return department;
+    }
+
+    public DepartmentEntity Convert(Department domain)
+    {
+        DepartmentEntity entity = new()
+        {
+            DeptName = domain.Name,
+        };
+
+        if (domain.Id != null) entity.DeptId = domain.Id.Value;
+
+        return entity;
     }
 }

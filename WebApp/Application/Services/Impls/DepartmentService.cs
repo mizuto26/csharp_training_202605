@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore.Storage;
 using WebApp.Application.Domains;
 using WebApp.Application.Repositories;
 using WebApp.Infrastructure.Context;
@@ -25,5 +26,27 @@ public class DepartmentService(
     {
         return _departmentRepository.FindById(id: id)
             ?? throw new Exception(message: $"部署Id{id}に該当する部署は存在しません");
+    }
+
+    // 新しい部署を登録する
+    public void Create(Department department)
+    {
+        using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+
+        try
+        {
+            bool created = _departmentRepository.Create(department: department);
+            if (!created) throw new Exception(message: "部署を登録できませんでした。",
+                                                innerException: new InvalidOperationException());
+
+            _context.SaveChanges();
+            transaction.Commit();
+        }
+        catch (Exception exception)
+        {
+            transaction.Rollback();
+            throw new Exception(message: "部署を登録できませんでした。",
+                                    innerException: exception);
+        }
     }
 }
