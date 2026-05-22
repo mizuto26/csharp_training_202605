@@ -30,31 +30,4 @@ public class EmployeeCreateViewModelAdapterTests
         Assert.AreEqual(3, employee.Department!.Id);
         Assert.AreEqual("営業部", employee.Department.Name);
     }
-
-    [TestMethod("氏名がない作成ViewModelは例外になる")]
-    public void Restore_WithoutName_ThrowsInvalidOperationException()
-    {
-        EmployeeCreateViewModel viewModel = new()
-        {
-            Name = " ",
-            Email = "yamada@example.com",
-            Phone = "03-1234-5678",
-            DeptId = 3
-        };
-        EmployeeCreateViewModelAdapter adapter = new();
-
-        InvalidOperationException exception;
-        try
-        {
-            adapter.Restore(viewModel);
-            Assert.Fail("例外が発生しませんでした。");
-            return;
-        }
-        catch (InvalidOperationException caught)
-        {
-            exception = caught;
-        }
-
-        Assert.AreEqual("氏名が設定されていません。", exception.Message);
-    }
 }

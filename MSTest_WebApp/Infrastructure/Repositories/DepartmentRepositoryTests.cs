@@ -61,6 +61,26 @@ public class DepartmentRepositoryTests
         Assert.IsNull(department);
     }
 
+    [Description("Createで部署Entityが追加される")]
+    [TestMethod]
+    public void Create_AddsDepartmentEntity()
+    {
+        List<DepartmentEntity> departmentEntities = [];
+        using var context = CreateContext([], departmentEntities);
+
+        Department department = new(name: "営業部");
+        DepartmentRepository repository = CreateRepository(context);
+
+        bool created = repository.Create(department);
+
+        IReadOnlyList<DepartmentEntity> savedDepartments =
+            ((QueryableDbSet<DepartmentEntity>)context.Departments).Entities;
+
+        Assert.IsTrue(created);
+        Assert.AreEqual(1, savedDepartments.Count);
+        Assert.AreEqual("営業部", savedDepartments[0].DeptName);
+    }
+
     private static DepartmentRepository CreateRepository(AppDbContext context)
     {
         return new DepartmentRepository(context, new DepartmentEntityAdapter());
