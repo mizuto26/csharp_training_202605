@@ -6,4 +6,6 @@ public interface IEmployeeRepository
 {
     /// 従業員を永続化する
     bool Create(Employee employee);
+    /// すべての従業員を取得する
+    IReadOnlyList<Employee> FindAll();
 }

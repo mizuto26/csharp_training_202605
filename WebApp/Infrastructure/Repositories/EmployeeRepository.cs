@@ -2,6 +2,7 @@ using WebApp.Infrastructure.Context;
 using WebApp.Application.Domains;
 using WebApp.Application.Repositories;
 using WebApp.Infrastructure.Adapters;
+using WebApp.Infrastructure.Entities;
 namespace WebApp.Infrastructure.Repositories;
 
 /// ドメインオブジェクト:従業員のCRUD操作インターフェイスの実装
@@ -27,6 +28,22 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         catch (Exception exception)
         {
             throw new Exception(message: "従業員の永続化ができませんでした。",
+                                            innerException: exception);
+        }
+    }
+
+    /// すべての従業員を取得する
+    public IReadOnlyList<Employee> FindAll()
+    {
+        try
+        {
+            List<EmployeeEntity> employeeEntities = _context.Employees.ToList();
+
+            return employeeEntities.Select(_adapter.Restore).ToList();
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "すべての従業員を取得できませんでした。",
                                             innerException: exception);
         }
     }

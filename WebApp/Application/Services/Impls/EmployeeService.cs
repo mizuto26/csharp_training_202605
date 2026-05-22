@@ -32,4 +32,10 @@ public class EmployeeService(
             throw new Exception(message: "従業員を登録できませんでした。", innerException: exception);
         }
     }
+
+    /// すべての従業員を取得する
+    public IReadOnlyList<Employee> GetEmployees()
+    {
+        return _employeeRepository.FindAll();
+    }
 }
