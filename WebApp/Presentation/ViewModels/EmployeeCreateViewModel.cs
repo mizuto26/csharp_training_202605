@@ -13,16 +13,17 @@ public class EmployeeCreateViewModel
     public string? Name { get; set; } = string.Empty;
     /// 所属部署
     [Display(Name = "所属部署")]
-    [Required(ErrorMessage = "{0}は選択必須です。")]
-    public int? DeptId { get; set; } = 0;
+    public int? DeptId { get; set; }
 
     [Display(Name = "電話番号")]
+    [Required(ErrorMessage = "{0}は入力必須です。")]
     [RegularExpression(@"^0\d{1,4}-\d{1,4}-\d{4}$", ErrorMessage = "{0}の形式が正しくありません。")]
-    public string? Phone { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
 
     [Display(Name = "メールアドレス")]
+    [Required(ErrorMessage = "{0}は入力必須です。")]
     [EmailAddress(ErrorMessage = "{0}の形式が正しくありません。")]
-    public string? Email { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
 
     /// 選択された部署名
     [Display(Name = "部署名")]
@@ -34,14 +35,21 @@ public class EmployeeCreateViewModel
     /// 部署のリストをSelectListItemのリストに変換してプロパティに設定する
     public void SetDepartments(IReadOnlyList<Department> departments)
     {
-        Departments = departments
+        Departments =
+        [
+            new SelectListItem
+            {
+                Value = string.Empty,
+                Text = "未所属"
+            },
+            .. departments
             .Where(department => department.Id is not null)
             .Select(department => new SelectListItem
             {
                 Value = department.Id.ToString(),
                 Text = string.IsNullOrEmpty(department.Name) ? "(名称未設定)" : department.Name
             })
-            .ToList();
+        ];
     }
 
     public override string ToString()

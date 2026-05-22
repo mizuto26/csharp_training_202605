@@ -6,14 +6,14 @@ public class Employee
     public int? Id { get; private set; } // 社員Id
     public string Name { get; private set; } = string.Empty; // 氏名
 
-    public string? Phone { get; private set; } = string.Empty;
-    public string? Email { get; private set; } = string.Empty;
+    public string Phone { get; private set; } = string.Empty;
+    public string Email { get; private set; } = string.Empty;
 
     public Department? Department { get; private set; } // 所属部署（null可）
 
     private const int MaxLength = 20;
 
-    public Employee(int? id, string name, string? phone, string? email, Department? department)
+    public Employee(int? id, string name, string phone, string email, Department? department)
     {
         ValidateName(name: name);
         Id = id;
@@ -23,7 +23,7 @@ public class Employee
         Department = department;
     }
 
-    public Employee(string name, string? phone, string? email, Department? department)
+    public Employee(string name, string phone, string email, Department? department)
     : this(null, name, phone, email, department) { }
 
     /// 氏名を変更する

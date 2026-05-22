@@ -17,8 +17,8 @@ public class EmployeeEntityAdapter
 
         if (domain.Id != null) entity.EmpId = domain.Id.Value;
         if (domain.Department != null) entity.DeptId = domain.Department.Id;
-        if (domain.Email != null) entity.EmpEmail = domain.Email;
-        if (domain.Phone != null) entity.EmpPhone = domain.Phone;
+        entity.EmpEmail = domain.Email;
+        entity.EmpPhone = domain.Phone;
 
         return entity;
     }

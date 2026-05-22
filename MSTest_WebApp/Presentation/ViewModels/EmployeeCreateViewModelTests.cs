@@ -7,7 +7,7 @@ namespace MSTest_WebApp.Presentation.ViewModels;
 [TestClass]
 public class EmployeeCreateViewModelTests
 {
-    [TestMethod("Idなし部署を除外し,名称未設定を補完して部署一覧を設定する")]
+    [TestMethod("未所属を先頭に追加し,Idなし部署を除外し,名称未設定を補完して部署一覧を設定する")]
     public void SetDepartments_FiltersOutDepartmentsWithoutId_AndUsesFallbackName()
     {
         EmployeeCreateViewModel viewModel = new();
@@ -21,10 +21,12 @@ public class EmployeeCreateViewModelTests
 
         viewModel.SetDepartments(departments);
 
-        Assert.AreEqual(2, viewModel.Departments.Count);
-        Assert.AreEqual("1", viewModel.Departments[0].Value);
-        Assert.AreEqual("営業部", viewModel.Departments[0].Text);
-        Assert.AreEqual("2", viewModel.Departments[1].Value);
-        Assert.AreEqual("(名称未設定)", viewModel.Departments[1].Text);
+        Assert.AreEqual(3, viewModel.Departments.Count);
+        Assert.AreEqual(string.Empty, viewModel.Departments[0].Value);
+        Assert.AreEqual("未所属", viewModel.Departments[0].Text);
+        Assert.AreEqual("1", viewModel.Departments[1].Value);
+        Assert.AreEqual("営業部", viewModel.Departments[1].Text);
+        Assert.AreEqual("2", viewModel.Departments[2].Value);
+        Assert.AreEqual("(名称未設定)", viewModel.Departments[2].Text);
     }
 }

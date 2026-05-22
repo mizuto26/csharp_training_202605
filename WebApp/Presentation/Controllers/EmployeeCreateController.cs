@@ -47,8 +47,16 @@ public class EmployeeCreateController(
             return View(viewName: "Create", model: viewModel);
         }
 
-        var department = _departmentService.GetDepartmentById(viewModel.DeptId ?? 0);
-        viewModel.DeptName = department.Name;
+        if (viewModel.DeptId is null)
+        {
+            viewModel.DeptName = "未所属";
+        }
+        else
+        {
+            var department = _departmentService.GetDepartmentById(viewModel.DeptId.Value);
+            viewModel.DeptName = department.Name;
+        }
+
         _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
 
         return View(viewName: "CreateConfirm", model: viewModel);
