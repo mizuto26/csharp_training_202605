@@ -21,7 +21,7 @@ public class EmployeeCreateViewModel
 
     [Display(Name = "メールアドレス")]
     [EmailAddress]
-    public string? Mail { get; set; } = string.Empty;
+    public string? Email { get; set; } = string.Empty;
 
     /// 選択された部署名
     [Display(Name = "部署名")]

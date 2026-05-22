@@ -24,7 +24,7 @@ public class EmployeeCreateViewModelAdapter : IRestorer<Employee, EmployeeCreate
         Employee? employee = new(
             name: target.Name,
             phone: target.Phone,
-            mail: target.Mail,
+            email: target.Email,
             department: department
         );
 

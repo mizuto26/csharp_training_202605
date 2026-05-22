@@ -6,7 +6,7 @@ namespace WebApp.Infrastructure.Context;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     /// employeeテーブルにアクセスするプロパティ
-    public DbSet<EmployeeEntity> Employees => Set<EmployeeEntity>();
+    public virtual DbSet<EmployeeEntity> Employees { get; set; } = null!;
     /// departmentテーブルにアクセスするプロパティ
-    public DbSet<DepartmentEntity> Departments => Set<DepartmentEntity>();
+    public virtual DbSet<DepartmentEntity> Departments { get; set; } = null!;
 }

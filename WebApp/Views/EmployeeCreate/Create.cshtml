@@ -28,10 +28,10 @@
                 </div>
                 <div class="mb-3">
                     @* Tag Helperがname属性やid属性を自動生成 Model Bindingに必要なHTMLが作成される*@
-                    <label asp-for="Mail" class="form-label"></label>
-                    <input asp-for="Mail" class="form-control" />
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" />
                     @*バリデーション(ModelState)エラーを表示する*@
-                    <span asp-validation-for="Mail" class="text-danger"></span>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label asp-for="DeptId" class="form-label"></label>

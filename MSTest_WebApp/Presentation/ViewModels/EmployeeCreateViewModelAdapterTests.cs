@@ -3,51 +3,54 @@ using WebApp.Presentation.ViewModels;
 
 namespace MSTest_WebApp.Presentation.ViewModels;
 
+
 [TestClass]
 public class EmployeeCreateViewModelAdapterTests
 {
-    [TestMethod("部署idを設定していない場合")]
-    public void Restore_WithoutDepartmentId_ThrowsException()
+    [TestMethod("正しい入力の作成ViewModelは従業員へ変換できる")]
+    public void Restore_WithValidViewModel_ReturnsEmployee()
     {
-        Exception exception;
         EmployeeCreateViewModel viewModel = new()
         {
             Name = "山田太郎",
-            DeptId = null
+            Email = "yamada@example.com",
+            Phone = "03-1234-5678",
+            DeptId = 3,
+            DeptName = "営業部"
         };
         EmployeeCreateViewModelAdapter adapter = new();
 
-        try
-        {
-            adapter.Restore(viewModel);
-            return;
-        }
-        catch (Exception caught)
-        {
-            exception = caught;
-        }
+        var employee = adapter.Restore(viewModel);
 
-        Assert.AreEqual("部署Idが設定されていません。", exception.Message);
+        Assert.IsNull(employee.Id);
+        Assert.AreEqual("山田太郎", employee.Name);
+        Assert.AreEqual("yamada@example.com", employee.Email);
+        Assert.AreEqual("03-1234-5678", employee.Phone);
+        Assert.IsNotNull(employee.Department);
+        Assert.AreEqual(3, employee.Department!.Id);
+        Assert.AreEqual("営業部", employee.Department.Name);
     }
 
-    [TestMethod("氏名を設定していない場合")]
-    public void Restore_WithoutName_ThrowsException()
+    [TestMethod("氏名がない作成ViewModelは例外になる")]
+    public void Restore_WithoutName_ThrowsInvalidOperationException()
     {
-        Exception exception;
         EmployeeCreateViewModel viewModel = new()
         {
             Name = " ",
+            Email = "yamada@example.com",
+            Phone = "03-1234-5678",
             DeptId = 3
         };
-
         EmployeeCreateViewModelAdapter adapter = new();
 
+        InvalidOperationException exception;
         try
         {
             adapter.Restore(viewModel);
+            Assert.Fail("例外が発生しませんでした。");
             return;
         }
-        catch (Exception caught)
+        catch (InvalidOperationException caught)
         {
             exception = caught;
         }

@@ -7,24 +7,24 @@ public class Employee
     public string Name { get; private set; } = string.Empty; // 氏名
 
     public string? Phone { get; private set; } = string.Empty;
-    public string? Mail { get; private set; } = string.Empty;
+    public string? Email { get; private set; } = string.Empty;
 
     public Department? Department { get; private set; } // 所属部署（null可）
 
     private const int MaxLength = 20;
 
-    public Employee(int? id, string name, string? phone, string? mail, Department? department)
+    public Employee(int? id, string name, string? phone, string? email, Department? department)
     {
         ValidateName(name: name);
         Id = id;
         Name = name;
         Phone = phone;
-        Mail = mail;
+        Email = email;
         Department = department;
     }
 
-    public Employee(string name, string? phone, string? mail, Department? department)
-    : this(null, name, phone, mail, department) { }
+    public Employee(string name, string? phone, string? email, Department? department)
+    : this(null, name, phone, email, department) { }
 
     /// 氏名を変更する
     public void ChangeName(string name)

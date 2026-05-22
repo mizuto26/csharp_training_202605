@@ -6,13 +6,21 @@ namespace MSTest_WebApp.Application.Domains;
 [TestClass]
 public class EmployeeTests
 {
-    [TestMethod("氏名が空白の場合")]
-    public void Constructor_WithBlankName_ThrowsException()
+    [TestMethod("氏名が空白のときは例外になる")]
+    public void Constructor_WithBlankName_ThrowsExceptionWithExpectedMessage()
     {
         Exception exception;
         try
         {
-            Employee _ = new(id: 1, name: " ", phone: "", mail: "", department: null);
+            Employee _ = new(
+                id: 1,
+                name: " ",
+                email: "yamada@example.com",
+                phone: "03-1234-5678",
+                department: null
+            );
+
+            Assert.Fail();
             return;
         }
         catch (Exception caught)
@@ -23,15 +31,22 @@ public class EmployeeTests
         Assert.AreEqual("氏名は必須です", exception.Message);
     }
 
-    [TestMethod("氏名が20文字を超えている場合")]
-    public void ChangeName_WithTooLongName_ThrowsException()
+    [TestMethod("氏名を21文字以上に変更しようとすると例外になる")]
+    public void ChangeName_WithTooLongName_ThrowsExceptionWithExpectedMessage()
     {
-        Employee employee = new(id: 1, name: "山田太郎", phone: null, mail: null, department: null);
+        Employee employee = new(
+            id: 1,
+            name: "山田太郎",
+            email: "yamada@example.com",
+            phone: "03-1234-5678",
+            department: null
+        );
 
         Exception exception;
         try
         {
             employee.ChangeName(new string(c: 'c', count: 21));
+            Assert.Fail();
             return;
         }
         catch (Exception caught)
