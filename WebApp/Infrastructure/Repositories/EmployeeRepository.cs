@@ -45,41 +45,9 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
                 .ToList()
             ;
 
-            // 部署一覧取得
-            List<DepartmentEntity> departmentEntities = _context.Departments
-                .AsNoTracking()
-                .ToList()
-            ;
-
-            Dictionary<int, DepartmentEntity> departmentById = [];
-
-            // 部署を1件ずつDictionaryへ追加
-            foreach (DepartmentEntity departmentEntity in departmentEntities)
-            {
-                departmentById.Add(key: departmentEntity.DeptId, value: departmentEntity);
-            }
-
-            List<Employee> employees = [];
-
-            foreach (EmployeeEntity employeeEntity in employeeEntities)
-            {
-                DepartmentEntity? departmentEntity = null;
-                // DeptIdがある場合
-                if (employeeEntity.DeptId != null)
-                {
-                    // Dictionaryから部署取得
-                    // TryGetValuehメソッドが「bool + outで２つの（departmentEntity））」を返す
-                    departmentById.TryGetValue(key: employeeEntity.DeptId.Value, value: out departmentEntity);
-                }
-
-                // Entity → Domain変換
-                Employee employee = _adapter.Restore(employeeEntity: employeeEntity, departmentEntity: departmentEntity);
-
-                // Listへ追加
-                employees.Add(employee);
-            }
-
-            return employees;
+            return employeeEntities
+                .Select(_adapter.Restore)
+                .ToList();
         }
         catch (Exception exception)
         {

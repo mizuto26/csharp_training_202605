@@ -9,7 +9,7 @@ public class EmployeeCreateViewModel
     /// 氏名
     [Display(Name = "氏名")]
     [Required(ErrorMessage = "{0}は入力必須です。")]
-    [StringLength(20)]
+    [StringLength(20, ErrorMessage = "{0}は20文字以内で入力してください")]
     public string? Name { get; set; } = string.Empty;
     /// 所属部署
     [Display(Name = "所属部署")]

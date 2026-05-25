@@ -11,7 +11,7 @@ namespace MSTest_WebApp.Infrastructure.Repositories;
 [TestClass]
 public class DepartmentRepositoryTests
 {
-    [TestMethod("部署一覧はId順で取得できる")]
+    [TestMethod("部署一覧を取得できる")]
     public void FindAll_ReturnsDepartmentsOrderedById()
     {
         List<DepartmentEntity> departmentEntities =
@@ -50,25 +50,38 @@ public class DepartmentRepositoryTests
         Assert.AreEqual("営業部", department.Name);
     }
 
+    [Description("存在しない部署Idを指定するとnullが返る")]
+    [TestMethod]
+    public void FindById_WhenDepartmentDoesNotExist_ReturnsNull()
+    {
+        using var context = CreateContext([], []);
+        DepartmentRepository repository = CreateRepository(context);
+
+        Department? department = repository.FindById(999);
+
+        Assert.IsNull(department);
+    }
+
+
     [Description("Createで部署Entityが追加される")]
     [TestMethod]
     public void Create_AddsDepartmentEntity()
     {
         List<DepartmentEntity> departmentEntities = [];
-        using var context = CreateContext([], departmentEntities);
 
-        Department department = new(name: "営業部");
+        using var context = CreateContext([], departmentEntities);
         DepartmentRepository repository = CreateRepository(context);
 
+        Department department = new(name: "営業部");
         bool created = repository.Create(department);
 
-        IReadOnlyList<DepartmentEntity> savedDepartments =
-            ((QueryableDbSet<DepartmentEntity>)context.Departments).Entities;
+        IReadOnlyList<DepartmentEntity> savedDepartments = ((QueryableDbSet<DepartmentEntity>)context.Departments).Entities;
 
         Assert.IsTrue(created);
         Assert.AreEqual(1, savedDepartments.Count);
         Assert.AreEqual("営業部", savedDepartments[0].DeptName);
     }
+
 
     private static DepartmentRepository CreateRepository(AppDbContext context)
     {

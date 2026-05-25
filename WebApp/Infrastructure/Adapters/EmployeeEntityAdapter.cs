@@ -50,6 +50,16 @@ public class EmployeeEntityAdapter
     /// EmployeeEntityからドメインオブジェクト:Employeeを復元する
     public Employee Restore(EmployeeEntity target)
     {
-        return Restore(employeeEntity: target, departmentEntity: null);
+        Department? department = target.DeptId is null
+            ? null
+            : new Department(id: target.DeptId.Value);
+
+        return new Employee(
+            id: target.EmpId,
+            name: target.EmpName,
+            email: target.EmpEmail ?? string.Empty,
+            phone: target.EmpPhone ?? string.Empty,
+            department: department
+        );
     }
 }
