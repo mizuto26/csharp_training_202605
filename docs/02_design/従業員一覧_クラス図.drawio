@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" pages="2">
     <diagram name="ク一覧" id="SGsvuyM9UuZfy4L-C9MY">
-        <mxGraphModel dx="1388" dy="838" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="694" dy="419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="bATJ8SX7_oVAZiBzGXDC-0"/>
                 <mxCell id="bATJ8SX7_oVAZiBzGXDC-1" parent="bATJ8SX7_oVAZiBzGXDC-0"/>
@@ -61,36 +61,6 @@
                 </mxCell>
                 <mxCell id="bATJ8SX7_oVAZiBzGXDC-31" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;EmployeeService&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ _context&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;:AppDbContext&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+&amp;nbsp;_employeeRepository&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;&lt;/span&gt;:IEmployeeRepository&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ GetEmployee()&lt;span style=&quot;white-space: pre;&quot;&gt;&#x9;&lt;/span&gt;:List&amp;lt;Employee&amp;gt;&lt;/span&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="bATJ8SX7_oVAZiBzGXDC-1" vertex="1">
                     <mxGeometry x="105" y="679.88" width="309" height="106.75" as="geometry"/>
-                </mxCell>
-            </root>
-        </mxGraphModel>
-    </diagram>
-    <diagram id="1U9p6RCXaxo7fvVXoSW6" name="シ一覧">
-        <mxGraphModel dx="618" dy="326" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-            <root>
-                <mxCell id="0"/>
-                <mxCell id="1" parent="0"/>
-                <mxCell id="2kNgbMRoTAmhDIDh202P-2" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" value="" vertex="1">
-                    <mxGeometry height="720" width="20" x="110" y="50" as="geometry"/>
-                </mxCell>
-                <mxCell id="2kNgbMRoTAmhDIDh202P-3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="EmployeeListController" vertex="1">
-                    <mxGeometry height="720" width="140" x="210" y="50" as="geometry"/>
-                </mxCell>
-                <mxCell id="2kNgbMRoTAmhDIDh202P-4" parent="2kNgbMRoTAmhDIDh202P-3" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
-                    <mxGeometry height="370" width="10" x="65" y="90" as="geometry"/>
-                </mxCell>
-                <mxCell id="2kNgbMRoTAmhDIDh202P-5" edge="1" parent="1" source="2kNgbMRoTAmhDIDh202P-2" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" target="2kNgbMRoTAmhDIDh202P-4" value="Employees()">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="205" y="145" as="sourcePoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="2kNgbMRoTAmhDIDh202P-6" edge="1" parent="1" source="2kNgbMRoTAmhDIDh202P-4" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" target="2kNgbMRoTAmhDIDh202P-2" value="View()">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="205" y="215" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="2kNgbMRoTAmhDIDh202P-7" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="EmployeeService" vertex="1">
-                    <mxGeometry height="300" width="100" x="400" y="50" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
