@@ -31,7 +31,7 @@ public class EmployeeCreateController(
     [HttpGet("Create")]
     public IActionResult Create()
     {
-        var viewModel = _empDataStore.Load(controller: this);
+        EmployeeCreateViewModel? viewModel = _empDataStore.Load(controller: this);
         viewModel ??= new EmployeeCreateViewModel();
         PopulateDepartments(viewModel: viewModel);
 
@@ -62,7 +62,7 @@ public class EmployeeCreateController(
         }
         else if (viewModel.DeptId is int departmentId)
         {
-            var department = _departmentService.GetDepartmentById(id: departmentId);
+            Department department = _departmentService.GetDepartmentById(id: departmentId);
             viewModel.DeptName = department.Name;
         }
 
@@ -91,10 +91,10 @@ public class EmployeeCreateController(
     [HttpGet("CreateComplete")]
     public IActionResult CreateComplete()
     {
-        var viewModel = _empDataStore.Load(controller: this);
-        if (viewModel == null) return RedirectToAction("Create");
+        EmployeeCreateViewModel? viewModel = _empDataStore.Load(controller: this);
+        if (viewModel == null) return RedirectToAction(actionName: "Create");
 
-        var employee = _adapter.Restore(target: viewModel);
+        Employee employee = _adapter.Restore(target: viewModel);
         _employeeService.Create(employee: employee);
 
         return View(viewName: "CreateComplete", model: viewModel);
@@ -112,7 +112,7 @@ public class EmployeeCreateController(
     /// 部署一覧を取得してViewModelに設定する(SelectListItem形式)
     private void PopulateDepartments(EmployeeCreateViewModel viewModel)
     {
-        var departments = _departmentService.GetDepartments();
+        IReadOnlyList<Department> departments = _departmentService.GetDepartments();
         viewModel.SetDepartments(departments: departments);
         _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
     }

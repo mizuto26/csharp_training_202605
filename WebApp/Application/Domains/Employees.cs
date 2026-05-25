@@ -24,7 +24,7 @@ public class Employee
     }
 
     public Employee(string name, string phone, string email, Department? department)
-    : this(null, name, phone, email, department) { }
+    : this(id: null, name: name, phone: phone, email: email, department: department) { }
 
     /// 氏名を変更する
     public void ChangeName(string name)
@@ -56,8 +56,8 @@ public class Employee
     private static void ValidateName(string name)
     {
         if (string.IsNullOrWhiteSpace(value: name))
-            throw new Exception("氏名は必須です");
+            throw new InvalidOperationException(message: "氏名は必須です");
         if (name.Length > MaxLength)
-            throw new Exception($"氏名は{MaxLength}文字以内で入力してください");
+            throw new InvalidOperationException(message: $"氏名は{MaxLength}文字以内で入力してください");
     }
 }

@@ -18,13 +18,13 @@ public static class DependencyExtension
         this IServiceCollection services, IConfiguration configuration)
     {
         // EntityFramework Coreのインスタンス生成と依存定義
-        SettingEntityFrameworkCore(configuration, services);
+        SettingEntityFrameworkCore(configuration: configuration, services: services);
         // インフラストラクチャ層のインスタンス生成と依存定義
-        SettingInfrastructures(services);
+        SettingInfrastructures(services: services);
         // アプリケーション層のインスタンス生成と依存定義
-        SettingApplications(services);
+        SettingApplications(services: services);
         // プレゼンテーション層のインスタンス生成と依存定義
-        SettingPresentations(services);
+        SettingPresentations(services: services);
     }
 
     /// EntityFramework Coreのインスタンス生成と依存定義
@@ -32,7 +32,7 @@ public static class DependencyExtension
     {
         // 接続文字列(appsettings.json)から取得
         string connectionString = configuration.GetConnectionString(name: "PostgreSqlConnection")
-            ?? throw new InvalidOperationException("PostgreSQLの接続文字列が設定されていません。");
+            ?? throw new InvalidOperationException(message: "PostgreSQLの接続文字列が設定されていません。");
         // DbContext登録(PostgreSQL用)
         services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
     }

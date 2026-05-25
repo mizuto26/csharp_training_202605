@@ -15,7 +15,7 @@ public class Department
         Name = name ?? string.Empty;
     }
 
-    public Department(string? name) : this(null, name) { }
+    public Department(string? name) : this(id: null, name: name) { }
 
     public Department(int? id)
     {
@@ -47,9 +47,9 @@ public class Department
         if (name is not null)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new Exception(message: "部署名は必須です");
+                throw new InvalidOperationException(message: "部署名は必須です");
             if (name.Length > MaxLength)
-                throw new Exception(message: $"部署名は{MaxLength}文字以内で入力してください");
+                throw new InvalidOperationException(message: $"部署名は{MaxLength}文字以内で入力してください");
         }
     }
 }

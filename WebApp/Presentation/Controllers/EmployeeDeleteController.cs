@@ -27,7 +27,7 @@ public class EmployeeDeleteController(
     {
         int employeeId = viewModel.EmployeeId;
 
-        var employee = _employeeService.GetEmployeeById(id: employeeId);
+        Employee employee = _employeeService.GetEmployeeById(id: employeeId);
         viewModel.EmployeeName = employee.Name;
         viewModel.EmployeePhone = employee.Phone;
         viewModel.EmployeeEmail = employee.Email;
@@ -58,7 +58,7 @@ public class EmployeeDeleteController(
     [HttpGet("DeleteComplete")]
     public IActionResult DeleteComplete()
     {
-        var viewModel = _employeeDeleteDataStore.Load(controller: this);
+        EmployeeDeleteViewModel? viewModel = _employeeDeleteDataStore.Load(controller: this);
 
         if (viewModel is null)
         {

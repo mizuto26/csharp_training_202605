@@ -22,15 +22,15 @@ public class DepartmentRepository(
     {
         try
         {
-            var departmentEntities = _context.Departments
+            List<DepartmentEntity> departmentEntities = _context.Departments
                 .OrderBy(departmentEntity => departmentEntity.DeptId)
                 .ToList();
 
             List<Department> departments = [];
 
-            foreach (var departmentEntity in departmentEntities)
+            foreach (DepartmentEntity departmentEntity in departmentEntities)
             {
-                var department = _adapter.Restore(departmentEntity);
+                Department department = _adapter.Restore(target: departmentEntity);
                 departments.Add(department);
             }
 
@@ -38,8 +38,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "すべての部署を取得できませんでした。",
-                                    innerException: exception);
+            throw new InvalidOperationException(message: "すべての部署を取得できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -48,7 +48,7 @@ public class DepartmentRepository(
     {
         try
         {
-            var result = _context.Departments
+            DepartmentEntity? result = _context.Departments
                 .FirstOrDefault(departmentEntity => departmentEntity.DeptId == id);
 
             if (result == null) return null;
@@ -57,8 +57,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された部署Idの部署を取得できませんでした。",
-                                        innerException: exception);
+            throw new InvalidOperationException(message: "指定された部署Idの部署を取得できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -66,15 +66,15 @@ public class DepartmentRepository(
     {
         try
         {
-            var entity = _adapter.Convert(domain: department);
+            DepartmentEntity entity = _adapter.Convert(domain: department);
 
             _context.Departments.Add(entity: entity);
             return true;
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "部署の永続化ができませんでした。",
-                                        innerException: exception);
+            throw new InvalidOperationException(message: "部署の永続化ができませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -83,7 +83,7 @@ public class DepartmentRepository(
     {
         try
         {
-            var entity = _context.Departments
+            DepartmentEntity? entity = _context.Departments
                 .FirstOrDefault(departmentEntity => departmentEntity.DeptId == id);
 
             if (entity is null) return false;
@@ -93,8 +93,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された部署Idの部署を削除できませんでした。",
-                                        innerException: exception);
+            throw new InvalidOperationException(message: "指定された部署Idの部署を削除できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -108,8 +108,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された部署名の部署を確認できませんでした。",
-                                        innerException: exception);
+            throw new InvalidOperationException(message: "指定された部署名の部署を確認できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -123,8 +123,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された部署Idを持つ従業員を確認できませんでした。",
-                                        innerException: exception);
+            throw new InvalidOperationException(message: "指定された部署Idを持つ従業員を確認できませんでした。",
+                                                innerException: exception);
         }
     }
 }

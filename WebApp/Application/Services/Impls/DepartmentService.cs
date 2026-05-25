@@ -25,7 +25,7 @@ public class DepartmentService(
     public Department GetDepartmentById(int id)
     {
         return _departmentRepository.FindById(id: id)
-            ?? throw new Exception(message: $"部署Id{id}に該当する部署は存在しません");
+            ?? throw new InvalidOperationException(message: $"部署Id{id}に該当する部署は存在しません");
     }
 
     /// 指定された部署名の部署が存在するか確認する
@@ -48,7 +48,7 @@ public class DepartmentService(
         try
         {
             bool created = _departmentRepository.Create(department: department);
-            if (!created) throw new Exception(message: "部署を登録できませんでした。");
+            if (!created) throw new InvalidOperationException(message: "部署を登録できませんでした。");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -56,8 +56,8 @@ public class DepartmentService(
         catch (Exception exception)
         {
             transaction.Rollback();
-            throw new Exception(message: "部署を登録できませんでした。",
-                                        innerException: exception);
+            throw new InvalidOperationException(message: "部署を登録できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -69,7 +69,7 @@ public class DepartmentService(
         try
         {
             bool deleted = _departmentRepository.DeleteById(id: id);
-            if (!deleted) throw new Exception(message: $"部署Id{id}に該当する部署は存在しません");
+            if (!deleted) throw new InvalidOperationException(message: $"部署Id{id}に該当する部署は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -77,8 +77,8 @@ public class DepartmentService(
         catch (Exception exception)
         {
             transaction.Rollback();
-            throw new Exception(message: "部署を削除できませんでした。",
-                                    innerException: exception);
+            throw new InvalidOperationException(message: "部署を削除できませんでした。",
+                                                innerException: exception);
         }
     }
 }

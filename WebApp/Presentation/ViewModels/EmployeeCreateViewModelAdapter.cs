@@ -10,11 +10,11 @@ public class EmployeeCreateViewModelAdapter : IRestorer<Employee, EmployeeCreate
     public Employee Restore(EmployeeCreateViewModel target)
     {
         if (string.IsNullOrWhiteSpace(target.Name))
-            throw new InvalidOperationException("氏名が設定されていません。");
+            throw new InvalidOperationException(message: "氏名が設定されていません。");
         if (string.IsNullOrWhiteSpace(target.Phone))
-            throw new InvalidOperationException("電話番号が設定されていません。");
+            throw new InvalidOperationException(message: "電話番号が設定されていません。");
         if (string.IsNullOrWhiteSpace(target.Email))
-            throw new InvalidOperationException("メールアドレスが設定されていません。");
+            throw new InvalidOperationException(message: "メールアドレスが設定されていません。");
 
         Department? department = null;
         if (target.DeptId is not null)
