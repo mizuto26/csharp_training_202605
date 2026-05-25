@@ -106,6 +106,68 @@ public class DepartmentRepositoryTests
         Assert.IsFalse(exists);
     }
 
+    [TestMethod("FindAllでDBアクセスに失敗した場合は例外を投げる")]
+    public void FindAll_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new QueryableDbSet<EmployeeEntity>([]),
+            Departments = new ThrowingDbSet<DepartmentEntity>()
+        };
+        DepartmentRepository repository = CreateRepository(context);
+
+        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindAll());
+
+        Assert.AreEqual("すべての部署を取得できませんでした。", exception.Message);
+    }
+
+    [TestMethod("FindByIdでDBアクセスに失敗した場合は例外を投げる")]
+    public void FindById_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new QueryableDbSet<EmployeeEntity>([]),
+            Departments = new ThrowingDbSet<DepartmentEntity>()
+        };
+        DepartmentRepository repository = CreateRepository(context);
+
+        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindById(1));
+
+        Assert.AreEqual("指定された部署Idの部署を取得できませんでした。", exception.Message);
+    }
+
+    [TestMethod("CreateでDBアクセスに失敗した場合は例外を投げる")]
+    public void Create_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new QueryableDbSet<EmployeeEntity>([]),
+            Departments = new ThrowingDbSet<DepartmentEntity>()
+        };
+        DepartmentRepository repository = CreateRepository(context);
+
+        Department department = new(name: "営業部");
+
+        Exception exception = Assert.ThrowsException<Exception>(() => repository.Create(department));
+
+        Assert.AreEqual("部署の永続化ができませんでした。", exception.Message);
+    }
+
+    [TestMethod("ExistsByNameでDBアクセスに失敗した場合は例外を投げる")]
+    public void ExistsByName_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new QueryableDbSet<EmployeeEntity>([]),
+            Departments = new ThrowingDbSet<DepartmentEntity>()
+        };
+        DepartmentRepository repository = CreateRepository(context);
+
+        Exception exception = Assert.ThrowsException<Exception>(() => repository.ExistsByName("営業部"));
+
+        Assert.AreEqual("指定された部署名の部署を確認できませんでした。", exception.Message);
+    }
+
 
     private static DepartmentRepository CreateRepository(AppDbContext context)
     {

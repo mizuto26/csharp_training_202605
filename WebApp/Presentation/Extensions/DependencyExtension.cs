@@ -66,6 +66,8 @@ public static class DependencyExtension
         services.AddScoped<EmployeeCreateViewModelAdapter>();
         // 従業員リストを従業員一覧ViewModelに変換するアダプターインターフェイスの実装
         services.AddScoped<EmployeeListViewModelAdapter>();
+        // 部署リストを部署一覧ViewModelに変換するアダプターインターフェイスの実装
+        services.AddScoped<DepartmentListViewModelAdapter>();
         // TempDataへのEmployeeViewの保存・復元するためのクラス
         // コンストラクタを利用して明示的にDIコンテナにインスタンスを登録する
         services.AddScoped(

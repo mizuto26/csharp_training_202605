@@ -1,0 +1,28 @@
+@using WebApp.Presentation.ViewModels
+@model DepartmentListViewModel
+@{
+    ViewData[index: "Title"] = "部署一覧";
+}
+
+<h2 class="text-center mt-4">@ViewData[index: "Title"]</h2>
+
+<div class="container mt-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>部署ID</th>
+                <th>部署名</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DepartmentListItemViewModel department in Model.Departments)
+            {
+                <tr>
+                    <td>@department.DepartmentId</td>
+                    <td>@department.DepartmentName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
