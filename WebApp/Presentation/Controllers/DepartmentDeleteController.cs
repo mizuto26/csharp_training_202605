@@ -26,15 +26,10 @@ public class DepartmentDeleteController(
     public IActionResult DeleteConfirm(DepartmentDeleteViewModel viewModel)
     {
         int departmentId = viewModel.DepartmentId;
-
-        if (_departmentService.ExistsEmployeeByDepartmentId(departmentId: departmentId))
-        {
-            TempData[key: "DepartmentDeleteError"] = "指定された部署IDに所属している従業員が存在するため削除できません。";
-            return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");
-        }
-
         Department department = _departmentService.GetDepartmentById(id: departmentId);
         viewModel.DepartmentName = department.Name;
+
+        ValidateDeletableDepartment(departmentId: departmentId);
 
         _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
 
@@ -45,6 +40,12 @@ public class DepartmentDeleteController(
     [HttpPost("DeleteExecute")]
     public IActionResult DeleteExecute(DepartmentDeleteViewModel viewModel)
     {
+        ValidateDeletableDepartment(departmentId: viewModel.DepartmentId);
+        if (!ModelState.IsValid)
+        {
+            return View(viewName: "DeleteConfirm", model: viewModel);
+        }
+
         _departmentDeleteDataStore.Save(controller: this, model: viewModel);
 
         return RedirectToAction(actionName: "DeleteComplete");
@@ -52,10 +53,8 @@ public class DepartmentDeleteController(
 
     /// 部署削除確認画面の[戻る]ボタンクリックアクションメソッド
     [HttpPost("DeleteBack")]
-    public IActionResult DeleteBack(DepartmentDeleteViewModel viewModel)
+    public IActionResult DeleteBack()
     {
-        _departmentDeleteDataStore.Save(controller: this, model: viewModel);
-
         return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");
     }
 
@@ -72,5 +71,15 @@ public class DepartmentDeleteController(
         _departmentService.DeleteById(id: viewModel.DepartmentId);
 
         return View(viewName: "DeleteComplete", model: viewModel);
+    }
+
+    private void ValidateDeletableDepartment(int departmentId)
+    {
+        if (!_departmentService.ExistsEmployeeByDepartmentId(departmentId: departmentId)) return;
+
+        ModelState.AddModelError(
+            key: string.Empty,
+            errorMessage: string.Empty
+        );
     }
 }

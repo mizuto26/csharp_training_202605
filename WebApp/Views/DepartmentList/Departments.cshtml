@@ -7,7 +7,6 @@
 <h2 class="text-center mt-4">@ViewData[index: "Title"]</h2>
 
 <div class="container mt-4">
-    <span data-valmsg-for="DepartmentId" class="text-danger"></span>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -23,13 +22,10 @@
                     <td>@department.DepartmentId</td>
                     <td>@department.DepartmentName</td>
                     <td>
-                        @if (department.DepartmentId.HasValue)
-                        {
-                            <form asp-action="DeleteConfirm" asp-controller="DepartmentDelete" method="post" class="d-inline">
-                                <input type="hidden" name="DepartmentId" value="@department.DepartmentId" />
-                                <button type="submit" class="btn btn-danger btn-sm">削除</button>
-                            </form>
-                        }
+                        <form asp-action="DeleteConfirm" asp-controller="DepartmentDelete" method="post" class="d-inline">
+                            <input type="hidden" name="DepartmentId" value="@department.DepartmentId" />
+                            <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                        </form>
                     </td>
                 </tr>
             }

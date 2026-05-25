@@ -49,10 +49,8 @@ public class EmployeeDeleteController(
 
     /// 従業員削除確認画面の[戻る]ボタンクリックアクションメソッド
     [HttpPost("DeleteBack")]
-    public IActionResult DeleteBack(EmployeeDeleteViewModel viewModel)
+    public IActionResult DeleteBack()
     {
-        _employeeDeleteDataStore.Save(controller: this, model: viewModel);
-
         return RedirectToAction(actionName: "Employees", controllerName: "EmployeeList");
     }
 

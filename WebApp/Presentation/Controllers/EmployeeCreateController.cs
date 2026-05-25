@@ -47,21 +47,7 @@ public class EmployeeCreateController(
             return View(viewName: "Create", model: viewModel);
         }
 
-        if (_employeeService.ExistsByEmail(email: viewModel.Email ?? string.Empty))
-        {
-            ModelState.AddModelError(
-                key: nameof(EmployeeCreateViewModel.Email),
-                errorMessage: "同じメールアドレスの従業員が既に存在します。"
-            );
-        }
-
-        if (_employeeService.ExistsByPhone(phone: viewModel.Phone ?? string.Empty))
-        {
-            ModelState.AddModelError(
-                key: nameof(EmployeeCreateViewModel.Phone),
-                errorMessage: "同じ電話番号の従業員が既に存在します。"
-            );
-        }
+        ValidateUniqueEmployee(viewModel: viewModel);
 
         if (!ModelState.IsValid)
         {
@@ -88,6 +74,13 @@ public class EmployeeCreateController(
     [HttpPost("CreateExecute")]
     public IActionResult CreateExecute(EmployeeCreateViewModel viewModel)
     {
+        ValidateUniqueEmployee(viewModel: viewModel);
+        if (!ModelState.IsValid)
+        {
+            PopulateDepartments(viewModel: viewModel);
+            return View(viewName: "Create", model: viewModel);
+        }
+
         _empDataStore.Save(controller: this, model: viewModel);
 
         return RedirectToAction(actionName: "CreateComplete");
@@ -121,5 +114,24 @@ public class EmployeeCreateController(
         var departments = _departmentService.GetDepartments();
         viewModel.SetDepartments(departments: departments);
         _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
+    }
+
+    private void ValidateUniqueEmployee(EmployeeCreateViewModel viewModel)
+    {
+        if (_employeeService.ExistsByEmail(email: viewModel.Email ?? string.Empty))
+        {
+            ModelState.AddModelError(
+                key: nameof(EmployeeCreateViewModel.Email),
+                errorMessage: "同じメールアドレスの従業員が既に存在します。"
+            );
+        }
+
+        if (_employeeService.ExistsByPhone(phone: viewModel.Phone ?? string.Empty))
+        {
+            ModelState.AddModelError(
+                key: nameof(EmployeeCreateViewModel.Phone),
+                errorMessage: "同じ電話番号の従業員が既に存在します。"
+            );
+        }
     }
 }

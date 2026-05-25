@@ -15,7 +15,7 @@ public class EmployeeListViewModelAdapter
             Employees = target
                 .Select(employee => new EmployeeListItemViewModel
                 {
-                    EmployeeId = employee.Id,
+                    EmployeeId = employee.Id ?? throw new InvalidOperationException(message: "従業員IDが未設定です。"),
                     EmployeeName = employee.Name,
                     Email = employee.Email,
                     Phone = employee.Phone,

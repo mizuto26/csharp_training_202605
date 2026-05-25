@@ -16,7 +16,7 @@ public class DepartmentListViewModelAdapter
             Departments = target
                 .Select(department => new DepartmentListItemViewModel
                 {
-                    DepartmentId = department.Id,
+                    DepartmentId = department.Id ?? throw new InvalidOperationException(message: "部署IDが未設定です。"),
                     DepartmentName = department.Name
                 })
                 .ToList()

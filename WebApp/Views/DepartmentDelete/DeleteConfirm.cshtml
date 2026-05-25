@@ -2,6 +2,7 @@
 @model DepartmentDeleteViewModel
 @{
     ViewData[index: "Title"] = "部署削除(確認)";
+    bool canDelete = ViewData.ModelState.IsValid;
 }
 
 <h2 class="text-center mt-4">@ViewData[index: "Title"]</h2>
@@ -9,6 +10,13 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-6 col-sm-8">
+            @if (!canDelete)
+            {
+                <div class="alert alert-danger text-center" role="alert">
+                    指定された部署IDに所属している従業員が存在するため削除できません。
+                </div>
+            }
+
             <table class="table table-hover">
                 <tbody>
                     <tr>
@@ -26,9 +34,16 @@
                 <input type="hidden" asp-for="DepartmentId" />
                 <input type="hidden" asp-for="DepartmentName" />
                 <div class="text-center mt-4">
-                    <button type="submit"
-                            formaction="@Url.Action(action: "DeleteExecute", controller: "DepartmentDelete")"
-                            formmethod="post" class="btn btn-danger">削除</button>
+                    @if (canDelete)
+                    {
+                        <button type="submit"
+                                formaction="@Url.Action(action: "DeleteExecute", controller: "DepartmentDelete")"
+                                formmethod="post" class="btn btn-danger">削除</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger" disabled>削除</button>
+                    }
                     <button type="submit" formaction="@Url.Action(action: "DeleteBack", controller: "DepartmentDelete")"
                             formmethod="post" class="btn btn-secondary">戻る</button>
                 </div>

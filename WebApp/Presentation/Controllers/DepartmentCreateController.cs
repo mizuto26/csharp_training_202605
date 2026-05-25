@@ -34,15 +34,8 @@ public class DepartmentCreateController(
     {
         if (!ModelState.IsValid) return View(viewName: "Create", model: viewModel);
 
-        if (_departmentService.ExistsByName(name: viewModel.DepartmentName ?? string.Empty))
-        {
-            ModelState.AddModelError(
-                key: nameof(DepartmentCreateViewModel.DepartmentName),
-                errorMessage: "同じ部署名の部署が既に存在します。"
-            );
-
-            return View(viewName: "Create", model: viewModel);
-        }
+        ValidateUniqueDepartment(viewModel: viewModel);
+        if (!ModelState.IsValid) return View(viewName: "Create", model: viewModel);
 
         return View(viewName: "CreateConfirm", model: viewModel);
     }
@@ -51,6 +44,9 @@ public class DepartmentCreateController(
     [HttpPost("CreateExecute")]
     public IActionResult CreateExecute(DepartmentCreateViewModel viewModel)
     {
+        ValidateUniqueDepartment(viewModel: viewModel);
+        if (!ModelState.IsValid) return View(viewName: "Create", model: viewModel);
+
         _deptDataStore.Save(controller: this, model: viewModel);
 
         return RedirectToAction(actionName: "CreateComplete");
@@ -76,5 +72,15 @@ public class DepartmentCreateController(
         _deptDataStore.Save(controller: this, model: viewModel);
 
         return RedirectToAction(actionName: "Create");
+    }
+
+    private void ValidateUniqueDepartment(DepartmentCreateViewModel viewModel)
+    {
+        if (!_departmentService.ExistsByName(name: viewModel.DepartmentName ?? string.Empty)) return;
+
+        ModelState.AddModelError(
+            key: nameof(DepartmentCreateViewModel.DepartmentName),
+            errorMessage: "同じ部署名の部署が既に存在します。"
+        );
     }
 }

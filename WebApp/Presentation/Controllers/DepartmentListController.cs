@@ -20,14 +20,6 @@ public class DepartmentListController(
     [HttpGet("Departments")]
     public IActionResult Departments()
     {
-        if (TempData[key: "DepartmentDeleteError"] is string errorMessage)
-        {
-            ModelState.AddModelError(
-                key: nameof(DepartmentDeleteViewModel.DepartmentId),
-                errorMessage: errorMessage
-            );
-        }
-
         DepartmentListViewModel viewModel = CreateViewModel();
 
         return View(model: viewModel);
