@@ -37,16 +37,16 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         try
         {
             // 社員一覧取得
-            List<EmployeeEntity> employeeEntities = _context.Employees
+            var employeeEntities = _context.Employees
                 .OrderBy(employeeEntity => employeeEntity.EmpId)
                 .ToList()
             ;
 
             List<Employee> employees = [];
 
-            foreach (EmployeeEntity employeeEntity in employeeEntities)
+            foreach (var employeeEntity in employeeEntities)
             {
-                Employee employee = _adapter.Restore(
+                var employee = _adapter.Restore(
                     employeeEntity: employeeEntity,
                     departmentEntity: null
                 );
@@ -67,12 +67,12 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
-            EmployeeEntity? employeeEntity = _context.Employees
+            var employeeEntity = _context.Employees
                 .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
 
             if (employeeEntity is null) return null;
 
-            Employee employee = _adapter.Restore(
+            var employee = _adapter.Restore(
                    employeeEntity: employeeEntity,
                    departmentEntity: null
             );
@@ -91,7 +91,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
-            EmployeeEntity? entity = _context.Employees
+            var entity = _context.Employees
                 .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
 
             if (entity is null) return false;
@@ -115,7 +115,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
 
             return _context.Employees
                 .Any(employeeEntity => employeeEntity.EmpEmail != null &&
-                     employeeEntity.EmpEmail.ToLower() == normalizedEmail);
+                     employeeEntity.EmpEmail.Equals(normalizedEmail, StringComparison.CurrentCultureIgnoreCase));
         }
         catch (Exception exception)
         {

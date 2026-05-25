@@ -11,7 +11,7 @@ public class DepartmentDeleteViewModel
 
     /// 部署名
     [Display(Name = "部署名")]
-    public string? DepartmentName { get; set; } = string.Empty;
+    public string DepartmentName { get; set; } = string.Empty;
 
     public override string ToString()
     {

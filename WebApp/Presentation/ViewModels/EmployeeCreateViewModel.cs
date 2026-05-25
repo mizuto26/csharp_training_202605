@@ -41,15 +41,19 @@ public class EmployeeCreateViewModel
             {
                 Value = string.Empty,
                 Text = "未所属"
-            },
-            .. departments
-            .Where(department => department.Id is not null)
-            .Select(department => new SelectListItem
-            {
-                Value = department.Id.ToString(),
-                Text = string.IsNullOrEmpty(department.Name) ? "(名称未設定)" : department.Name
-            })
+            }
         ];
+
+        foreach (Department department in departments)
+        {
+            if (!department.Id.HasValue) continue;
+
+            Departments.Add(item: new SelectListItem
+            {
+                Value = department.Id.Value.ToString(),
+                Text = string.IsNullOrEmpty(value: department.Name) ? "(名称未設定)" : department.Name
+            });
+        }
     }
 
     public override string ToString()

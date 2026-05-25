@@ -41,10 +41,10 @@ public class EmployeeService(
     /// すべての従業員を取得する
     public IReadOnlyList<Employee> GetEmployees()
     {
-        IReadOnlyList<Employee> employees = _employeeRepository.FindAll();
+        var employees = _employeeRepository.FindAll();
         Dictionary<int, Department> departmentById = [];
 
-        foreach (Department department in _departmentRepository.FindAll())
+        foreach (var department in _departmentRepository.FindAll())
         {
             if (department.Id is int departmentId)
             {
@@ -52,12 +52,12 @@ public class EmployeeService(
             }
         }
 
-        foreach (Employee employee in employees)
+        foreach (var employee in employees)
         {
             int? departmentId = employee.Department?.Id;
 
             if (departmentId is int departmentIdValue
-                && departmentById.TryGetValue(key: departmentIdValue, value: out Department? department))
+                && departmentById.TryGetValue(key: departmentIdValue, value: out var department))
             {
                 employee.ChangeDepartment(department: department);
             }
@@ -69,14 +69,14 @@ public class EmployeeService(
     /// 指定された従業員Idの従業員を取得する
     public Employee GetEmployeeById(int id)
     {
-        Employee employee = _employeeRepository.FindById(id: id)
+        var employee = _employeeRepository.FindById(id: id)
             ?? throw new Exception(message: $"従業員Id{id}に該当する従業員は存在しません");
 
         int? departmentId = employee.Department?.Id;
 
         if (departmentId is int departmentIdValue)
         {
-            Department? department = _departmentRepository.FindById(id: departmentIdValue);
+            var department = _departmentRepository.FindById(id: departmentIdValue);
             employee.ChangeDepartment(department: department);
         }
 

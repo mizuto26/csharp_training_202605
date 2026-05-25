@@ -11,18 +11,18 @@ public class EmployeeDeleteViewModel
 
     /// 氏名
     [Display(Name = "氏名")]
-    public string? EmployeeName { get; set; } = string.Empty;
+    public string EmployeeName { get; set; } = string.Empty;
 
     /// 電話番号
     [Display(Name = "電話番号")]
-    public string? EmployeePhone { get; set; } = string.Empty;
+    public string EmployeePhone { get; set; } = string.Empty;
 
     [Display(Name = "メールアドレス")]
-    public string? EmployeeEmail { get; set; } = string.Empty;
+    public string EmployeeEmail { get; set; } = string.Empty;
 
     /// 部署名
     [Display(Name = "部署名")]
-    public string? DepartmentName { get; set; } = string.Empty;
+    public string DepartmentName { get; set; } = string.Empty;
 
     public override string ToString()
     {

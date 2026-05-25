@@ -21,8 +21,8 @@ public class EmployeeListController(
     [HttpGet("Employees")]
     public IActionResult Employees()
     {
-        IReadOnlyList<Employee> employees = _employeeService.GetEmployees();
-        EmployeeListViewModel viewModel = _employeeListViewModelAdapter.Restore(employees);
+        var employees = _employeeService.GetEmployees();
+        var viewModel = _employeeListViewModelAdapter.Restore(employees);
 
         return View(model: viewModel);
     }

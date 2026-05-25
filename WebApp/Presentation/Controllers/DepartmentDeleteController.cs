@@ -26,7 +26,7 @@ public class DepartmentDeleteController(
     public IActionResult DeleteConfirm(DepartmentDeleteViewModel viewModel)
     {
         int departmentId = viewModel.DepartmentId;
-        Department department = _departmentService.GetDepartmentById(id: departmentId);
+        var department = _departmentService.GetDepartmentById(id: departmentId);
         viewModel.DepartmentName = department.Name;
 
         ValidateDeletableDepartment(departmentId: departmentId);
@@ -53,8 +53,10 @@ public class DepartmentDeleteController(
 
     /// 部署削除確認画面の[戻る]ボタンクリックアクションメソッド
     [HttpPost("DeleteBack")]
-    public IActionResult DeleteBack()
+    public IActionResult DeleteBack(DepartmentDeleteViewModel viewModel)
     {
+        _departmentDeleteDataStore.Save(controller: this, model: viewModel);
+
         return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");
     }
 
@@ -62,7 +64,7 @@ public class DepartmentDeleteController(
     [HttpGet("DeleteComplete")]
     public IActionResult DeleteComplete()
     {
-        DepartmentDeleteViewModel? viewModel = _departmentDeleteDataStore.Load(controller: this);
+        var viewModel = _departmentDeleteDataStore.Load(controller: this);
         if (viewModel is null)
         {
             return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Application.Domains;
 using WebApp.Application.Services;
 using WebApp.Presentation.TempData;
 using WebApp.Presentation.ViewModels;
@@ -61,7 +62,7 @@ public class EmployeeCreateController(
         }
         else if (viewModel.DeptId is int departmentId)
         {
-            var department = _departmentService.GetDepartmentById(departmentId);
+            var department = _departmentService.GetDepartmentById(id: departmentId);
             viewModel.DeptName = department.Name;
         }
 
