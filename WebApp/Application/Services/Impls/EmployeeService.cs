@@ -1,6 +1,7 @@
 using WebApp.Application.Repositories;
 using WebApp.Application.Domains;
 using WebApp.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore.Storage;
 namespace WebApp.Application.Services.Impls;
 
 /// 従業員登録サービスインターフェイスの実装
@@ -41,25 +42,66 @@ public class EmployeeService(
     public IReadOnlyList<Employee> GetEmployees()
     {
         IReadOnlyList<Employee> employees = _employeeRepository.FindAll();
-        Dictionary<int, Department> departmentById = _departmentRepository.FindAll()
-            .Where(department => department.Id is not null)
-            .ToDictionary(
-                keySelector: department => department.Id!.Value,
-                elementSelector: department => department
-            );
+        Dictionary<int, Department> departmentById = [];
+
+        foreach (Department department in _departmentRepository.FindAll())
+        {
+            if (department.Id is int departmentId)
+            {
+                departmentById[departmentId] = department;
+            }
+        }
 
         foreach (Employee employee in employees)
         {
             int? departmentId = employee.Department?.Id;
 
-            if (departmentId is not null
-                && departmentById.TryGetValue(key: departmentId.Value, value: out Department? department))
+            if (departmentId is int departmentIdValue
+                && departmentById.TryGetValue(key: departmentIdValue, value: out Department? department))
             {
                 employee.ChangeDepartment(department: department);
             }
         }
 
         return employees;
+    }
+
+    /// 指定された従業員Idの従業員を取得する
+    public Employee GetEmployeeById(int id)
+    {
+        Employee employee = _employeeRepository.FindById(id: id)
+            ?? throw new Exception(message: $"従業員Id{id}に該当する従業員は存在しません");
+
+        int? departmentId = employee.Department?.Id;
+
+        if (departmentId is int departmentIdValue)
+        {
+            Department? department = _departmentRepository.FindById(id: departmentIdValue);
+            employee.ChangeDepartment(department: department);
+        }
+
+        return employee;
+    }
+
+    /// 指定された従業員Idの従業員を削除する
+    public void DeleteById(int id)
+    {
+        using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+
+        try
+        {
+            bool deleted = _employeeRepository.DeleteById(id: id);
+            if (!deleted) throw new Exception(message: $"従業員Id{id}に該当する従業員は存在しません");
+
+            _context.SaveChanges();
+            transaction.Commit();
+        }
+        catch (Exception exception)
+        {
+            transaction.Rollback();
+            throw new Exception(message: "従業員を削除できませんでした。",
+                                        innerException: exception);
+        }
     }
 
     /// 指定されたメールアドレスの従業員が存在するか確認する

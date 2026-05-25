@@ -26,7 +26,9 @@ internal sealed class QueryableDbSet<TEntity>(IEnumerable<TEntity> entities) : D
     public override EntityEntry<TEntity> Add(TEntity entity)
     {
         _entities.Add(entity);
-        return null!;
+#pragma warning disable CS8603
+        return null;
+#pragma warning restore CS8603
     }
 
     public override void AddRange(params TEntity[] entities)

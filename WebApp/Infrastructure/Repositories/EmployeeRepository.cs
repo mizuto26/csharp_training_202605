@@ -43,28 +43,13 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
                 .ToList()
             ;
 
-            Dictionary<int, DepartmentEntity> departmentById = _context.Departments
-                .AsNoTracking()
-                .ToDictionary(
-                    keySelector: departmentEntity => departmentEntity.DeptId,
-                    elementSelector: departmentEntity => departmentEntity
-                );
-
             List<Employee> employees = [];
 
             foreach (EmployeeEntity employeeEntity in employeeEntities)
             {
-                DepartmentEntity? departmentEntity = null;
-
-                if (employeeEntity.DeptId is not null)
-                {
-                    departmentEntity =
-                        departmentById.GetValueOrDefault(employeeEntity.DeptId.Value);
-                }
-
                 Employee employee = _adapter.Restore(
                     employeeEntity: employeeEntity,
-                    departmentEntity: departmentEntity
+                    departmentEntity: null
                 );
 
                 employees.Add(employee);
@@ -75,6 +60,49 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         catch (Exception exception)
         {
             throw new Exception(message: "すべての従業員を取得できませんでした。",
+                                        innerException: exception);
+        }
+    }
+
+    public Employee? FindById(int id)
+    {
+        try
+        {
+            EmployeeEntity? employeeEntity = _context.Employees
+                .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
+
+            if (employeeEntity is null) return null;
+
+            Employee employee = _adapter.Restore(
+                   employeeEntity: employeeEntity,
+                   departmentEntity: null
+            );
+
+            return employee;
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "指定された従業員Idの従業員を取得できませんでした。",
+                                        innerException: exception);
+        }
+    }
+
+    /// 指定された従業員Idの従業員を削除する
+    public bool DeleteById(int id)
+    {
+        try
+        {
+            EmployeeEntity? entity = _context.Employees
+                .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
+
+            if (entity is null) return false;
+
+            _context.Employees.Remove(entity: entity);
+            return true;
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "指定された従業員Idの従業員を削除できませんでした。",
                                         innerException: exception);
         }
     }

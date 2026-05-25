@@ -15,7 +15,7 @@ public class EmployeeEntityAdapter
             EmpName = domain.Name,
         };
 
-        if (domain.Id != null) entity.EmpId = domain.Id.Value;
+        if (domain.Id != null) entity.EmpId = (int)domain.Id;
         if (domain.Department != null) entity.DeptId = domain.Department.Id;
         entity.EmpEmail = domain.Email;
         entity.EmpPhone = domain.Phone;
@@ -34,6 +34,10 @@ public class EmployeeEntityAdapter
                 id: departmentEntity.DeptId,
                 name: departmentEntity.DeptName
             );
+        }
+        else if (employeeEntity.DeptId is int departmentId)
+        {
+            department = new Department(id: departmentId);
         }
 
         Employee employee = new(

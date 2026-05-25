@@ -12,4 +12,8 @@ public interface IEmployeeRepository
     bool ExistsByEmail(string email);
     /// 指定された電話番号の従業員が存在するか確認する
     bool ExistsByPhone(string phone);
+    /// 指定された従業員Idの従業員を取得する
+    Employee? FindById(int id);
+    /// 指定された従業員Idの従業員を削除する
+    bool DeleteById(int id);
 }

@@ -73,9 +73,9 @@ public class EmployeeCreateController(
         {
             viewModel.DeptName = "未所属";
         }
-        else
+        else if (viewModel.DeptId is int departmentId)
         {
-            var department = _departmentService.GetDepartmentById(viewModel.DeptId.Value);
+            var department = _departmentService.GetDepartmentById(departmentId);
             viewModel.DeptName = department.Name;
         }
 

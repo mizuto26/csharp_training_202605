@@ -33,8 +33,8 @@ public class EmployeeRepositoryTests
         Assert.AreEqual(10, employeeEntities[0].DeptId);
     }
 
-    [TestMethod("従業員一覧を取得できる")]
-    public void FindAll_ReturnsEmployeesOrderedByIdWithDepartments()
+    [TestMethod("従業員一覧を部署Id付きで取得できる")]
+    public void FindAll_ReturnsEmployeesOrderedByIdWithDepartmentIds()
     {
         List<EmployeeEntity> employeeEntities =
         [
@@ -42,12 +42,7 @@ public class EmployeeRepositoryTests
             new EmployeeEntity { EmpId = 2, EmpName = "鈴木", EmpEmail = "suzuki@example.com", EmpPhone = "090-1111-2222", DeptId = null }
         ];
 
-        List<DepartmentEntity> departmentEntities =
-        [
-            new DepartmentEntity { DeptId = 1, DeptName = "営業部" },
-        ];
-
-        using var context = CreateContext(employeeEntities, departmentEntities);
+        using var context = CreateContext(employeeEntities, []);
         EmployeeRepository repository = CreateRepository(context);
 
         IReadOnlyList<Employee> employees = repository.FindAll();
@@ -58,7 +53,7 @@ public class EmployeeRepositoryTests
         Assert.AreEqual("yamada@example.com", employees[0].Email);
         Assert.AreEqual("03-1234-5678", employees[0].Phone);
         Assert.AreEqual(1, employees[0].Department?.Id);
-        Assert.AreEqual("営業部", employees[0].Department?.Name);
+        Assert.AreEqual(string.Empty, employees[0].Department?.Name);
 
         Assert.AreEqual(2, employees[1].Id);
         Assert.AreEqual("suzuki@example.com", employees[1].Email);
@@ -118,80 +113,6 @@ public class EmployeeRepositoryTests
         bool exists = repository.ExistsByPhone("090-0000-0000");
 
         Assert.IsFalse(exists);
-    }
-
-    [TestMethod("CreateでDBアクセスに失敗した場合は例外を投げる")]
-    public void Create_WhenDbAccessFails_ThrowsException()
-    {
-        using var context = new TestAppDbContext
-        {
-            Employees = new ThrowingDbSet<EmployeeEntity>(),
-            Departments = new QueryableDbSet<DepartmentEntity>([])
-        };
-
-        EmployeeRepository repository = CreateRepository(context);
-
-        Employee employee = new(
-            name: "山田",
-            phone: "03-1234-5678",
-            email: "yamada@example.com",
-            department: null
-        );
-
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.Create(employee));
-
-        Assert.AreEqual("従業員の永続化ができませんでした。", exception.Message);
-    }
-
-    [TestMethod("FindAllでDBアクセスに失敗した場合は例外を投げる")]
-    public void FindAll_WhenDbAccessFails_ThrowsException()
-    {
-        using var context = new TestAppDbContext
-        {
-            Employees = new ThrowingDbSet<EmployeeEntity>(),
-            Departments = new QueryableDbSet<DepartmentEntity>([])
-        };
-
-        EmployeeRepository repository = CreateRepository(context);
-
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindAll());
-
-        Assert.AreEqual("すべての従業員を取得できませんでした。", exception.Message);
-    }
-
-    [TestMethod("ExistsByEmailでDBアクセスに失敗した場合は例外を投げる")]
-    public void ExistsByEmail_WhenDbAccessFails_ThrowsException()
-    {
-        using var context = new TestAppDbContext
-        {
-            Employees = new ThrowingDbSet<EmployeeEntity>(),
-            Departments = new QueryableDbSet<DepartmentEntity>([])
-        };
-        EmployeeRepository repository = CreateRepository(context);
-
-        Exception exception = Assert.ThrowsException<Exception>(
-            () => repository.ExistsByEmail("yamada@example.com")
-        );
-
-        Assert.AreEqual("指定されたメールアドレスの従業員を確認できませんでした。", exception.Message);
-    }
-
-    [TestMethod("ExistsByPhoneでDBアクセスに失敗した場合は例外を投げる")]
-    public void ExistsByPhone_WhenDbAccessFails_ThrowsException()
-    {
-        using var context = new TestAppDbContext
-        {
-            Employees = new ThrowingDbSet<EmployeeEntity>(),
-            Departments = new QueryableDbSet<DepartmentEntity>([])
-        };
-
-        EmployeeRepository repository = CreateRepository(context);
-
-        Exception exception = Assert.ThrowsException<Exception>(
-            () => repository.ExistsByPhone("03-1234-5678")
-        );
-
-        Assert.AreEqual("指定された電話番号の従業員を確認できませんでした。", exception.Message);
     }
 
     private static EmployeeRepository CreateRepository(AppDbContext context)

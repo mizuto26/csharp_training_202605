@@ -20,7 +20,7 @@ public class EmployeeCreateViewModelAdapter : IRestorer<Employee, EmployeeCreate
         if (target.DeptId is not null)
         {
             department = new Department(
-                id: target.DeptId.Value,
+                id: target.DeptId,
                 name: target.DeptName
             );
         }
