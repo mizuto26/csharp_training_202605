@@ -47,6 +47,28 @@ public class EmployeeCreateController(
             return View(viewName: "Create", model: viewModel);
         }
 
+        if (_employeeService.ExistsByEmail(email: viewModel.Email ?? string.Empty))
+        {
+            ModelState.AddModelError(
+                key: nameof(EmployeeCreateViewModel.Email),
+                errorMessage: "同じメールアドレスの従業員が既に存在します。"
+            );
+        }
+
+        if (_employeeService.ExistsByPhone(phone: viewModel.Phone ?? string.Empty))
+        {
+            ModelState.AddModelError(
+                key: nameof(EmployeeCreateViewModel.Phone),
+                errorMessage: "同じ電話番号の従業員が既に存在します。"
+            );
+        }
+
+        if (!ModelState.IsValid)
+        {
+            PopulateDepartments(viewModel: viewModel);
+            return View(viewName: "Create", model: viewModel);
+        }
+
         if (viewModel.DeptId is null)
         {
             viewModel.DeptName = "未所属";

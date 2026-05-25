@@ -28,11 +28,15 @@ public class DepartmentService(
             ?? throw new Exception(message: $"部署Id{id}に該当する部署は存在しません");
     }
 
+    /// 指定された部署名の部署が存在するか確認する
+    public bool ExistsByName(string name)
+    {
+        return _departmentRepository.ExistsByName(name: name);
+    }
+
     // 新しい部署を登録する
     public void Create(Department department)
     {
-        ThrowIfDepartmentAlreadyExists(department: department);
-
         using IDbContextTransaction transaction = _context.Database.BeginTransaction();
 
         try
@@ -48,14 +52,6 @@ public class DepartmentService(
             transaction.Rollback();
             throw new Exception(message: "部署を登録できませんでした。",
                                     innerException: exception);
-        }
-    }
-
-    private void ThrowIfDepartmentAlreadyExists(Department department)
-    {
-        if (_departmentRepository.ExistsByName(name: department.Name))
-        {
-            throw new Exception(message: "同じ部署名の部署が既に存在します。");
         }
     }
 }

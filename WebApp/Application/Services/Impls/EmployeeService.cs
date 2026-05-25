@@ -19,8 +19,6 @@ public class EmployeeService(
     /// 新しい従業員を登録する
     public void Create(Employee employee)
     {
-        ThrowIfEmployeeAlreadyExists(employee: employee);
-
         using var transaction = _context.Database.BeginTransaction();
 
         try
@@ -64,16 +62,15 @@ public class EmployeeService(
         return employees;
     }
 
-    private void ThrowIfEmployeeAlreadyExists(Employee employee)
+    /// 指定されたメールアドレスの従業員が存在するか確認する
+    public bool ExistsByEmail(string email)
     {
-        if (_employeeRepository.ExistsByEmail(email: employee.Email))
-        {
-            throw new Exception(message: "同じメールアドレスの従業員が既に存在します。");
-        }
+        return _employeeRepository.ExistsByEmail(email: email);
+    }
 
-        if (_employeeRepository.ExistsByPhone(phone: employee.Phone))
-        {
-            throw new Exception(message: "同じ電話番号の従業員が既に存在します。");
-        }
+    /// 指定された電話番号の従業員が存在するか確認する
+    public bool ExistsByPhone(string phone)
+    {
+        return _employeeRepository.ExistsByPhone(phone: phone);
     }
 }

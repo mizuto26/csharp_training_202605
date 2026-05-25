@@ -8,4 +8,8 @@ public interface IEmployeeService
     void Create(Employee employee);
     /// すべての従業員を取得する
     IReadOnlyList<Employee> GetEmployees();
+    /// 指定されたメールアドレスの従業員が存在するか確認する
+    bool ExistsByEmail(string email);
+    /// 指定された電話番号の従業員が存在するか確認する
+    bool ExistsByPhone(string phone);
 }
