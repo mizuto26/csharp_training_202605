@@ -22,17 +22,24 @@ public class DepartmentRepository(
     {
         try
         {
-            var departments = _context.Departments
+            List<DepartmentEntity> departmentEntities = _context.Departments
                 .OrderBy(departmentEntity => departmentEntity.DeptId)
-                .Select(_adapter.Restore)
                 .ToList();
+
+            List<Department> departments = [];
+
+            foreach (DepartmentEntity departmentEntity in departmentEntities)
+            {
+                Department department = _adapter.Restore(departmentEntity);
+                departments.Add(department);
+            }
 
             return departments;
         }
         catch (Exception exception)
         {
             throw new Exception(message: "すべての部署を取得できませんでした。",
-                                        innerException: exception);
+                                    innerException: exception);
         }
     }
 

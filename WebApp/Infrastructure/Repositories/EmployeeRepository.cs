@@ -38,7 +38,6 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         {
             // 社員一覧取得
             List<EmployeeEntity> employeeEntities = _context.Employees
-                .AsNoTracking()
                 .OrderBy(employeeEntity => employeeEntity.EmpId)
                 .ToList()
             ;
@@ -113,7 +112,6 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         try
         {
             return _context.Employees
-                .AsNoTracking()
                 .Any(employeeEntity => employeeEntity.EmpEmail != null &&
                      employeeEntity.EmpEmail
                         .Equals(email, StringComparison.CurrentCultureIgnoreCase));
@@ -131,7 +129,6 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         try
         {
             return _context.Employees
-                .AsNoTracking()
                 .Any(employeeEntity => employeeEntity.EmpPhone == phone);
         }
         catch (Exception exception)
