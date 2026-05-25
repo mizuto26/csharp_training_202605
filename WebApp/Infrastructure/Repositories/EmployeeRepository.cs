@@ -111,10 +111,11 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
+            string normalizedEmail = email.ToLower();
+
             return _context.Employees
                 .Any(employeeEntity => employeeEntity.EmpEmail != null &&
-                     employeeEntity.EmpEmail
-                        .Equals(email, StringComparison.CurrentCultureIgnoreCase));
+                     employeeEntity.EmpEmail.ToLower() == normalizedEmail);
         }
         catch (Exception exception)
         {

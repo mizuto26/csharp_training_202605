@@ -1,0 +1,43 @@
+@using WebApp.Presentation.ViewModels
+@model EmployeeDeleteViewModel
+@{
+    ViewData[index: "Title"] = "従業員削除(確認)";
+}
+
+<h2 class="text-center mt-4">@ViewData[index: "Title"]</h2>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-sm-8">
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td class="fw-bold">@Html.DisplayNameFor(m => m.EmployeeId)</td>
+                        <td>@Html.DisplayFor(m => m.EmployeeId)</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">@Html.DisplayNameFor(m => m.EmployeeName)</td>
+                        <td>@Html.DisplayFor(m => m.EmployeeName)</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">@Html.DisplayNameFor(m => m.DepartmentName)</td>
+                        <td>@Html.DisplayFor(m => m.DepartmentName)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <form>
+                <input type="hidden" asp-for="EmployeeId" />
+                <input type="hidden" asp-for="EmployeeName" />
+                <input type="hidden" asp-for="DepartmentName" />
+                <div class="text-center mt-4">
+                    <button type="submit"
+                            formaction="@Url.Action(action: "DeleteExecute", controller: "EmployeeDelete")"
+                            formmethod="post" class="btn btn-danger">削除</button>
+                    <button type="submit" formaction="@Url.Action(action: "DeleteBack", controller: "EmployeeDelete")"
+                            formmethod="post" class="btn btn-secondary">戻る</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
