@@ -82,6 +82,33 @@ public class DepartmentRepositoryTests
         Assert.AreEqual("営業部", savedDepartments[0].DeptName);
     }
 
+    [TestMethod("指定した部署名の部署が存在する場合はtrueを返す")]
+    public void ExistsByName_WhenDepartmentExists_ReturnsTrue()
+    {
+        List<DepartmentEntity> departmentEntities =
+        [
+            new DepartmentEntity { DeptId = 1, DeptName = "営業部" }
+        ];
+
+        using var context = CreateContext([], departmentEntities);
+        DepartmentRepository repository = CreateRepository(context);
+
+        bool exists = repository.ExistsByName("営業部");
+
+        Assert.IsTrue(exists);
+    }
+
+    [TestMethod("指定した部署名の部署が存在しない場合はfalseを返す")]
+    public void ExistsByName_WhenDepartmentDoesNotExist_ReturnsFalse()
+    {
+        using var context = CreateContext([], []);
+        DepartmentRepository repository = CreateRepository(context);
+
+        bool exists = repository.ExistsByName("総務部");
+
+        Assert.IsFalse(exists);
+    }
+
 
     private static DepartmentRepository CreateRepository(AppDbContext context)
     {

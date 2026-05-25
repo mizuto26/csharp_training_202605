@@ -45,13 +45,64 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
                 .ToList()
             ;
 
+            Dictionary<int, DepartmentEntity> departmentById = _context.Departments
+                .AsNoTracking()
+                .ToDictionary(
+                    keySelector: departmentEntity => departmentEntity.DeptId,
+                    elementSelector: departmentEntity => departmentEntity
+                );
+
             return employeeEntities
-                .Select(_adapter.Restore)
+                .Select(employeeEntity =>
+                {
+                    DepartmentEntity? departmentEntity = employeeEntity.DeptId is null
+                        ? null
+                        : departmentById.GetValueOrDefault(employeeEntity.DeptId.Value);
+
+                    return _adapter.Restore(
+                        employeeEntity: employeeEntity,
+                        departmentEntity: departmentEntity
+                    );
+                })
                 .ToList();
         }
         catch (Exception exception)
         {
             throw new Exception(message: "すべての従業員を取得できませんでした。",
+                                        innerException: exception);
+        }
+    }
+
+    /// 指定されたメールアドレスの従業員が存在するか確認する
+    public bool ExistsByEmail(string email)
+    {
+        try
+        {
+            return _context.Employees
+                .AsNoTracking()
+                .Any(employeeEntity => employeeEntity.EmpEmail != null &&
+                     employeeEntity.EmpEmail
+                        .Equals(email, StringComparison.CurrentCultureIgnoreCase));
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "指定されたメールアドレスの従業員を確認できませんでした。",
+                                        innerException: exception);
+        }
+    }
+
+    /// 指定された電話番号の従業員が存在するか確認する
+    public bool ExistsByPhone(string phone)
+    {
+        try
+        {
+            return _context.Employees
+                .AsNoTracking()
+                .Any(employeeEntity => employeeEntity.EmpPhone == phone);
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "指定された電話番号の従業員を確認できませんでした。",
                                         innerException: exception);
         }
     }

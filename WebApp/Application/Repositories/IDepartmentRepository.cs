@@ -10,4 +10,6 @@ public interface IDepartmentRepository
     Department? FindById(int id);
     /// 部署を永続化する
     bool Create(Department department);
+    /// 指定された部署名の部署が存在するか確認する
+    bool ExistsByName(string name);
 }

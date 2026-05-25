@@ -73,4 +73,19 @@ public class DepartmentRepository(
                                         innerException: exception);
         }
     }
+
+    /// 指定された部署名の部署が存在するか確認する
+    public bool ExistsByName(string name)
+    {
+        try
+        {
+            return _context.Departments
+                .Any(departmentEntity => departmentEntity.DeptName == name);
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "指定された部署名の部署を確認できませんでした。",
+                                        innerException: exception);
+        }
+    }
 }

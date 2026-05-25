@@ -31,13 +31,14 @@ public class DepartmentService(
     // 新しい部署を登録する
     public void Create(Department department)
     {
+        ThrowIfDepartmentAlreadyExists(department: department);
+
         using IDbContextTransaction transaction = _context.Database.BeginTransaction();
 
         try
         {
             bool created = _departmentRepository.Create(department: department);
-            if (!created) throw new Exception(message: "部署を登録できませんでした。",
-                                                innerException: new InvalidOperationException());
+            if (!created) throw new Exception(message: "部署を登録できませんでした。");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -47,6 +48,14 @@ public class DepartmentService(
             transaction.Rollback();
             throw new Exception(message: "部署を登録できませんでした。",
                                     innerException: exception);
+        }
+    }
+
+    private void ThrowIfDepartmentAlreadyExists(Department department)
+    {
+        if (_departmentRepository.ExistsByName(name: department.Name))
+        {
+            throw new Exception(message: "同じ部署名の部署が既に存在します。");
         }
     }
 }
