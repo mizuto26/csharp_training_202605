@@ -21,8 +21,6 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         {
             var entity = _adapter.Convert(employee);
 
-            if (entity is null) return false;
-
             _context.Employees.Add(entity);
             return true;
         }

@@ -59,9 +59,7 @@ public class DepartmentRepository(
     {
         try
         {
-            DepartmentEntity? entity = _adapter.Convert(domain: department);
-
-            if (entity is null) return false;
+            DepartmentEntity entity = _adapter.Convert(domain: department);
 
             _context.Departments.Add(entity: entity);
             return true;

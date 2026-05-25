@@ -5,7 +5,7 @@ namespace WebApp.Infrastructure.Adapters;
 
 /// ドメインオブジェクト:EmployeeとEmployeeEntityの相互変換インターフェイスの実装
 public class EmployeeEntityAdapter
-: IConverter<Employee, EmployeeEntity>, IRestorer<Employee, EmployeeEntity>
+: IConverter<Employee, EmployeeEntity>
 {
     /// ドメインオブジェクト:EmployeeをEmployeeEntityに変換する
     public EmployeeEntity Convert(Employee domain)
@@ -45,21 +45,5 @@ public class EmployeeEntityAdapter
         );
 
         return employee;
-    }
-
-    /// EmployeeEntityからドメインオブジェクト:Employeeを復元する
-    public Employee Restore(EmployeeEntity target)
-    {
-        Department? department = target.DeptId is null
-            ? null
-            : new Department(id: target.DeptId.Value);
-
-        return new Employee(
-            id: target.EmpId,
-            name: target.EmpName,
-            email: target.EmpEmail ?? string.Empty,
-            phone: target.EmpPhone ?? string.Empty,
-            department: department
-        );
     }
 }
