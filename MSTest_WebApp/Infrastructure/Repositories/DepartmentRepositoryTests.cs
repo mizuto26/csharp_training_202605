@@ -50,8 +50,7 @@ public class DepartmentRepositoryTests
         Assert.AreEqual("営業部", department.Name);
     }
 
-    [Description("存在しない部署Idを指定するとnullが返る")]
-    [TestMethod]
+    [TestMethod("存在しない部署Idを指定するとnullが返る")]
     public void FindById_WhenDepartmentDoesNotExist_ReturnsNull()
     {
         using var context = CreateContext([], []);
@@ -62,9 +61,7 @@ public class DepartmentRepositoryTests
         Assert.IsNull(department);
     }
 
-
-    [Description("Createで部署Entityが追加される")]
-    [TestMethod]
+    [TestMethod("Createで部署Entityが追加される")]
     public void Create_AddsDepartmentEntity()
     {
         List<DepartmentEntity> departmentEntities = [];
