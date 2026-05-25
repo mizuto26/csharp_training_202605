@@ -52,19 +52,27 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
                     elementSelector: departmentEntity => departmentEntity
                 );
 
-            return employeeEntities
-                .Select(employeeEntity =>
-                {
-                    DepartmentEntity? departmentEntity = employeeEntity.DeptId is null
-                        ? null
-                        : departmentById.GetValueOrDefault(employeeEntity.DeptId.Value);
+            List<Employee> employees = [];
 
-                    return _adapter.Restore(
-                        employeeEntity: employeeEntity,
-                        departmentEntity: departmentEntity
-                    );
-                })
-                .ToList();
+            foreach (EmployeeEntity employeeEntity in employeeEntities)
+            {
+                DepartmentEntity? departmentEntity = null;
+
+                if (employeeEntity.DeptId is not null)
+                {
+                    departmentEntity =
+                        departmentById.GetValueOrDefault(employeeEntity.DeptId.Value);
+                }
+
+                Employee employee = _adapter.Restore(
+                    employeeEntity: employeeEntity,
+                    departmentEntity: departmentEntity
+                );
+
+                employees.Add(employee);
+            }
+
+            return employees;
         }
         catch (Exception exception)
         {

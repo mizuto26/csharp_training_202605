@@ -25,8 +25,7 @@ public class DepartmentRepository(
             var departments = _context.Departments
                 .OrderBy(departmentEntity => departmentEntity.DeptId)
                 .Select(_adapter.Restore)
-                .ToList()
-            ;
+                .ToList();
 
             return departments;
         }
