@@ -64,7 +64,7 @@ public class EmployeeDeleteController(
     {
         _employeeDeleteDataStore.Save(controller: this, model: viewModel);
 
-        return RedirectToAction(actionName: "Delete", controllerName: "Employee");
+        return RedirectToAction(actionName: "Employees", controllerName: "EmployeeList");
     }
 
     /// 従業員削除処理GETアクションメソッド
@@ -72,7 +72,10 @@ public class EmployeeDeleteController(
     public IActionResult DeleteComplete()
     {
         EmployeeDeleteViewModel? viewModel = _employeeDeleteDataStore.Load(controller: this);
-        if (viewModel?.EmployeeId is not int employeeId) return RedirectToAction(actionName: "Delete");
+        if (viewModel?.EmployeeId is not int employeeId)
+        {
+            return RedirectToAction(actionName: "Employees", controllerName: "EmployeeList");
+        }
 
         _employeeService.DeleteById(id: employeeId);
 
