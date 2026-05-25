@@ -20,7 +20,7 @@ public class EmployeeService(
     /// 新しい従業員を登録する
     public void Create(Employee employee)
     {
-        using var transaction = _context.Database.BeginTransaction();
+        using IDbContextTransaction? transaction = _context.Database.BeginTransaction();
 
         try
         {
