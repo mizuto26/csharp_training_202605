@@ -106,6 +106,49 @@ public class DepartmentRepositoryTests
         Assert.IsFalse(exists);
     }
 
+    [TestMethod("指定した部署Idを持つ従業員が存在する場合はtrueを返す")]
+    public void ExistsEmployeeByDepartmentId_WhenEmployeeExists_ReturnsTrue()
+    {
+        List<EmployeeEntity> employeeEntities =
+        [
+            new EmployeeEntity { EmpId = 1, EmpName = "山田", DeptId = 10 }
+        ];
+
+        using var context = CreateContext(employeeEntities, []);
+        DepartmentRepository repository = CreateRepository(context);
+
+        bool exists = repository.ExistsEmployeeByDepartmentId(10);
+
+        Assert.IsTrue(exists);
+    }
+
+    [TestMethod("指定した部署Idを持つ従業員が存在しない場合はfalseを返す")]
+    public void ExistsEmployeeByDepartmentId_WhenEmployeeDoesNotExist_ReturnsFalse()
+    {
+        List<EmployeeEntity> employeeEntities =
+        [
+            new EmployeeEntity { EmpId = 1, EmpName = "山田", DeptId = 10 }
+        ];
+
+        using var context = CreateContext(employeeEntities, []);
+        DepartmentRepository repository = CreateRepository(context);
+
+        bool exists = repository.ExistsEmployeeByDepartmentId(20);
+
+        Assert.IsFalse(exists);
+    }
+
+    [TestMethod("存在しない部署Idを削除するとfalseを返す")]
+    public void DeleteById_WhenDepartmentDoesNotExist_ReturnsFalse()
+    {
+        using var context = CreateContext([], []);
+        DepartmentRepository repository = CreateRepository(context);
+
+        bool deleted = repository.DeleteById(999);
+
+        Assert.IsFalse(deleted);
+    }
+
     private static DepartmentRepository CreateRepository(AppDbContext context)
     {
         return new DepartmentRepository(context, new DepartmentEntityAdapter());

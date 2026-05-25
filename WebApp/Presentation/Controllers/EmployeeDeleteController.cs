@@ -21,22 +21,11 @@ public class EmployeeDeleteController(
     /// TempDataを通じて一時的に削除ViewModelを保存・復元するためのクラス
     private readonly TempDataStore<EmployeeDeleteViewModel> _employeeDeleteDataStore = employeeDeleteDataStore;
 
-    /// 従業員削除画面表示 アクションメソッド
-    [HttpGet("Delete")]
-    public IActionResult Delete()
-    {
-        EmployeeDeleteViewModel? viewModel = _employeeDeleteDataStore.Load(controller: this);
-        viewModel ??= new EmployeeDeleteViewModel();
-
-        return View(viewName: "Delete", model: viewModel);
-    }
-
     /// 従業員削除画面の[確認]ボタンクリックアクションメソッド
     [HttpPost("DeleteConfirm")]
     public IActionResult DeleteConfirm(EmployeeDeleteViewModel viewModel)
     {
-        if (!ModelState.IsValid) return View(viewName: "Delete", model: viewModel);
-        if (viewModel.EmployeeId is not int employeeId) return View(viewName: "Delete", model: viewModel);
+        int employeeId = viewModel.EmployeeId;
 
         Employee employee = _employeeService.GetEmployeeById(id: employeeId);
         viewModel.EmployeeName = employee.Name;
@@ -72,12 +61,13 @@ public class EmployeeDeleteController(
     public IActionResult DeleteComplete()
     {
         EmployeeDeleteViewModel? viewModel = _employeeDeleteDataStore.Load(controller: this);
-        if (viewModel?.EmployeeId is not int employeeId)
+
+        if (viewModel is null)
         {
             return RedirectToAction(actionName: "Employees", controllerName: "EmployeeList");
         }
 
-        _employeeService.DeleteById(id: employeeId);
+        _employeeService.DeleteById(id: viewModel.EmployeeId);
 
         return View(viewName: "DeleteComplete", model: viewModel);
     }

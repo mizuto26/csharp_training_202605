@@ -78,6 +78,26 @@ public class DepartmentRepository(
         }
     }
 
+    /// 指定された部署Idの部署を削除する
+    public bool DeleteById(int id)
+    {
+        try
+        {
+            DepartmentEntity? entity = _context.Departments
+                .FirstOrDefault(departmentEntity => departmentEntity.DeptId == id);
+
+            if (entity is null) return false;
+
+            _context.Departments.Remove(entity: entity);
+            return true;
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "指定された部署Idの部署を削除できませんでした。",
+                                        innerException: exception);
+        }
+    }
+
     /// 指定された部署名の部署が存在するか確認する
     public bool ExistsByName(string name)
     {
@@ -89,6 +109,21 @@ public class DepartmentRepository(
         catch (Exception exception)
         {
             throw new Exception(message: "指定された部署名の部署を確認できませんでした。",
+                                        innerException: exception);
+        }
+    }
+
+    /// 指定された部署Idを持つ従業員が存在するか確認する
+    public bool ExistsEmployeeByDepartmentId(int departmentId)
+    {
+        try
+        {
+            return _context.Employees
+                .Any(employeeEntity => employeeEntity.DeptId == departmentId);
+        }
+        catch (Exception exception)
+        {
+            throw new Exception(message: "指定された部署Idを持つ従業員を確認できませんでした。",
                                         innerException: exception);
         }
     }

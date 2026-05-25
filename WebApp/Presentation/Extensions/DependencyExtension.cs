@@ -81,5 +81,8 @@ public static class DependencyExtension
         services.AddScoped(
           provider => new TempDataStore<EmployeeDeleteViewModel>(key: "EmployeeDeleteViewModel")
       );
+        services.AddScoped(
+          provider => new TempDataStore<DepartmentDeleteViewModel>(key: "DepartmentDeleteViewModel")
+      );
     }
 }

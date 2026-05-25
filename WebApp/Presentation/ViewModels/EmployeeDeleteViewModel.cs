@@ -7,8 +7,7 @@ public class EmployeeDeleteViewModel
 {
     /// 従業員Id
     [Display(Name = "従業員ID")]
-    [Required(ErrorMessage = "{0}は入力必須です。")]
-    public int? EmployeeId { get; set; }
+    public int EmployeeId { get; set; }
 
     /// 氏名
     [Display(Name = "氏名")]

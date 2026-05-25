@@ -30,10 +30,13 @@
                     <td>@employee.DepartmentId</td>
                     <td>@employee.DepartmentName</td>
                     <td>
-                        <form asp-action="DeleteConfirm" asp-controller="EmployeeDelete" method="post" class="d-inline">
-                            <input type="hidden" name="EmployeeId" value="@employee.EmployeeId" />
-                            <button type="submit" class="btn btn-danger btn-sm">削除</button>
-                        </form>
+                        @if (employee.EmployeeId.HasValue)
+                        {
+                            <form asp-action="DeleteConfirm" asp-controller="EmployeeDelete" method="post" class="d-inline">
+                                <input type="hidden" name="EmployeeId" value="@employee.EmployeeId" />
+                                <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                            </form>
+                        }
                     </td>
                 </tr>
             }

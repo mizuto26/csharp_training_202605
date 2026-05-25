@@ -1,0 +1,20 @@
+@using WebApp.Presentation.ViewModels
+@model DepartmentDeleteViewModel
+@{
+    ViewData[index: "Title"] = "部署削除(完了)";
+}
+
+<h2 class="text-center mt-4">@ViewData[index: "Title"]</h2>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-sm-8 text-center">
+            <div class="alert alert-success" role="alert">
+                部署情報の削除が完了しました。
+            </div>
+            <a asp-action="Departments" asp-controller="DepartmentList" class="btn btn-primary mt-3">
+                一覧に戻る
+            </a>
+        </div>
+    </div>
+</div>

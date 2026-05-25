@@ -34,6 +34,12 @@ public class DepartmentService(
         return _departmentRepository.ExistsByName(name: name);
     }
 
+    /// 指定された部署Idを持つ従業員が存在するか確認する
+    public bool ExistsEmployeeByDepartmentId(int departmentId)
+    {
+        return _departmentRepository.ExistsEmployeeByDepartmentId(departmentId: departmentId);
+    }
+
     // 新しい部署を登録する
     public void Create(Department department)
     {
@@ -51,6 +57,27 @@ public class DepartmentService(
         {
             transaction.Rollback();
             throw new Exception(message: "部署を登録できませんでした。",
+                                        innerException: exception);
+        }
+    }
+
+    /// 指定された部署Idの部署を削除する
+    public void DeleteById(int id)
+    {
+        using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+
+        try
+        {
+            bool deleted = _departmentRepository.DeleteById(id: id);
+            if (!deleted) throw new Exception(message: $"部署Id{id}に該当する部署は存在しません");
+
+            _context.SaveChanges();
+            transaction.Commit();
+        }
+        catch (Exception exception)
+        {
+            transaction.Rollback();
+            throw new Exception(message: "部署を削除できませんでした。",
                                     innerException: exception);
         }
     }

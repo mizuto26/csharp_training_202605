@@ -13,4 +13,8 @@ public interface IDepartmentService
     void Create(Department department);
     /// 指定された部署名の部署が存在するか確認する
     bool ExistsByName(string name);
+    /// 指定された部署Idの部署を削除する
+    void DeleteById(int id);
+    /// 指定された部署Idを持つ従業員が存在するか確認する
+    bool ExistsEmployeeByDepartmentId(int departmentId);
 }
