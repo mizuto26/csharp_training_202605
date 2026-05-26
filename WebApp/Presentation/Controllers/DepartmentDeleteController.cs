@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Application.Domains;
 using WebApp.Application.Services;
 using WebApp.Presentation.TempData;
 using WebApp.Presentation.ViewModels;
