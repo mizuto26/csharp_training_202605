@@ -10,7 +10,7 @@ public class EmployeeCreateViewModel
     [Display(Name = "氏名")]
     [Required(ErrorMessage = "{0}は入力必須です。")]
     [StringLength(20, ErrorMessage = "{0}は20文字以内で入力してください")]
-    public string? Name { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     /// 所属部署
     [Display(Name = "所属部署")]
     public int? DeptId { get; set; }
@@ -27,7 +27,7 @@ public class EmployeeCreateViewModel
 
     /// 選択された部署名
     [Display(Name = "部署名")]
-    public string? DeptName { get; set; } = string.Empty;
+    public string DeptName { get; set; } = string.Empty;
 
     // 部署のリスト
     public List<SelectListItem> Departments { get; set; } = [];
