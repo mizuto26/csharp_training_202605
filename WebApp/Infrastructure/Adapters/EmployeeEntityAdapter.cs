@@ -14,7 +14,8 @@ public class EmployeeEntityAdapter
         {
             EmpName = domain.Name,
             EmpEmail = domain.Email,
-            EmpPhone = domain.Phone
+            EmpPhone = domain.Phone,
+            DeptId = domain.Department?.Id
         };
 
         return entity;

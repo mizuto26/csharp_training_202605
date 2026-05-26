@@ -26,6 +26,11 @@ public class EmployeeRepositoryTests
 
         bool created = repository.Create(employee);
         Assert.IsTrue(created);
+
+        List<EmployeeEntity> createdEntities = context.Employees.ToList();
+        Assert.AreEqual(1, createdEntities.Count);
+        EmployeeEntity createdEntity = createdEntities[0];
+        Assert.AreEqual(10, createdEntity.DeptId);
     }
 
     [TestMethod("従業員一覧を取得できる")]
