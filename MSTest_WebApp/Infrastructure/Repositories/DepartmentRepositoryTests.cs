@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.EntityFrameworkCore;
 using MSTest_WebApp.Tests.TestDoubles;
 using WebApp.Application.Domains;
 using WebApp.Infrastructure.Adapters;
@@ -11,8 +12,10 @@ namespace MSTest_WebApp.Infrastructure.Repositories;
 [TestClass]
 public class DepartmentRepositoryTests
 {
+    private const string ConnectionString = "Host=localhost;Port=5432;Database=WebApp;Username=postgres;Password=training;";
+
     [TestMethod("部署一覧を取得できる")]
-    public void FindAll_ReturnsDepartmentsOrderedById()
+    public void FindAll_ReturnsDepartment()
     {
         List<DepartmentEntity> departmentEntities =
         [
@@ -61,8 +64,8 @@ public class DepartmentRepositoryTests
         Assert.IsNull(department);
     }
 
-    [TestMethod("Createで部署Entityが追加される")]
-    public void Create_AddsDepartmentEntity()
+    [TestMethod("部署Entityが追加されTrueが返る")]
+    public void Create_AddsDepartmentEntity_ReternTrue()
     {
         List<DepartmentEntity> departmentEntities = [];
 
@@ -149,6 +152,19 @@ public class DepartmentRepositoryTests
         Assert.IsFalse(deleted);
     }
 
+    [TestMethod("存在する部署を削除しtrueを返す")]
+    public void DeleteById_WhenTargetExists_ReturnTrue()
+    {
+        using AppDbContext context = CreateDatabaseContextWithInitSql();
+        DepartmentRepository repository = CreateRepository(context);
+
+        bool deleted = repository.DeleteById(3);
+        context.SaveChanges();
+
+        Assert.IsTrue(deleted);
+        Assert.IsNull(repository.FindById(3));
+    }
+
     private static DepartmentRepository CreateRepository(AppDbContext context)
     {
         return new DepartmentRepository(context, new DepartmentEntityAdapter());
@@ -163,5 +179,19 @@ public class DepartmentRepositoryTests
             Employees = new QueryableDbSet<EmployeeEntity>(employees),
             Departments = new QueryableDbSet<DepartmentEntity>(departments),
         };
+    }
+
+    private static AppDbContext CreateDatabaseContextWithInitSql()
+    {
+        DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseNpgsql(ConnectionString)
+            .Options;
+
+        AppDbContext context = new(options);
+        string path = Path.Combine(AppContext.BaseDirectory, "sql", "init.sql");
+        string sql = File.ReadAllText(path);
+        context.Database.ExecuteSqlRaw(sql);
+
+        return context;
     }
 }

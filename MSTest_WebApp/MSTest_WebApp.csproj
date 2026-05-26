@@ -17,6 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="sql\init.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WebApp\WebApp.csproj" />
   </ItemGroup>
 

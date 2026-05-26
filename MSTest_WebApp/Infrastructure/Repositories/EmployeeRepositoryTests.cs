@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.EntityFrameworkCore;
 using MSTest_WebApp.Tests.TestDoubles;
 using WebApp.Application.Domains;
 using WebApp.Infrastructure.Adapters;
@@ -11,8 +12,10 @@ namespace MSTest_WebApp.Infrastructure.Repositories;
 [TestClass]
 public class EmployeeRepositoryTests
 {
-    [TestMethod("CreateでDBに従業員Entityが追加される")]
-    public void Create_AddsEmployeeEntity()
+    private const string ConnectionString = "Host=localhost;Port=5432;Database=WebApp;Username=postgres;Password=training;";
+
+    [TestMethod("従業員Entityを追加しtrueが返る")]
+    public void Create_AddsEmployeeEntity_ReturnTrue()
     {
         using var context = CreateContext([], []);
         EmployeeRepository repository = CreateRepository(context);
@@ -33,8 +36,8 @@ public class EmployeeRepositoryTests
         Assert.AreEqual(10, employeeEntities[0].DeptId);
     }
 
-    [TestMethod("従業員一覧を部署Id付きで取得できる")]
-    public void FindAll_ReturnsEmployeesOrderedByIdWithDepartmentIds()
+    [TestMethod("従業員一覧を取得できる")]
+    public void FindAll_ReturnsEmployees()
     {
         List<EmployeeEntity> employeeEntities =
         [
@@ -59,6 +62,38 @@ public class EmployeeRepositoryTests
         Assert.AreEqual("suzuki@example.com", employees[1].Email);
         Assert.AreEqual("090-1111-2222", employees[1].Phone);
         Assert.IsNull(employees[1].Department);
+    }
+
+    [TestMethod("存在する従業員Idを指定すると従業員を取得できる")]
+    public void FindById_WhenEmployeeExists_ReturnsEmployee()
+    {
+        List<EmployeeEntity> employeeEntities =
+        [
+            new EmployeeEntity { EmpId = 1, EmpName = "山田", EmpEmail = "yamada@example.com", EmpPhone = "03-1234-5678", DeptId = 1 }
+        ];
+
+        using var context = CreateContext(employeeEntities, []);
+        EmployeeRepository repository = CreateRepository(context);
+
+        Employee? employee = repository.FindById(1);
+
+        Assert.IsNotNull(employee);
+        Assert.AreEqual(1, employee.Id);
+        Assert.AreEqual("山田", employee.Name);
+        Assert.AreEqual("yamada@example.com", employee.Email);
+        Assert.AreEqual("03-1234-5678", employee.Phone);
+        Assert.AreEqual(1, employee.Department?.Id);
+    }
+
+    [TestMethod("存在しない従業員Idを指定するとnullが返る")]
+    public void FindById_WhenEmployeeDoesNotExist_ReturnsNull()
+    {
+        using var context = CreateContext([], []);
+        EmployeeRepository repository = CreateRepository(context);
+
+        Employee? employee = repository.FindById(999);
+
+        Assert.IsNull(employee);
     }
 
     [TestMethod("指定したメールアドレスの従業員が存在する場合はtrueを返す")]
@@ -126,6 +161,19 @@ public class EmployeeRepositoryTests
         Assert.IsFalse(deleted);
     }
 
+    [TestMethod("存在する従業員を削除しtrueが返る")]
+    public void DeleteById_WhenTargetExists_ReternTrue()
+    {
+        using AppDbContext context = CreateDatabaseContextWithInitSql();
+        EmployeeRepository repository = CreateRepository(context);
+
+        bool deleted = repository.DeleteById(1);
+        context.SaveChanges();
+
+        Assert.IsTrue(deleted);
+        Assert.IsNull(repository.FindById(1));
+    }
+
     private static EmployeeRepository CreateRepository(AppDbContext context)
     {
         return new EmployeeRepository(context, new EmployeeEntityAdapter());
@@ -140,5 +188,19 @@ public class EmployeeRepositoryTests
             Employees = new QueryableDbSet<EmployeeEntity>(employees),
             Departments = new QueryableDbSet<DepartmentEntity>(departments),
         };
+    }
+
+    private static AppDbContext CreateDatabaseContextWithInitSql()
+    {
+        DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseNpgsql(ConnectionString)
+            .Options;
+
+        AppDbContext context = new(options);
+        string path = Path.Combine(AppContext.BaseDirectory, "sql", "init.sql");
+        string sql = File.ReadAllText(path);
+        context.Database.ExecuteSqlRaw(sql);
+
+        return context;
     }
 }
