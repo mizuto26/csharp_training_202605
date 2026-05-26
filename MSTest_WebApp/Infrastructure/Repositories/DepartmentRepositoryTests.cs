@@ -12,7 +12,7 @@ namespace MSTest_WebApp.Infrastructure.Repositories;
 [TestClass]
 public class DepartmentRepositoryTests
 {
-    private const string ConnectionString = "Host=localhost;Port=5432;Database=WebApp;Username=postgres;Password=training;";
+    private const string ConnectionString = "Host=localhost;Port=5432;Database=WebAppTest;Username=postgres;Password=training;";
 
     [TestMethod("部署一覧を取得できる")]
     public void FindAll_ReturnsDepartment()
@@ -178,6 +178,8 @@ public class DepartmentRepositoryTests
             .Options;
 
         AppDbContext context = new(options);
+        context.Database.EnsureCreated();
+
         string path = Path.Combine(AppContext.BaseDirectory, "sql", "init.sql");
         string sql = File.ReadAllText(path);
         context.Database.ExecuteSqlRaw(sql);

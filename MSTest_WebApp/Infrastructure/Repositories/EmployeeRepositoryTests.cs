@@ -12,7 +12,7 @@ namespace MSTest_WebApp.Infrastructure.Repositories;
 [TestClass]
 public class EmployeeRepositoryTests
 {
-    private const string ConnectionString = "Host=localhost;Port=5432;Database=WebApp;Username=postgres;Password=training;";
+    private const string ConnectionString = "Host=localhost;Port=5432;Database=WebAppTest;Username=postgres;Password=training;";
 
     [TestMethod("従業員Entityを追加しtrueが返る")]
     public void Create_AddsEmployeeEntity_ReturnTrue()
@@ -181,6 +181,8 @@ public class EmployeeRepositoryTests
             .Options;
 
         AppDbContext context = new(options);
+        context.Database.EnsureCreated();
+
         string path = Path.Combine(AppContext.BaseDirectory, "sql", "init.sql");
         string sql = File.ReadAllText(path);
         context.Database.ExecuteSqlRaw(sql);
