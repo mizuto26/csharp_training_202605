@@ -14,10 +14,13 @@ where T : class
     public T? Load(Controller controller)
     {
         // TempDataにキーが存在するか確認
-        if (controller.TempData.TryGetValue(key: _key, value: out object? value) is false) return null;
+        bool foundValue = controller.TempData.TryGetValue(key: _key, value: out object? value);
+        if (foundValue is false) return null;
 
         // 値を文字列として取得
+        if (value is null) return null;
         string? json = value as string;
+        if (json is null) return null;
         if (string.IsNullOrWhiteSpace(value: json)) return null;
 
         try

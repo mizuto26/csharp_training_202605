@@ -13,7 +13,5 @@ public interface IEmployeeService
     /// 指定された電話番号の従業員が存在するか確認する
     bool ExistsByPhone(string phone);
     /// 指定された従業員Idの従業員を取得する
-    Employee GetEmployeeById(int id);
-    /// 指定された従業員Idの従業員を削除する
     void DeleteById(int id);
 }

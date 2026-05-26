@@ -42,50 +42,49 @@ public class EmployeeService(
     public IReadOnlyList<Employee> GetEmployees()
     {
         IReadOnlyList<Employee> employees = _employeeRepository.FindAll();
-        Dictionary<int, Department> departmentById = [];
-
-        foreach (Department department in _departmentRepository.FindAll())
-        {
-            int? departmentId = department.Id;
-
-            if (departmentId is not null)
-            {
-                departmentById[departmentId ?? throw new InvalidOperationException(message: "部署IDが未設定です。")] = department;
-            }
-        }
+        IReadOnlyDictionary<int, Department> departmentById = CreateDepartmentDictionary(
+            departments: _departmentRepository.FindAll()
+        );
 
         foreach (Employee employee in employees)
         {
-            int? departmentId = employee.Department?.Id;
+            // 従業員一覧取得時は部署IDだけを持つため、部署一覧から正式な部署情報を引き直す。
+            Department? department = FindDepartment(
+                departmentId: employee.Department?.Id,
+                departmentById: departmentById
+            );
 
-            if (departmentId is not null
-                && departmentById.TryGetValue(key: departmentId ?? throw new InvalidOperationException(message: "部署IDが未設定です。"),
-                                              value: out Department? department))
-            {
-                employee.ChangeDepartment(department: department);
-            }
+            if (department is null) continue;
+
+            employee.ChangeDepartment(department: department);
         }
 
         return employees;
     }
 
-    /// 指定された従業員Idの従業員を取得する
-    public Employee GetEmployeeById(int id)
+    private static Dictionary<int, Department> CreateDepartmentDictionary(IReadOnlyList<Department> departments)
     {
-        Employee employee = _employeeRepository.FindById(id: id)
-            ?? throw new InvalidOperationException(message: $"従業員Id{id}に該当する従業員は存在しません");
+        Dictionary<int, Department> departmentById = [];
 
-        int? departmentId = employee.Department?.Id;
-
-        if (departmentId is not null)
+        foreach (Department department in departments)
         {
-            Department? department = _departmentRepository.FindById(
-                id: departmentId ?? throw new InvalidOperationException(message: "部署IDが未設定です。")
-            );
-            employee.ChangeDepartment(department: department);
+            if (department.Id is int departmentId) departmentById[departmentId] = department;
         }
 
-        return employee;
+        return departmentById;
+    }
+
+    private static Department? FindDepartment(int? departmentId, IReadOnlyDictionary<int, Department> departmentById)
+    {
+        if (departmentId is null) return null;
+
+        bool foundDepartment = departmentById.TryGetValue(
+            key: departmentId.GetValueOrDefault(),
+            value: out Department? department
+        );
+        if (foundDepartment is false) return null;
+
+        return department;
     }
 
     /// 指定された従業員Idの従業員を削除する

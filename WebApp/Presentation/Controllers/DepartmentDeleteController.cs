@@ -40,9 +40,7 @@ public class DepartmentDeleteController(
     {
         ValidateDeletableDepartment(departmentId: viewModel.DepartmentId);
         if (ModelState.IsValid is false)
-        {
             return View(viewName: "DeleteConfirm", model: viewModel);
-        }
 
         _departmentDeleteDataStore.Save(controller: this, model: viewModel);
 
@@ -62,9 +60,7 @@ public class DepartmentDeleteController(
     {
         DepartmentDeleteViewModel? viewModel = _departmentDeleteDataStore.Load(controller: this);
         if (viewModel is null)
-        {
             return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");
-        }
 
         _departmentService.DeleteById(id: viewModel.DepartmentId);
 

@@ -43,7 +43,9 @@ public class Employee
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(objA: this, objB: obj)) return true;
-        if (obj is not Employee other) return false;
+        Employee? other = obj as Employee;
+        if (other is null) return false;
+
         return Id == other.Id;
     }
 

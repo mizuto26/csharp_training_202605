@@ -34,7 +34,9 @@ public class Department
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(objA: this, objB: obj)) return true;
-        if (obj is not Department other) return false;
+        Department? other = obj as Department;
+        if (other is null) return false;
+
         return Id == other.Id;
     }
 

@@ -46,10 +46,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
 
             foreach (EmployeeEntity employeeEntity in employeeEntities)
             {
-                Employee employee = _adapter.Restore(
-                    employeeEntity: employeeEntity,
-                    departmentEntity: null
-                );
+                Employee employee = _adapter.Restore(employeeEntity: employeeEntity);
 
                 employees.Add(employee);
             }
@@ -59,29 +56,6 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         catch (Exception exception)
         {
             throw new InvalidOperationException(message: "すべての従業員を取得できませんでした。",
-                                                innerException: exception);
-        }
-    }
-
-    public Employee? FindById(int id)
-    {
-        try
-        {
-            EmployeeEntity? employeeEntity = _context.Employees
-                .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
-
-            if (employeeEntity is null) return null;
-
-            Employee employee = _adapter.Restore(
-                   employeeEntity: employeeEntity,
-                   departmentEntity: null
-            );
-
-            return employee;
-        }
-        catch (Exception exception)
-        {
-            throw new InvalidOperationException(message: "指定された従業員Idの従業員を取得できませんでした。",
                                                 innerException: exception);
         }
     }

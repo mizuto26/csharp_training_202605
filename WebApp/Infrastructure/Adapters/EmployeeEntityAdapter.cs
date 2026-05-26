@@ -21,26 +21,12 @@ public class EmployeeEntityAdapter
         return entity;
     }
 
-    /// EmployeeEntityとDepartmentEntityからドメインオブジェクト:Employeeを復元する
-    public Employee Restore(EmployeeEntity employeeEntity, DepartmentEntity? departmentEntity)
+    /// EmployeeEntityからドメインオブジェクト:Employeeを復元する
+    public Employee Restore(EmployeeEntity employeeEntity)
     {
         Department? department = null;
 
-        if (departmentEntity is not null)
-        {
-            department = new Department(
-                id: departmentEntity.DeptId,
-                name: departmentEntity.DeptName
-            );
-        }
-        else
-        {
-            int? departmentId = employeeEntity.DeptId;
-            if (departmentId is not null)
-            {
-                department = new Department(id: departmentId);
-            }
-        }
+        if (employeeEntity.DeptId is int departmentId) department = new Department(id: departmentId);
 
         Employee employee = new(
                 id: employeeEntity.EmpId,
