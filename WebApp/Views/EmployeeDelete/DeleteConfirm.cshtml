@@ -20,6 +20,14 @@
                         <td>@Html.DisplayFor(m => m.EmployeeName)</td>
                     </tr>
                     <tr>
+                        <td class="fw-bold">@Html.DisplayNameFor(m => m.EmployeeEmail)</td>
+                        <td>@Html.DisplayFor(m => m.EmployeeEmail)</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">@Html.DisplayNameFor(m => m.EmployeePhone)</td>
+                        <td>@Html.DisplayFor(m => m.EmployeePhone)</td>
+                    </tr>
+                    <tr>
                         <td class="fw-bold">@Html.DisplayNameFor(m => m.DepartmentName)</td>
                         <td>@Html.DisplayFor(m => m.DepartmentName)</td>
                     </tr>
@@ -28,8 +36,6 @@
 
             <form>
                 <input type="hidden" asp-for="EmployeeId" />
-                <input type="hidden" asp-for="EmployeeName" />
-                <input type="hidden" asp-for="DepartmentName" />
                 <div class="text-center mt-4">
                     <button type="submit"
                             formaction="@Url.Action(action: "DeleteExecute", controller: "EmployeeDelete")"
