@@ -62,7 +62,7 @@ public class EmployeeCreateController(
         }
         else if (viewModel.DeptId != null)
         {
-            Department department = _departmentService.GetDepartmentById(id: viewModel.DeptId);
+            Department department = _departmentService.GetDepartmentById(id: viewModel.DeptId.Value);
             viewModel.DeptName = department.Name;
         }
 
