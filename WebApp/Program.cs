@@ -12,7 +12,7 @@ builder.Services.SettingDependencyInjection(configuration: builder.Configuration
 var app = builder.Build();
 
 // HTTPリクエストパイプラインの構成を行う
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() is false)
 {
     // 開発環境でない場合は、エラーハンドラを設定する（/Home/Errorにリダイレクト）
     app.UseExceptionHandler(errorHandlingPath: "/Home/Error");

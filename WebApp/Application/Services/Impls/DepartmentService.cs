@@ -48,7 +48,7 @@ public class DepartmentService(
         try
         {
             bool created = _departmentRepository.Create(department: department);
-            if (!created) throw new InvalidOperationException(message: "部署を登録できませんでした。");
+            if (created is false) throw new InvalidOperationException(message: "部署を登録できませんでした。");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -69,7 +69,7 @@ public class DepartmentService(
         try
         {
             bool deleted = _departmentRepository.DeleteById(id: id);
-            if (!deleted) throw new InvalidOperationException(message: $"部署Id{id}に該当する部署は存在しません");
+            if (deleted is false) throw new InvalidOperationException(message: $"部署Id{id}に該当する部署は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();

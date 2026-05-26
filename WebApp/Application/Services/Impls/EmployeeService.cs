@@ -25,7 +25,7 @@ public class EmployeeService(
         try
         {
             bool create = _employeeRepository.Create(employee: employee);
-            if (!create) throw new InvalidOperationException(message: $"従業員Id{employee.Id}に該当する従業員は存在しません");
+            if (create is false) throw new InvalidOperationException(message: $"従業員Id{employee.Id}に該当する従業員は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -48,9 +48,9 @@ public class EmployeeService(
         {
             int? departmentId = department.Id;
 
-            if (departmentId != null)
+            if (departmentId is int departmentIdValue)
             {
-                departmentById[departmentId.Value] = department;
+                departmentById[departmentIdValue] = department;
             }
         }
 
@@ -58,8 +58,8 @@ public class EmployeeService(
         {
             int? departmentId = employee.Department?.Id;
 
-            if (departmentId != null
-                && departmentById.TryGetValue(key: departmentId.Value,
+            if (departmentId is int departmentIdValue
+                && departmentById.TryGetValue(key: departmentIdValue,
                                               value: out Department? department))
             {
                 employee.ChangeDepartment(department: department);
@@ -77,9 +77,9 @@ public class EmployeeService(
 
         int? departmentId = employee.Department?.Id;
 
-        if (departmentId != null)
+        if (departmentId is int departmentIdValue)
         {
-            Department? department = _departmentRepository.FindById(id: departmentId.Value);
+            Department? department = _departmentRepository.FindById(id: departmentIdValue);
             employee.ChangeDepartment(department: department);
         }
 
@@ -94,7 +94,7 @@ public class EmployeeService(
         try
         {
             bool deleted = _employeeRepository.DeleteById(id: id);
-            if (!deleted) throw new InvalidOperationException(message: $"従業員Id{id}に該当する従業員は存在しません");
+            if (deleted is false) throw new InvalidOperationException(message: $"従業員Id{id}に該当する従業員は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();

@@ -26,16 +26,16 @@ public class EmployeeEntityAdapter
     {
         Department? department = null;
 
-        if (departmentEntity != null)
+        if (departmentEntity is not null)
         {
             department = new Department(
                 id: departmentEntity.DeptId,
                 name: departmentEntity.DeptName
             );
         }
-        else if (employeeEntity.DeptId != null)
+        else if (employeeEntity.DeptId is int departmentId)
         {
-            department = new Department(id: employeeEntity.DeptId);
+            department = new Department(id: departmentId);
         }
 
         Employee employee = new(

@@ -70,7 +70,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
             EmployeeEntity? employeeEntity = _context.Employees
                 .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
 
-            if (employeeEntity == null) return null;
+            if (employeeEntity is null) return null;
 
             Employee employee = _adapter.Restore(
                    employeeEntity: employeeEntity,
@@ -94,7 +94,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
             EmployeeEntity? entity = _context.Employees
                 .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
 
-            if (entity == null) return false;
+            if (entity is null) return false;
 
             _context.Employees.Remove(entity: entity);
             return true;
@@ -114,8 +114,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
             string normalizedEmail = email.ToLower();
 
             return _context.Employees
-                .Any(employeeEntity => employeeEntity.EmpEmail != null &&
-                     employeeEntity.EmpEmail.ToLower() == normalizedEmail);
+                .Any(employeeEntity => (employeeEntity.EmpEmail ?? string.Empty).ToLower() == normalizedEmail);
         }
         catch (Exception exception)
         {

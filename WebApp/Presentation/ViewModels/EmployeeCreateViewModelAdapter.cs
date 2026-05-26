@@ -18,10 +18,10 @@ public class EmployeeCreateViewModelAdapter : IRestorer<Employee, EmployeeCreate
 
         Department? department = null;
 
-        if (target.DeptId != null)
+        if (target.DeptId is int departmentId)
         {
             department = new Department(
-                id: target.DeptId,
+                id: departmentId,
                 name: target.DeptName
             );
         }

@@ -14,7 +14,7 @@ where T : class
     public T? Load(Controller controller)
     {
         // TempDataにキーが存在するか確認
-        if (!controller.TempData.TryGetValue(key: _key, value: out object? value)) return null;
+        if (controller.TempData.TryGetValue(key: _key, value: out object? value) is false) return null;
 
         // 値を文字列として取得
         string? json = value as string;

@@ -39,7 +39,7 @@ public class DepartmentDeleteController(
     public IActionResult DeleteExecute(DepartmentDeleteViewModel viewModel)
     {
         ValidateDeletableDepartment(departmentId: viewModel.DepartmentId);
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid is false)
         {
             return View(viewName: "DeleteConfirm", model: viewModel);
         }
@@ -61,7 +61,7 @@ public class DepartmentDeleteController(
     public IActionResult DeleteComplete()
     {
         DepartmentDeleteViewModel? viewModel = _departmentDeleteDataStore.Load(controller: this);
-        if (viewModel == null)
+        if (viewModel is null)
         {
             return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");
         }
@@ -73,7 +73,7 @@ public class DepartmentDeleteController(
 
     private void ValidateDeletableDepartment(int departmentId)
     {
-        if (!_departmentService.ExistsEmployeeByDepartmentId(departmentId: departmentId)) return;
+        if (_departmentService.ExistsEmployeeByDepartmentId(departmentId: departmentId) is false) return;
 
         ModelState.AddModelError(
             key: string.Empty,

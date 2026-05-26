@@ -53,7 +53,7 @@ public class EmployeeDeleteController(
     {
         EmployeeDeleteViewModel? viewModel = _employeeDeleteDataStore.Load(controller: this);
 
-        if (viewModel == null)
+        if (viewModel is null)
         {
             return RedirectToAction(actionName: "Employees", controllerName: "EmployeeList");
         }

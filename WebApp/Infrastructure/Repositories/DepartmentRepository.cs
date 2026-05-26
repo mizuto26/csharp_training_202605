@@ -51,7 +51,7 @@ public class DepartmentRepository(
             DepartmentEntity? result = _context.Departments
                 .FirstOrDefault(departmentEntity => departmentEntity.DeptId == id);
 
-            if (result == null) return null;
+            if (result is null) return null;
 
             return _adapter.Restore(target: result);
         }
@@ -86,7 +86,7 @@ public class DepartmentRepository(
             DepartmentEntity? entity = _context.Departments
                 .FirstOrDefault(departmentEntity => departmentEntity.DeptId == id);
 
-            if (entity == null) return false;
+            if (entity is null) return false;
 
             _context.Departments.Remove(entity: entity);
             return true;

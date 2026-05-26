@@ -42,7 +42,7 @@ public class EmployeeCreateController(
     [HttpPost("CreateConfirm")]
     public IActionResult CreateConfirm(EmployeeCreateViewModel viewModel)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid is false)
         {
             PopulateDepartments(viewModel: viewModel);
             return View(viewName: "Create", model: viewModel);
@@ -50,19 +50,19 @@ public class EmployeeCreateController(
 
         ValidateUniqueEmployee(viewModel: viewModel);
 
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid is false)
         {
             PopulateDepartments(viewModel: viewModel);
             return View(viewName: "Create", model: viewModel);
         }
 
-        if (viewModel.DeptId == null)
+        if (viewModel.DeptId is null)
         {
             viewModel.DeptName = "未所属";
         }
-        else if (viewModel.DeptId != null)
+        else if (viewModel.DeptId is int departmentId)
         {
-            Department department = _departmentService.GetDepartmentById(id: viewModel.DeptId.Value);
+            Department department = _departmentService.GetDepartmentById(id: departmentId);
             viewModel.DeptName = department.Name;
         }
 
@@ -76,7 +76,7 @@ public class EmployeeCreateController(
     public IActionResult CreateExecute(EmployeeCreateViewModel viewModel)
     {
         ValidateUniqueEmployee(viewModel: viewModel);
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid is false)
         {
             PopulateDepartments(viewModel: viewModel);
             return View(viewName: "Create", model: viewModel);
@@ -92,7 +92,7 @@ public class EmployeeCreateController(
     public IActionResult CreateComplete()
     {
         EmployeeCreateViewModel? viewModel = _empDataStore.Load(controller: this);
-        if (viewModel == null) return RedirectToAction(actionName: "Create");
+        if (viewModel is null) return RedirectToAction(actionName: "Create");
 
         Employee employee = _adapter.Restore(target: viewModel);
         _employeeService.Create(employee: employee);
