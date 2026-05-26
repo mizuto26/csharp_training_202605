@@ -21,11 +21,10 @@ public class DepartmentService(
         return _departmentRepository.FindAll();
     }
 
-    /// 指定された部署Idの部署を取得する
-    public Department GetDepartmentById(int id)
+    /// 指定された部署Idの部署を検索する
+    public Department? FindDepartmentById(int id)
     {
-        return _departmentRepository.FindById(id: id)
-            ?? throw new InvalidOperationException(message: $"部署Id{id}に該当する部署は存在しません");
+        return _departmentRepository.FindById(id: id);
     }
 
     /// 指定された部署名の部署が存在するか確認する

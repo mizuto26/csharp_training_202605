@@ -62,7 +62,17 @@ public class EmployeeCreateController(
         }
         else
         {
-            Department department = _departmentService.GetDepartmentById(id: departmentId);
+            Department? department = _departmentService.FindDepartmentById(id: departmentId);
+            if (department is null)
+            {
+                ModelState.AddModelError(
+                    key: nameof(EmployeeCreateViewModel.DeptId),
+                    errorMessage: "選択された部署は存在しません。"
+                );
+                PopulateDepartments(viewModel: viewModel);
+                return View(viewName: "Create", model: viewModel);
+            }
+
             viewModel.DeptName = department.Name;
         }
 

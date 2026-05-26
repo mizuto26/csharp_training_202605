@@ -16,6 +16,8 @@ public class Employee
     public Employee(int? id, string name, string phone, string email, Department? department)
     {
         ValidateName(name: name);
+        ValidatePhone(phone: phone);
+        ValidateEmail(email: email);
         Id = id;
         Name = name;
         Phone = phone;
@@ -60,5 +62,17 @@ public class Employee
             throw new InvalidOperationException(message: "氏名は必須です");
         if (name.Length > MaxLength)
             throw new InvalidOperationException(message: $"氏名は{MaxLength}文字以内で入力してください");
+    }
+
+    private static void ValidatePhone(string phone)
+    {
+        if (string.IsNullOrWhiteSpace(value: phone))
+            throw new InvalidOperationException(message: "電話番号は必須です");
+    }
+
+    private static void ValidateEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(value: email))
+            throw new InvalidOperationException(message: "メールアドレスは必須です");
     }
 }
