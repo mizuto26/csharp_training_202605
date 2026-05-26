@@ -38,8 +38,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "すべての部署を取得できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "すべての部署を取得できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -57,8 +57,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された部署Idの部署を取得できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "指定された部署Idの部署を取得できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -73,8 +73,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "部署の永続化ができませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "部署の永続化ができませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -93,8 +93,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された部署Idの部署を削除できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "指定された部署Idの部署を削除できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -108,8 +108,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された部署名の部署を確認できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "指定された部署名の部署を確認できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -123,8 +123,8 @@ public class DepartmentRepository(
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された部署Idを持つ従業員を確認できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "指定された部署Idを持つ従業員を確認できませんでした。",
+                                                innerException: exception);
         }
     }
 }

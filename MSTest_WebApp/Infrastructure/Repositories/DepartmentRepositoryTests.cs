@@ -165,7 +165,7 @@ public class DepartmentRepositoryTests
         };
         DepartmentRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(repository.FindAll);
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(repository.FindAll);
 
         Assert.AreEqual("すべての部署を取得できませんでした。", exception.Message);
     }
@@ -180,7 +180,7 @@ public class DepartmentRepositoryTests
         };
         DepartmentRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindById(1));
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.FindById(1));
 
         Assert.AreEqual("指定された部署Idの部署を取得できませんでした。", exception.Message);
     }
@@ -197,7 +197,7 @@ public class DepartmentRepositoryTests
 
         Department department = new(name: "営業部");
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.Create(department));
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.Create(department));
 
         Assert.AreEqual("部署の永続化ができませんでした。", exception.Message);
     }
@@ -212,7 +212,7 @@ public class DepartmentRepositoryTests
         };
         DepartmentRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.ExistsByName("営業部"));
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.ExistsByName("営業部"));
 
         Assert.AreEqual("指定された部署名の部署を確認できませんでした。", exception.Message);
     }
@@ -227,7 +227,7 @@ public class DepartmentRepositoryTests
         };
         DepartmentRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.DeleteById(1));
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.DeleteById(1));
 
         Assert.AreEqual("指定された部署Idの部署を削除できませんでした。", exception.Message);
     }
@@ -242,7 +242,7 @@ public class DepartmentRepositoryTests
         };
         DepartmentRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.ExistsEmployeeByDepartmentId(1));
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.ExistsEmployeeByDepartmentId(1));
 
         Assert.AreEqual("指定された部署Idを持つ従業員を確認できませんでした。", exception.Message);
     }

@@ -10,19 +10,36 @@ public class EmployeeListViewModelAdapter
     /// EmployeeのリストをEmployeeListViewModelに変換する
     public EmployeeListViewModel Restore(IReadOnlyList<Employee> target)
     {
+        List<EmployeeListItemViewModel> employees = [];
+
+        foreach (Employee employee in target)
+        {
+            int employeeId = employee.Id ?? throw new InvalidOperationException(message: "従業員IDが未設定です。");
+
+            int? departmentId = null;
+            string departmentName = "未所属";
+            Department? department = employee.Department;
+
+            if (department is not null)
+            {
+                departmentId = department.Id;
+                departmentName = department.Name;
+            }
+
+            employees.Add(item: new EmployeeListItemViewModel
+            {
+                EmployeeId = employeeId,
+                EmployeeName = employee.Name,
+                Email = employee.Email,
+                Phone = employee.Phone,
+                DepartmentId = departmentId,
+                DepartmentName = departmentName
+            });
+        }
+
         EmployeeListViewModel viewModel = new()
         {
-            Employees = target
-                .Select(employee => new EmployeeListItemViewModel
-                {
-                    EmployeeId = employee.Id ?? throw new InvalidOperationException(message: "従業員IDが未設定です。"),
-                    EmployeeName = employee.Name,
-                    Email = employee.Email,
-                    Phone = employee.Phone,
-                    DepartmentId = employee.Department?.Id,
-                    DepartmentName = employee.Department?.Name ?? "未所属"
-                })
-                .ToList()
+            Employees = employees
         };
 
         return viewModel;

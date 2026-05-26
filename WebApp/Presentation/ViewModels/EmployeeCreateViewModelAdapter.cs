@@ -17,8 +17,9 @@ public class EmployeeCreateViewModelAdapter : IRestorer<Employee, EmployeeCreate
             throw new InvalidOperationException(message: "メールアドレスが設定されていません。");
 
         Department? department = null;
+        int? departmentId = target.DeptId;
 
-        if (target.DeptId is int departmentId)
+        if (departmentId is not null)
         {
             department = new Department(
                 id: departmentId,

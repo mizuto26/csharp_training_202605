@@ -46,7 +46,8 @@ public class EmployeeCreateViewModel
 
         foreach (Department department in departments)
         {
-            if (department.Id is not int departmentId) continue;
+            int? departmentId = department.Id;
+            if (departmentId is null) continue;
 
             Departments.Add(item: new SelectListItem
             {

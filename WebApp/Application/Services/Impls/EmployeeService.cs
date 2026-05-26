@@ -48,9 +48,9 @@ public class EmployeeService(
         {
             int? departmentId = department.Id;
 
-            if (departmentId is int departmentIdValue)
+            if (departmentId is not null)
             {
-                departmentById[departmentIdValue] = department;
+                departmentById[departmentId ?? throw new InvalidOperationException(message: "部署IDが未設定です。")] = department;
             }
         }
 
@@ -58,8 +58,8 @@ public class EmployeeService(
         {
             int? departmentId = employee.Department?.Id;
 
-            if (departmentId is int departmentIdValue
-                && departmentById.TryGetValue(key: departmentIdValue,
+            if (departmentId is not null
+                && departmentById.TryGetValue(key: departmentId ?? throw new InvalidOperationException(message: "部署IDが未設定です。"),
                                               value: out Department? department))
             {
                 employee.ChangeDepartment(department: department);
@@ -77,9 +77,11 @@ public class EmployeeService(
 
         int? departmentId = employee.Department?.Id;
 
-        if (departmentId is int departmentIdValue)
+        if (departmentId is not null)
         {
-            Department? department = _departmentRepository.FindById(id: departmentIdValue);
+            Department? department = _departmentRepository.FindById(
+                id: departmentId ?? throw new InvalidOperationException(message: "部署IDが未設定です。")
+            );
             employee.ChangeDepartment(department: department);
         }
 

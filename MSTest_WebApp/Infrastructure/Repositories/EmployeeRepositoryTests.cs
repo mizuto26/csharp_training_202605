@@ -181,7 +181,7 @@ public class EmployeeRepositoryTests
             department: null
         );
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.Create(employee));
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.Create(employee));
 
         Assert.AreEqual("従業員の永続化ができませんでした。", exception.Message);
     }
@@ -197,7 +197,7 @@ public class EmployeeRepositoryTests
 
         EmployeeRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(repository.FindAll);
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(repository.FindAll);
 
         Assert.AreEqual("すべての従業員を取得できませんでした。", exception.Message);
     }
@@ -212,7 +212,7 @@ public class EmployeeRepositoryTests
         };
         EmployeeRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(
             () => repository.ExistsByEmail("yamada@example.com")
         );
 
@@ -230,7 +230,7 @@ public class EmployeeRepositoryTests
 
         EmployeeRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(
             () => repository.ExistsByPhone("03-1234-5678")
         );
 
@@ -247,7 +247,7 @@ public class EmployeeRepositoryTests
         };
         EmployeeRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindById(1));
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.FindById(1));
 
         Assert.AreEqual("指定された従業員Idの従業員を取得できませんでした。", exception.Message);
     }
@@ -262,7 +262,7 @@ public class EmployeeRepositoryTests
         };
         EmployeeRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.DeleteById(1));
+        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.DeleteById(1));
 
         Assert.AreEqual("指定された従業員Idの従業員を削除できませんでした。", exception.Message);
     }

@@ -56,13 +56,17 @@ public class EmployeeCreateController(
             return View(viewName: "Create", model: viewModel);
         }
 
-        if (viewModel.DeptId is null)
+        int? departmentId = viewModel.DeptId;
+
+        if (departmentId is null)
         {
             viewModel.DeptName = "未所属";
         }
-        else if (viewModel.DeptId is int departmentId)
+        else
         {
-            Department department = _departmentService.GetDepartmentById(id: departmentId);
+            Department department = _departmentService.GetDepartmentById(
+                id: departmentId ?? throw new InvalidOperationException(message: "部署IDが未設定です。")
+            );
             viewModel.DeptName = department.Name;
         }
 

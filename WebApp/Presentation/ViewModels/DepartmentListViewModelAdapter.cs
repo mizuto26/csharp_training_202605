@@ -11,15 +11,22 @@ public class DepartmentListViewModelAdapter
     /// DepartmentのリストをDepartmentListViewModelに変換する
     public DepartmentListViewModel Restore(IReadOnlyList<Department> target)
     {
+        List<DepartmentListItemViewModel> departments = [];
+
+        foreach (Department department in target)
+        {
+            int departmentId = department.Id ?? throw new InvalidOperationException(message: "部署IDが未設定です。");
+
+            departments.Add(item: new DepartmentListItemViewModel
+            {
+                DepartmentId = departmentId,
+                DepartmentName = department.Name
+            });
+        }
+
         DepartmentListViewModel viewModel = new()
         {
-            Departments = target
-                .Select(department => new DepartmentListItemViewModel
-                {
-                    DepartmentId = department.Id ?? throw new InvalidOperationException(message: "部署IDが未設定です。"),
-                    DepartmentName = department.Name
-                })
-                .ToList()
+            Departments = departments
         };
 
         return viewModel;

@@ -26,8 +26,8 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "従業員の永続化ができませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "従業員の永続化ができませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -58,8 +58,8 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "すべての従業員を取得できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "すべての従業員を取得できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -81,8 +81,8 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された従業員Idの従業員を取得できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "指定された従業員Idの従業員を取得できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -101,8 +101,8 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された従業員Idの従業員を削除できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "指定された従業員Idの従業員を削除できませんでした。",
+                                                innerException: exception);
         }
     }
 
@@ -114,13 +114,21 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
             string normalizedEmail = email.ToLower();
 
             return _context.Employees
-                .Any(employeeEntity => (employeeEntity.EmpEmail ?? string.Empty).ToLower() == normalizedEmail);
+                .Any(employeeEntity => HasSameEmail(employeeEntity, normalizedEmail));
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定されたメールアドレスの従業員を確認できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "指定されたメールアドレスの従業員を確認できませんでした。",
+                                                innerException: exception);
         }
+    }
+
+    private static bool HasSameEmail(EmployeeEntity employeeEntity, string normalizedEmail)
+    {
+        string? employeeEmail = employeeEntity.EmpEmail;
+        if (employeeEmail is null) return false;
+
+        return employeeEmail.ToLower() == normalizedEmail;
     }
 
     /// 指定された電話番号の従業員が存在するか確認する
@@ -133,8 +141,8 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new Exception(message: "指定された電話番号の従業員を確認できませんでした。",
-                                innerException: exception);
+            throw new InvalidOperationException(message: "指定された電話番号の従業員を確認できませんでした。",
+                                                innerException: exception);
         }
     }
 }
