@@ -115,6 +115,17 @@ public class EmployeeRepositoryTests
         Assert.IsFalse(exists);
     }
 
+    [TestMethod("存在しない従業員は削除できずfalseが返る")]
+    public void DeleteById_WhenTargetDoesNotExist_ReturnsFalse()
+    {
+        using var context = CreateContext([], []);
+        EmployeeRepository repository = CreateRepository(context);
+
+        bool deleted = repository.DeleteById(999);
+
+        Assert.IsFalse(deleted);
+    }
+
     private static EmployeeRepository CreateRepository(AppDbContext context)
     {
         return new EmployeeRepository(context, new EmployeeEntityAdapter());
