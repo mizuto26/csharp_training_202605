@@ -32,6 +32,10 @@
                     <td>
                         <form asp-action="DeleteConfirm" asp-controller="EmployeeDelete" method="post" class="d-inline">
                             <input type="hidden" name="EmployeeId" value="@employee.EmployeeId" />
+                            <input type="hidden" name="EmployeeName" value="@employee.EmployeeName" />
+                            <input type="hidden" name="EmployeeEmail" value="@employee.Email" />
+                            <input type="hidden" name="EmployeePhone" value="@employee.Phone" />
+                            <input type="hidden" name="DepartmentName" value="@employee.DepartmentName" />
                             <button type="submit" class="btn btn-danger btn-sm">削除</button>
                         </form>
                     </td>

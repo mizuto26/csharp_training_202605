@@ -25,13 +25,6 @@ public class EmployeeDeleteController(
     [HttpPost("DeleteConfirm")]
     public IActionResult DeleteConfirm(EmployeeDeleteViewModel viewModel)
     {
-        int employeeId = viewModel.EmployeeId;
-
-        Employee employee = _employeeService.GetEmployeeById(id: employeeId);
-        viewModel.EmployeeName = employee.Name;
-        viewModel.EmployeePhone = employee.Phone;
-        viewModel.EmployeeEmail = employee.Email;
-        viewModel.DepartmentName = employee.Department?.Name ?? "未配属";
 
         _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
 

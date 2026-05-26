@@ -26,8 +26,6 @@ public class DepartmentDeleteController(
     public IActionResult DeleteConfirm(DepartmentDeleteViewModel viewModel)
     {
         int departmentId = viewModel.DepartmentId;
-        Department department = _departmentService.GetDepartmentById(id: departmentId);
-        viewModel.DepartmentName = department.Name;
 
         ValidateDeletableDepartment(departmentId: departmentId);
 

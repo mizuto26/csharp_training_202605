@@ -24,6 +24,7 @@
                     <td>
                         <form asp-action="DeleteConfirm" asp-controller="DepartmentDelete" method="post" class="d-inline">
                             <input type="hidden" name="DepartmentId" value="@department.DepartmentId" />
+                            <input type="hidden" name="DepartmentName" value="@department.DepartmentName" />
                             <button type="submit" class="btn btn-danger btn-sm">削除</button>
                         </form>
                     </td>
