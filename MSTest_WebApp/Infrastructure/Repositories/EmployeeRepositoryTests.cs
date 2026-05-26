@@ -192,7 +192,7 @@ public class EmployeeRepositoryTests
 
         EmployeeRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindAll());
+        Exception exception = Assert.ThrowsException<Exception>(repository.FindAll);
 
         Assert.AreEqual("すべての従業員を取得できませんでした。", exception.Message);
     }

@@ -165,7 +165,7 @@ public class DepartmentRepositoryTests
         };
         DepartmentRepository repository = CreateRepository(context);
 
-        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindAll());
+        Exception exception = Assert.ThrowsException<Exception>(repository.FindAll);
 
         Assert.AreEqual("すべての部署を取得できませんでした。", exception.Message);
     }
