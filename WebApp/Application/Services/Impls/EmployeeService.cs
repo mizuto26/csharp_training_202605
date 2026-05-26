@@ -76,10 +76,10 @@ public class EmployeeService(
 
     private static Department? FindDepartment(int? departmentId, IReadOnlyDictionary<int, Department> departmentById)
     {
-        if (departmentId is null) return null;
+        if (departmentId is not int departmentIdValue) return null;
 
         bool foundDepartment = departmentById.TryGetValue(
-            key: departmentId.GetValueOrDefault(),
+            key: departmentIdValue,
             value: out Department? department
         );
         if (foundDepartment is false) return null;

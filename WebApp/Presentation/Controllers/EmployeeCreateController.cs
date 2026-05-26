@@ -56,11 +56,11 @@ public class EmployeeCreateController(
             return View(viewName: "Create", model: viewModel);
         }
 
-        if (viewModel.DeptId is null)
+        if (viewModel.DeptId is not int departmentId)
         {
             viewModel.DeptName = "未所属";
         }
-        else if (viewModel.DeptId is int departmentId)
+        else
         {
             Department department = _departmentService.GetDepartmentById(id: departmentId);
             viewModel.DeptName = department.Name;
