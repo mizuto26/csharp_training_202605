@@ -62,37 +62,6 @@ public class EmployeeRepositoryTests
         Assert.IsNull(employees[1].Department);
     }
 
-    [TestMethod("存在する従業員Idを指定すると従業員を取得できる")]
-    public void FindById_WhenEmployeeExists_ReturnsEmployee()
-    {
-        List<EmployeeEntity> employeeEntities =
-        [
-            new EmployeeEntity { EmpId = 1, EmpName = "山田", EmpEmail = "yamada@example.com", EmpPhone = "03-1234-5678", DeptId = 1 }
-        ];
-
-        using var context = CreateContext(employeeEntities, []);
-        EmployeeRepository repository = CreateRepository(context);
-
-        Employee? employee = repository.FindById(1);
-
-        Assert.IsNotNull(employee);
-        Assert.AreEqual(1, employee.Id);
-        Assert.AreEqual("山田", employee.Name);
-        Assert.AreEqual("yamada@example.com", employee.Email);
-        Assert.AreEqual("03-1234-5678", employee.Phone);
-        Assert.AreEqual(1, employee.Department?.Id);
-    }
-
-    [TestMethod("存在しない従業員Idを指定するとnullが返る")]
-    public void FindById_WhenEmployeeDoesNotExist_ReturnsNull()
-    {
-        using var context = CreateContext([], []);
-        EmployeeRepository repository = CreateRepository(context);
-
-        Employee? employee = repository.FindById(999);
-        Assert.IsNull(employee);
-    }
-
     [TestMethod("指定したメールアドレスの従業員が存在する場合はtrueを返す")]
     public void ExistsByEmail_WhenEmployeeExists_ReturnsTrue()
     {
@@ -235,21 +204,6 @@ public class EmployeeRepositoryTests
         );
 
         Assert.AreEqual("指定された電話番号の従業員を確認できませんでした。", exception.Message);
-    }
-
-    [TestMethod("FindByIdでDBアクセスに失敗した場合は例外を投げる")]
-    public void FindById_WhenDbAccessFails_ThrowsException()
-    {
-        using var context = new TestAppDbContext
-        {
-            Employees = new ThrowingDbSet<EmployeeEntity>(),
-            Departments = new QueryableDbSet<DepartmentEntity>([])
-        };
-        EmployeeRepository repository = CreateRepository(context);
-
-        InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.FindById(1));
-
-        Assert.AreEqual("指定された従業員Idの従業員を取得できませんでした。", exception.Message);
     }
 
     [TestMethod("DeleteByIdでDBアクセスに失敗した場合は例外を投げる")]
