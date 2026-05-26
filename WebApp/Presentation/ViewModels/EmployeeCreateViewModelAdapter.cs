@@ -21,7 +21,7 @@ public class EmployeeCreateViewModelAdapter : IRestorer<Employee, EmployeeCreate
         {
             department = new Department(
                 id: target.DeptId,
-                name: target.DeptName
+                name: target.DeptName ?? string.Empty
             );
         }
 

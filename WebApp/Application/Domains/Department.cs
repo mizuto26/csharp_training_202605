@@ -7,15 +7,15 @@ public class Department
     public string Name { get; private set; } = string.Empty;    // 部署名
     private const int MaxLength = 20; // 部署名の長さ
 
-    public Department(int? id, string? name)
+    public Department(int? id, string name)
     {
         // 部署名のルール検証
         ValidateDepartmentName(name: name);
         Id = id;
-        Name = name ?? string.Empty;
+        Name = name;
     }
 
-    public Department(string? name) : this(id: null, name: name) { }
+    public Department(string name) : this(id: null, name: name) { }
 
     public Department(int? id)
     {
@@ -23,11 +23,11 @@ public class Department
     }
 
     /// 部署名の変更
-    public void ChangeName(string? name)
+    public void ChangeName(string name)
     {
         // 部署名のルール検証
         ValidateDepartmentName(name: name);
-        Name = name ?? string.Empty;
+        Name = name;
     }
 
     /// 等価性の検証
@@ -43,14 +43,11 @@ public class Department
     public override string ToString() => $"{Id?.ToString() ?? "未登録"}: {Name}";
 
     /// 部署名のルール検証
-    private static void ValidateDepartmentName(string? name)
+    private static void ValidateDepartmentName(string name)
     {
-        if (name != null)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new InvalidOperationException(message: "部署名は必須です");
-            if (name.Length > MaxLength)
-                throw new InvalidOperationException(message: $"部署名は{MaxLength}文字以内で入力してください");
-        }
+        if (string.IsNullOrWhiteSpace(name))
+            throw new InvalidOperationException(message: "部署名は必須です");
+        if (name.Length > MaxLength)
+            throw new InvalidOperationException(message: $"部署名は{MaxLength}文字以内で入力してください");
     }
 }

@@ -51,7 +51,7 @@ public class EmployeeRepositoryTests
         Assert.AreEqual(1, employees[0].Department?.Id);
 
         Assert.AreEqual(2, employees[1].Id);
-        Assert.AreEqual("鈴木", employees[0].Name);
+        Assert.AreEqual("鈴木", employees[1].Name);
         Assert.AreEqual("suzuki@example.com", employees[1].Email);
         Assert.AreEqual("090-1111-2222", employees[1].Phone);
         Assert.IsNull(employees[1].Department);

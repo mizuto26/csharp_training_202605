@@ -16,11 +16,11 @@ public class EmployeeEntity
 
     [Column("phone_number")]
     /// 従業員名
-    public string? EmpPhone { get; set; } = string.Empty;
+    public string EmpPhone { get; set; } = string.Empty;
 
     [Column("email_address")]
     /// 従業員名
-    public string? EmpEmail { get; set; } = string.Empty;
+    public string EmpEmail { get; set; } = string.Empty;
 
     /// 所属部署Id(外部キー)
     [Column("dept_id")]

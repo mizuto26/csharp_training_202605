@@ -119,7 +119,7 @@ public class EmployeeCreateController(
 
     private void ValidateUniqueEmployee(EmployeeCreateViewModel viewModel)
     {
-        if (_employeeService.ExistsByEmail(email: viewModel.Email ?? string.Empty))
+        if (_employeeService.ExistsByEmail(email: viewModel.Email))
         {
             ModelState.AddModelError(
                 key: nameof(EmployeeCreateViewModel.Email),
@@ -127,7 +127,7 @@ public class EmployeeCreateController(
             );
         }
 
-        if (_employeeService.ExistsByPhone(phone: viewModel.Phone ?? string.Empty))
+        if (_employeeService.ExistsByPhone(phone: viewModel.Phone))
         {
             ModelState.AddModelError(
                 key: nameof(EmployeeCreateViewModel.Phone),

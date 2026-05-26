@@ -49,8 +49,7 @@ public class Employee
 
     public override int GetHashCode() => Id?.GetHashCode() ?? 0;
 
-    public override string ToString()
-        => $"{Id?.ToString() ?? "未登録"}: {Name} / {Department?.Name ?? "未配属"}";
+    public override string ToString() => $"{Id?.ToString() ?? "未登録"}: {Name} / {Department?.Name ?? "未配属"}";
 
     /// 氏名の検証
     private static void ValidateName(string name)

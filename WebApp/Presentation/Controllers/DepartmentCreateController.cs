@@ -76,7 +76,7 @@ public class DepartmentCreateController(
 
     private void ValidateUniqueDepartment(DepartmentCreateViewModel viewModel)
     {
-        if (!_departmentService.ExistsByName(name: viewModel.DepartmentName ?? string.Empty)) return;
+        if (!_departmentService.ExistsByName(name: viewModel.DepartmentName)) return;
 
         ModelState.AddModelError(
             key: nameof(DepartmentCreateViewModel.DepartmentName),
