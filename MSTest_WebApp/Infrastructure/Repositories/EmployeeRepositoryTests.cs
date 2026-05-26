@@ -158,6 +158,110 @@ public class EmployeeRepositoryTests
         Assert.IsTrue(deleted);
     }
 
+    [TestMethod("CreateでDBアクセスに失敗した場合は例外を投げる")]
+    public void Create_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new ThrowingDbSet<EmployeeEntity>(),
+            Departments = new QueryableDbSet<DepartmentEntity>([])
+        };
+
+        EmployeeRepository repository = CreateRepository(context);
+
+        Employee employee = new(
+            name: "山田",
+            phone: "03-1234-5678",
+            email: "yamada@example.com",
+            department: null
+        );
+
+        Exception exception = Assert.ThrowsException<Exception>(() => repository.Create(employee));
+
+        Assert.AreEqual("従業員の永続化ができませんでした。", exception.Message);
+    }
+
+    [TestMethod("FindAllでDBアクセスに失敗した場合は例外を投げる")]
+    public void FindAll_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new ThrowingDbSet<EmployeeEntity>(),
+            Departments = new QueryableDbSet<DepartmentEntity>([])
+        };
+
+        EmployeeRepository repository = CreateRepository(context);
+
+        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindAll());
+
+        Assert.AreEqual("すべての従業員を取得できませんでした。", exception.Message);
+    }
+
+    [TestMethod("ExistsByEmailでDBアクセスに失敗した場合は例外を投げる")]
+    public void ExistsByEmail_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new ThrowingDbSet<EmployeeEntity>(),
+            Departments = new QueryableDbSet<DepartmentEntity>([])
+        };
+        EmployeeRepository repository = CreateRepository(context);
+
+        Exception exception = Assert.ThrowsException<Exception>(
+            () => repository.ExistsByEmail("yamada@example.com")
+        );
+
+        Assert.AreEqual("指定されたメールアドレスの従業員を確認できませんでした。", exception.Message);
+    }
+
+    [TestMethod("ExistsByPhoneでDBアクセスに失敗した場合は例外を投げる")]
+    public void ExistsByPhone_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new ThrowingDbSet<EmployeeEntity>(),
+            Departments = new QueryableDbSet<DepartmentEntity>([])
+        };
+
+        EmployeeRepository repository = CreateRepository(context);
+
+        Exception exception = Assert.ThrowsException<Exception>(
+            () => repository.ExistsByPhone("03-1234-5678")
+        );
+
+        Assert.AreEqual("指定された電話番号の従業員を確認できませんでした。", exception.Message);
+    }
+
+    [TestMethod("FindByIdでDBアクセスに失敗した場合は例外を投げる")]
+    public void FindById_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new ThrowingDbSet<EmployeeEntity>(),
+            Departments = new QueryableDbSet<DepartmentEntity>([])
+        };
+        EmployeeRepository repository = CreateRepository(context);
+
+        Exception exception = Assert.ThrowsException<Exception>(() => repository.FindById(1));
+
+        Assert.AreEqual("指定された従業員Idの従業員を取得できませんでした。", exception.Message);
+    }
+
+    [TestMethod("DeleteByIdでDBアクセスに失敗した場合は例外を投げる")]
+    public void DeleteById_WhenDbAccessFails_ThrowsException()
+    {
+        using var context = new TestAppDbContext
+        {
+            Employees = new ThrowingDbSet<EmployeeEntity>(),
+            Departments = new QueryableDbSet<DepartmentEntity>([])
+        };
+        EmployeeRepository repository = CreateRepository(context);
+
+        Exception exception = Assert.ThrowsException<Exception>(() => repository.DeleteById(1));
+
+        Assert.AreEqual("指定された従業員Idの従業員を削除できませんでした。", exception.Message);
+    }
+
     private static EmployeeRepository CreateRepository(AppDbContext context)
     {
         return new EmployeeRepository(context, new EmployeeEntityAdapter());
