@@ -63,7 +63,7 @@ public class DepartmentDeleteController(
     public IActionResult DeleteComplete()
     {
         DepartmentDeleteViewModel? viewModel = _departmentDeleteDataStore.Load(controller: this);
-        if (viewModel is null)
+        if (viewModel == null)
         {
             return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");
         }

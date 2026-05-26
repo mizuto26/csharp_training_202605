@@ -46,9 +46,9 @@ public class EmployeeService(
 
         foreach (Department department in _departmentRepository.FindAll())
         {
-            if (department.Id is int departmentId)
+            if (department.Id != null)
             {
-                departmentById[departmentId] = department;
+                departmentById[department.Id] = department;
             }
         }
 
@@ -56,8 +56,8 @@ public class EmployeeService(
         {
             int? departmentId = employee.Department?.Id;
 
-            if (departmentId is int departmentIdValue
-                && departmentById.TryGetValue(key: departmentIdValue, value: out Department? department))
+            if (departmentId != null
+                && departmentById.TryGetValue(key: departmentId, value: out Department? department))
             {
                 employee.ChangeDepartment(department: department);
             }
@@ -74,9 +74,9 @@ public class EmployeeService(
 
         int? departmentId = employee.Department?.Id;
 
-        if (departmentId is int departmentIdValue)
+        if (departmentId != null)
         {
-            Department? department = _departmentRepository.FindById(id: departmentIdValue);
+            Department? department = _departmentRepository.FindById(id: departmentId);
             employee.ChangeDepartment(department: department);
         }
 

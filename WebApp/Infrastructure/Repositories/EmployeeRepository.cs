@@ -70,7 +70,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
             EmployeeEntity? employeeEntity = _context.Employees
                 .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
 
-            if (employeeEntity is null) return null;
+            if (employeeEntity == null) return null;
 
             Employee employee = _adapter.Restore(
                    employeeEntity: employeeEntity,
@@ -94,7 +94,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
             EmployeeEntity? entity = _context.Employees
                 .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
 
-            if (entity is null) return false;
+            if (entity == null) return false;
 
             _context.Employees.Remove(entity: entity);
             return true;

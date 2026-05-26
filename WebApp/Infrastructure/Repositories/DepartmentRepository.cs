@@ -86,7 +86,7 @@ public class DepartmentRepository(
             DepartmentEntity? entity = _context.Departments
                 .FirstOrDefault(departmentEntity => departmentEntity.DeptId == id);
 
-            if (entity is null) return false;
+            if (entity == null) return false;
 
             _context.Departments.Remove(entity: entity);
             return true;

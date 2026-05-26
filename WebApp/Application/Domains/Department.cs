@@ -37,6 +37,7 @@ public class Department
         if (obj is not Department other) return false;
         return Id == other.Id;
     }
+
     public override int GetHashCode() => Id?.GetHashCode() ?? 0;
 
     public override string ToString() => $"{Id?.ToString() ?? "未登録"}: {Name}";
@@ -44,7 +45,7 @@ public class Department
     /// 部署名のルール検証
     private static void ValidateDepartmentName(string? name)
     {
-        if (name is not null)
+        if (name != null)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new InvalidOperationException(message: "部署名は必須です");

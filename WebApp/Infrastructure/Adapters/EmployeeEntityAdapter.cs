@@ -35,9 +35,9 @@ public class EmployeeEntityAdapter
                 name: departmentEntity.DeptName
             );
         }
-        else if (employeeEntity.DeptId is int departmentId)
+        else if (employeeEntity.DeptId != null)
         {
-            department = new Department(id: departmentId);
+            department = new Department(id: employeeEntity.DeptId);
         }
 
         Employee employee = new(

@@ -46,11 +46,11 @@ public class EmployeeCreateViewModel
 
         foreach (Department department in departments)
         {
-            if (!department.Id.HasValue) continue;
+            if (department.Id == null) continue;
 
             Departments.Add(item: new SelectListItem
             {
-                Value = department.Id.Value.ToString(),
+                Value = department.Id.ToString(),
                 Text = string.IsNullOrEmpty(value: department.Name) ? "(名称未設定)" : department.Name
             });
         }
