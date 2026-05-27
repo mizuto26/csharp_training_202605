@@ -18,13 +18,13 @@ public static class DependencyExtension
         this IServiceCollection services, IConfiguration configuration)
     {
         // EntityFramework Coreのインスタンス生成と依存定義
-        SettingEntityFrameworkCore(configuration: configuration, services: services);
+        SettingEntityFrameworkCore(configuration, services);
         // インフラストラクチャ層のインスタンス生成と依存定義
-        SettingInfrastructures(services: services);
+        SettingInfrastructures(services);
         // アプリケーション層のインスタンス生成と依存定義
-        SettingApplications(services: services);
+        SettingApplications(services);
         // プレゼンテーション層のインスタンス生成と依存定義
-        SettingPresentations(services: services);
+        SettingPresentations(services);
     }
 
     /// EntityFramework Coreのインスタンス生成と依存定義

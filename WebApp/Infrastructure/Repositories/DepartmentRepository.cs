@@ -68,7 +68,7 @@ public class DepartmentRepository(
         {
             DepartmentEntity entity = _adapter.Convert(domain: department);
 
-            _context.Departments.Add(entity: entity);
+            _context.Departments.Add(entity);
             return true;
         }
         catch (Exception exception)

@@ -21,7 +21,7 @@ public class InternalExceptionLoggingMiddleware(
         catch (Exception exception)
         {
             // エラーログを出力する
-            _logger.LogError(exception: exception, message: "InternalException が発生しました");
+            _logger.LogError(exception, message: "InternalException が発生しました");
 
             // レスポンスが未送信の場合のみ処理
             if (context.Response.HasStarted is false)

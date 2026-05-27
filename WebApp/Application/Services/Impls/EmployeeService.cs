@@ -24,7 +24,7 @@ public class EmployeeService(
 
         try
         {
-            bool create = _employeeRepository.Create(employee: employee);
+            bool create = _employeeRepository.Create(employee);
             if (create is false) throw new InvalidOperationException(message: $"従業員Id{employee.Id}に該当する従業員は存在しません");
 
             _context.SaveChanges();
@@ -48,7 +48,6 @@ public class EmployeeService(
 
         foreach (Employee employee in employees)
         {
-            // 従業員一覧取得時は部署IDだけを持つため、部署一覧から正式な部署情報を引き直す。
             Department? department = FindDepartment(
                 departmentId: employee.Department?.Id,
                 departmentById: departmentById
@@ -56,7 +55,7 @@ public class EmployeeService(
 
             if (department is null) continue;
 
-            employee.ChangeDepartment(department: department);
+            employee.ChangeDepartment(department);
         }
 
         return employees;
@@ -82,6 +81,7 @@ public class EmployeeService(
             key: departmentIdValue,
             value: out Department? department
         );
+
         if (foundDepartment is false) return null;
 
         return department;
@@ -94,7 +94,7 @@ public class EmployeeService(
 
         try
         {
-            bool deleted = _employeeRepository.DeleteById(id: id);
+            bool deleted = _employeeRepository.DeleteById(id);
             if (deleted is false) throw new InvalidOperationException(message: $"従業員Id{id}に該当する従業員は存在しません");
 
             _context.SaveChanges();
@@ -111,12 +111,12 @@ public class EmployeeService(
     /// 指定されたメールアドレスの従業員が存在するか確認する
     public bool ExistsByEmail(string email)
     {
-        return _employeeRepository.ExistsByEmail(email: email);
+        return _employeeRepository.ExistsByEmail(email);
     }
 
     /// 指定された電話番号の従業員が存在するか確認する
     public bool ExistsByPhone(string phone)
     {
-        return _employeeRepository.ExistsByPhone(phone: phone);
+        return _employeeRepository.ExistsByPhone(phone);
     }
 }

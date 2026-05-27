@@ -33,7 +33,7 @@ public class EmployeeCreateController(
     {
         EmployeeCreateViewModel? viewModel = _empDataStore.Load(controller: this);
         viewModel ??= new EmployeeCreateViewModel();
-        PopulateDepartments(viewModel: viewModel);
+        PopulateDepartments(viewModel);
 
         return View(viewName: "Create", model: viewModel);
     }
@@ -44,15 +44,15 @@ public class EmployeeCreateController(
     {
         if (ModelState.IsValid is false)
         {
-            PopulateDepartments(viewModel: viewModel);
+            PopulateDepartments(viewModel);
             return View(viewName: "Create", model: viewModel);
         }
 
-        ValidateUniqueEmployee(viewModel: viewModel);
+        ValidateEmployee(viewModel: viewModel);
 
         if (ModelState.IsValid is false)
         {
-            PopulateDepartments(viewModel: viewModel);
+            PopulateDepartments(viewModel);
             return View(viewName: "Create", model: viewModel);
         }
 
@@ -69,7 +69,7 @@ public class EmployeeCreateController(
                     key: nameof(EmployeeCreateViewModel.DeptId),
                     errorMessage: "選択された部署は存在しません。"
                 );
-                PopulateDepartments(viewModel: viewModel);
+                PopulateDepartments(viewModel);
                 return View(viewName: "Create", model: viewModel);
             }
 
@@ -85,10 +85,11 @@ public class EmployeeCreateController(
     [HttpPost("CreateExecute")]
     public IActionResult CreateExecute(EmployeeCreateViewModel viewModel)
     {
-        ValidateUniqueEmployee(viewModel: viewModel);
+        ValidateEmployee(viewModel);
+
         if (ModelState.IsValid is false)
         {
-            PopulateDepartments(viewModel: viewModel);
+            PopulateDepartments(viewModel);
             return View(viewName: "Create", model: viewModel);
         }
 
@@ -105,7 +106,7 @@ public class EmployeeCreateController(
         if (viewModel is null) return RedirectToAction(actionName: "Create");
 
         Employee employee = _adapter.Restore(target: viewModel);
-        _employeeService.Create(employee: employee);
+        _employeeService.Create(employee);
 
         return View(viewName: "CreateComplete", model: viewModel);
     }
@@ -123,11 +124,11 @@ public class EmployeeCreateController(
     private void PopulateDepartments(EmployeeCreateViewModel viewModel)
     {
         IReadOnlyList<Department> departments = _departmentService.GetDepartments();
-        viewModel.SetDepartments(departments: departments);
+        viewModel.SetDepartments(departments);
         _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
     }
 
-    private void ValidateUniqueEmployee(EmployeeCreateViewModel viewModel)
+    private void ValidateEmployee(EmployeeCreateViewModel viewModel)
     {
         if (_employeeService.ExistsByEmail(email: viewModel.Email))
         {

@@ -20,9 +20,17 @@ public class EmployeeRepositoryTests
         using var context = CreateContext([], []);
         EmployeeRepository repository = CreateRepository(context);
 
-        Department department = new(id: 10, name: "営業部");
+        Department department = new(
+            id: 10,
+            name: "営業部"
+        );
 
-        Employee employee = new(name: "山田", email: "yamada@example.com", phone: "03-1234-5678", department: department);
+        Employee employee = new(
+            name: "山田",
+            email: "yamada@example.com",
+            phone: "03-1234-5678",
+            department: department
+        );
 
         bool created = repository.Create(employee);
         Assert.IsTrue(created);

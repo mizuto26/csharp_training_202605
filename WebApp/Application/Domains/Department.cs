@@ -10,12 +10,12 @@ public class Department
     public Department(int? id, string name)
     {
         // 部署名のルール検証
-        ValidateDepartmentName(name: name);
+        ValidateDepartmentName(name);
         Id = id;
         Name = name;
     }
 
-    public Department(string name) : this(id: null, name: name) { }
+    public Department(string name) : this(id: null, name) { }
 
     public Department(int? id)
     {
@@ -26,7 +26,7 @@ public class Department
     public void ChangeName(string name)
     {
         // 部署名のルール検証
-        ValidateDepartmentName(name: name);
+        ValidateDepartmentName(name);
         Name = name;
     }
 

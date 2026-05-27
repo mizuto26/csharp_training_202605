@@ -1,7 +1,7 @@
 using WebApp.Presentation.Middlewares;
 using WebApp.Presentation.Extensions;
 
-var builder = WebApplication.CreateBuilder(args: args);
+var builder = WebApplication.CreateBuilder(args);
 // ControllerやViewの依存関係を構築する
 builder.Services.AddControllersWithViews();
 

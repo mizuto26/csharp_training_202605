@@ -24,19 +24,19 @@ public class DepartmentService(
     /// 指定された部署Idの部署を検索する
     public Department? FindDepartmentById(int id)
     {
-        return _departmentRepository.FindById(id: id);
+        return _departmentRepository.FindById(id);
     }
 
     /// 指定された部署名の部署が存在するか確認する
     public bool ExistsByName(string name)
     {
-        return _departmentRepository.ExistsByName(name: name);
+        return _departmentRepository.ExistsByName(name);
     }
 
     /// 指定された部署Idを持つ従業員が存在するか確認する
     public bool ExistsEmployeeByDepartmentId(int departmentId)
     {
-        return _departmentRepository.ExistsEmployeeByDepartmentId(departmentId: departmentId);
+        return _departmentRepository.ExistsEmployeeByDepartmentId(departmentId);
     }
 
     // 新しい部署を登録する
@@ -46,7 +46,7 @@ public class DepartmentService(
 
         try
         {
-            bool created = _departmentRepository.Create(department: department);
+            bool created = _departmentRepository.Create(department);
             if (created is false) throw new InvalidOperationException(message: "部署を登録できませんでした。");
 
             _context.SaveChanges();
@@ -67,7 +67,7 @@ public class DepartmentService(
 
         try
         {
-            bool deleted = _departmentRepository.DeleteById(id: id);
+            bool deleted = _departmentRepository.DeleteById(id);
             if (deleted is false) throw new InvalidOperationException(message: $"部署Id{id}に該当する部署は存在しません");
 
             _context.SaveChanges();

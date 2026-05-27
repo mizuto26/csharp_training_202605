@@ -14,7 +14,7 @@ where T : class
     public T? Load(Controller controller)
     {
         // TempDataにキーが存在するか確認
-        bool foundValue = controller.TempData.TryGetValue(key: _key, value: out object? value);
+        bool foundValue = controller.TempData.TryGetValue(_key, value: out object? value);
         if (foundValue is false) return null;
 
         // 値を文字列として取得
@@ -26,7 +26,7 @@ where T : class
         try
         {
             // JSONをオブジェクトに変換して返す
-            return JsonSerializer.Deserialize<T>(json: json);
+            return JsonSerializer.Deserialize<T>(json);
         }
         catch (JsonException)
         {

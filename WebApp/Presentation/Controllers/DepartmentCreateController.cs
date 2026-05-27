@@ -34,7 +34,7 @@ public class DepartmentCreateController(
     {
         if (ModelState.IsValid is false) return View(viewName: "Create", model: viewModel);
 
-        ValidateUniqueDepartment(viewModel: viewModel);
+        ValidateDepartmentName(name: viewModel.DepartmentName);
         if (ModelState.IsValid is false) return View(viewName: "Create", model: viewModel);
 
         return View(viewName: "CreateConfirm", model: viewModel);
@@ -44,7 +44,7 @@ public class DepartmentCreateController(
     [HttpPost("CreateExecute")]
     public IActionResult CreateExecute(DepartmentCreateViewModel viewModel)
     {
-        ValidateUniqueDepartment(viewModel: viewModel);
+        ValidateDepartmentName(name: viewModel.DepartmentName);
         if (ModelState.IsValid is false) return View(viewName: "Create", model: viewModel);
 
         _deptDataStore.Save(controller: this, model: viewModel);
@@ -60,7 +60,7 @@ public class DepartmentCreateController(
         if (viewModel is null) return RedirectToAction(actionName: "Create");
 
         Department department = new(name: viewModel.DepartmentName);
-        _departmentService.Create(department: department);
+        _departmentService.Create(department);
 
         return View(viewName: "CreateComplete", model: viewModel);
     }
@@ -74,9 +74,9 @@ public class DepartmentCreateController(
         return RedirectToAction(actionName: "Create");
     }
 
-    private void ValidateUniqueDepartment(DepartmentCreateViewModel viewModel)
+    private void ValidateDepartmentName(string name)
     {
-        if (_departmentService.ExistsByName(name: viewModel.DepartmentName) is false) return;
+        if (_departmentService.ExistsByName(name) is false) return;
 
         ModelState.AddModelError(
             key: nameof(DepartmentCreateViewModel.DepartmentName),

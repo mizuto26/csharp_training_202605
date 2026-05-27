@@ -15,9 +15,9 @@ public class Employee
 
     public Employee(int? id, string name, string phone, string email, Department? department)
     {
-        ValidateName(name: name);
-        ValidatePhone(phone: phone);
-        ValidateEmail(email: email);
+        ValidateName(name);
+        ValidatePhone(phone);
+        ValidateEmail(email);
         Id = id;
         Name = name;
         Phone = phone;
@@ -26,12 +26,12 @@ public class Employee
     }
 
     public Employee(string name, string phone, string email, Department? department)
-    : this(id: null, name: name, phone: phone, email: email, department: department) { }
+    : this(id: null, name, phone, email, department) { }
 
     /// 氏名を変更する
     public void ChangeName(string name)
     {
-        ValidateName(name: name);
+        ValidateName(name);
         Name = name;
     }
 

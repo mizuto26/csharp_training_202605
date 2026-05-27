@@ -46,7 +46,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
 
             foreach (EmployeeEntity employeeEntity in employeeEntities)
             {
-                Employee employee = _adapter.Restore(employeeEntity: employeeEntity);
+                Employee employee = _adapter.Restore(employeeEntity);
 
                 employees.Add(employee);
             }

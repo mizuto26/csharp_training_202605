@@ -24,9 +24,7 @@ public class DepartmentDeleteController(
     [HttpPost("DeleteConfirm")]
     public IActionResult DeleteConfirm(DepartmentDeleteViewModel viewModel)
     {
-        int departmentId = viewModel.DepartmentId;
-
-        ValidateDeletableDepartment(departmentId: departmentId);
+        ValidateDeletableDepartment(departmentId: viewModel.DepartmentId);
 
         _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
 
@@ -66,7 +64,7 @@ public class DepartmentDeleteController(
 
     private void ValidateDeletableDepartment(int departmentId)
     {
-        if (_departmentService.ExistsEmployeeByDepartmentId(departmentId: departmentId) is false) return;
+        if (_departmentService.ExistsEmployeeByDepartmentId(departmentId) is false) return;
 
         ModelState.AddModelError(
             key: string.Empty,
