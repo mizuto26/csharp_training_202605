@@ -63,6 +63,7 @@ public class EmployeeCreateController(
         else
         {
             Department? department = _departmentService.FindDepartmentById(departmentId);
+
             if (department is null)
             {
                 ModelState.AddModelError(key: nameof(EmployeeCreateViewModel.DeptId), errorMessage: "選択された部署は存在しません。");
