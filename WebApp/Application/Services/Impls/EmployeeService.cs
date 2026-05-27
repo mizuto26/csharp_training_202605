@@ -25,7 +25,7 @@ public class EmployeeService(
         try
         {
             bool create = _employeeRepository.Create(employee);
-            if (create is false) throw new InvalidOperationException(message: $"従業員Id{employee.Id}に該当する従業員は存在しません");
+            if (create is false) throw new InvalidOperationException($"従業員Id{employee.Id}に該当する従業員は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -33,8 +33,7 @@ public class EmployeeService(
         catch (Exception exception)
         {
             transaction.Rollback();
-            throw new InvalidOperationException(message: "従業員を登録できませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("従業員を登録できませんでした。", exception);
         }
     }
 
@@ -42,14 +41,13 @@ public class EmployeeService(
     public IReadOnlyList<Employee> GetEmployees()
     {
         var employees = _employeeRepository.FindAll();
-        var departmentById = CreateDepartmentDictionary(departments: _departmentRepository.FindAll());
+        var departments = _departmentRepository.FindAll();
+
+        var departmentById = CreateDepartmentDictionary(departments);
 
         foreach (var employee in employees)
         {
-            var department = FindDepartment(
-                departmentId: employee.Department?.Id,
-                departmentById: departmentById
-            );
+            var department = FindDepartment(employee.Department?.Id, departmentById);
 
             if (department is null) continue;
 
@@ -71,14 +69,12 @@ public class EmployeeService(
         return departmentById;
     }
 
-    private static Department? FindDepartment(int? departmentId, IReadOnlyDictionary<int, Department> departmentById)
+    private static Department? FindDepartment(int? departmentId, Dictionary<int, Department> departmentById)
     {
         if (departmentId is not int departmentIdValue) return null;
 
-        bool foundDepartment = departmentById.TryGetValue(
-            key: departmentIdValue,
-            value: out var department
-        );
+        //Dictionary にそのキーが存在するか探して、あれば値も取り出す
+        bool foundDepartment = departmentById.TryGetValue(key: departmentIdValue, value: out var department);
 
         if (foundDepartment is false) return null;
 
@@ -93,7 +89,7 @@ public class EmployeeService(
         try
         {
             bool deleted = _employeeRepository.DeleteById(id);
-            if (deleted is false) throw new InvalidOperationException(message: $"従業員Id{id}に該当する従業員は存在しません");
+            if (deleted is false) throw new InvalidOperationException($"従業員Id{id}に該当する従業員は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -101,8 +97,7 @@ public class EmployeeService(
         catch (Exception exception)
         {
             transaction.Rollback();
-            throw new InvalidOperationException(message: "従業員を削除できませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("従業員を削除できませんでした。", exception);
         }
     }
 

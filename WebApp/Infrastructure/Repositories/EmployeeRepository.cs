@@ -26,8 +26,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new InvalidOperationException(message: "従業員の永続化ができませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("従業員の永続化ができませんでした。", exception);
         }
     }
 
@@ -45,8 +44,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
 
             foreach (var employeeEntity in employeeEntities)
             {
-                var employee = _adapter.Restore(employeeEntity);
-
+                var employee = _adapter.Restore(target: employeeEntity);
                 employees.Add(employee);
             }
 
@@ -54,8 +52,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new InvalidOperationException(message: "すべての従業員を取得できませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("すべての従業員を取得できませんでした。", exception);
         }
     }
 
@@ -69,13 +66,12 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
 
             if (entity is null) return false;
 
-            _context.Employees.Remove(entity: entity);
+            _context.Employees.Remove(entity);
             return true;
         }
         catch (Exception exception)
         {
-            throw new InvalidOperationException(message: "指定された従業員Idの従業員を削除できませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("指定された従業員Idの従業員を削除できませんでした。", exception);
         }
     }
 
@@ -89,8 +85,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new InvalidOperationException(message: "指定されたメールアドレスの従業員を確認できませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("指定されたメールアドレスの従業員を確認できませんでした。", exception);
         }
     }
 
@@ -104,8 +99,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         }
         catch (Exception exception)
         {
-            throw new InvalidOperationException(message: "指定された電話番号の従業員を確認できませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("指定された電話番号の従業員を確認できませんでした。", exception);
         }
     }
 }

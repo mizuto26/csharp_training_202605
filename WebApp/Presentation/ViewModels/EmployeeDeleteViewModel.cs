@@ -7,7 +7,7 @@ public class EmployeeDeleteViewModel
 {
     /// 従業員Id
     [Display(Name = "従業員ID")]
-    public int EmployeeId { get; set; }
+    public int EmployeeId { get; set; } = 0;
 
     /// 氏名
     [Display(Name = "氏名")]

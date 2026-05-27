@@ -24,19 +24,18 @@ public class EmployeeDeleteController(
     [HttpPost("DeleteConfirm")]
     public IActionResult DeleteConfirm(EmployeeDeleteViewModel viewModel)
     {
+        _logger.LogInformation("{ViewModel}", viewModel.ToString());
 
-        _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
-
-        return View(viewName: "DeleteConfirm", model: viewModel);
+        return View("DeleteConfirm", viewModel);
     }
 
     /// 従業員削除確認画面の[削除]ボタンクリックアクションメソッド
     [HttpPost("DeleteExecute")]
     public IActionResult DeleteExecute(EmployeeDeleteViewModel viewModel)
     {
-        _employeeDeleteDataStore.Save(controller: this, model: viewModel);
+        _employeeDeleteDataStore.Save(this, viewModel);
 
-        return RedirectToAction(actionName: "DeleteComplete");
+        return RedirectToAction("DeleteComplete");
     }
 
     /// 従業員削除確認画面の[戻る]ボタンクリックアクションメソッド
@@ -50,12 +49,12 @@ public class EmployeeDeleteController(
     [HttpGet("DeleteComplete")]
     public IActionResult DeleteComplete()
     {
-        var viewModel = _employeeDeleteDataStore.Load(controller: this);
+        var viewModel = _employeeDeleteDataStore.Load(this);
 
         if (viewModel is null) return RedirectToAction(actionName: "Employees", controllerName: "EmployeeList");
 
-        _employeeService.DeleteById(id: viewModel.EmployeeId);
+        _employeeService.DeleteById(viewModel.EmployeeId);
 
-        return View(viewName: "DeleteComplete", model: viewModel);
+        return View("DeleteComplete", viewModel);
     }
 }

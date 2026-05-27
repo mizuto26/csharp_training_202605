@@ -3,7 +3,7 @@ namespace WebApp.Application.Domains;
 /// 所属部署を表すドメインオブジェクト
 public class Department
 {
-    public int? Id { get; private set; }      // 部署Id
+    public int? Id { get; private set; } = null;      // 部署Id
     public string Name { get; private set; } = string.Empty;    // 部署名
     private const int MaxLength = 20; // 部署名の長さ
 

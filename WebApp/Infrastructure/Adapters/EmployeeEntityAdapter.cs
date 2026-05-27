@@ -7,9 +7,34 @@ namespace WebApp.Infrastructure.Adapters;
 public class EmployeeEntityAdapter
 : IConverter<Employee, EmployeeEntity>
 {
+    /// EmployeeEntityからドメインオブジェクト:Employeeを復元する
+    public Employee Restore(EmployeeEntity target)
+    {
+        Department? department = null;
+
+        if (target.DeptId is int departmentId)
+        {
+            //departmentNameは後から入れるため設定しない
+            department = new(
+                id: departmentId
+            );
+        }
+
+        Employee employee = new(
+                id: target.EmpId,
+                name: target.EmpName,
+                email: target.EmpEmail,
+                phone: target.EmpPhone,
+                department: department
+        );
+
+        return employee;
+    }
+
     /// ドメインオブジェクト:EmployeeをEmployeeEntityに変換する
     public EmployeeEntity Convert(Employee domain)
     {
+        // EmpId はDB保存時に自動採番されるため設定しない
         EmployeeEntity entity = new()
         {
             EmpName = domain.Name,
@@ -21,24 +46,4 @@ public class EmployeeEntityAdapter
         return entity;
     }
 
-    /// EmployeeEntityからドメインオブジェクト:Employeeを復元する
-    public Employee Restore(EmployeeEntity employeeEntity)
-    {
-        Department? department = null;
-
-        if (employeeEntity.DeptId is int departmentId)
-        {
-            department = new(id: departmentId);
-        }
-
-        Employee employee = new(
-                id: employeeEntity.EmpId,
-                name: employeeEntity.EmpName,
-                email: employeeEntity.EmpEmail,
-                phone: employeeEntity.EmpPhone,
-                department: department
-        );
-
-        return employee;
-    }
 }

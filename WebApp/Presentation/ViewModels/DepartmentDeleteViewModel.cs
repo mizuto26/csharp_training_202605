@@ -7,7 +7,7 @@ public class DepartmentDeleteViewModel
 {
     /// 部署Id
     [Display(Name = "部署ID")]
-    public int DepartmentId { get; set; }
+    public int DepartmentId { get; set; } = 0;
 
     /// 部署名
     [Display(Name = "部署名")]

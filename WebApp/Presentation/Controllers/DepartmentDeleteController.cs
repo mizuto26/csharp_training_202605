@@ -24,23 +24,24 @@ public class DepartmentDeleteController(
     [HttpPost("DeleteConfirm")]
     public IActionResult DeleteConfirm(DepartmentDeleteViewModel viewModel)
     {
-        ValidateDeletableDepartment(departmentId: viewModel.DepartmentId);
+        ValidateDeletableDepartment(viewModel.DepartmentId);
 
-        _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
+        _logger.LogInformation("{ViewModel}", viewModel.ToString());
 
-        return View(viewName: "DeleteConfirm", model: viewModel);
+        return View("DeleteConfirm", viewModel);
     }
 
     /// 部署削除確認画面の[削除]ボタンクリックアクションメソッド
     [HttpPost("DeleteExecute")]
     public IActionResult DeleteExecute(DepartmentDeleteViewModel viewModel)
     {
-        ValidateDeletableDepartment(departmentId: viewModel.DepartmentId);
-        if (ModelState.IsValid is false) return View(viewName: "DeleteConfirm", model: viewModel);
+        ValidateDeletableDepartment(viewModel.DepartmentId);
 
-        _departmentDeleteDataStore.Save(controller: this, model: viewModel);
+        if (ModelState.IsValid is false) return View("DeleteConfirm", viewModel);
 
-        return RedirectToAction(actionName: "DeleteComplete");
+        _departmentDeleteDataStore.Save(this, viewModel);
+
+        return RedirectToAction("DeleteComplete");
     }
 
     /// 部署削除確認画面の[戻る]ボタンクリックアクションメソッド
@@ -54,21 +55,20 @@ public class DepartmentDeleteController(
     [HttpGet("DeleteComplete")]
     public IActionResult DeleteComplete()
     {
-        var viewModel = _departmentDeleteDataStore.Load(controller: this);
+        var viewModel = _departmentDeleteDataStore.Load(this);
+
         if (viewModel is null) return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");
 
-        _departmentService.DeleteById(id: viewModel.DepartmentId);
+        _departmentService.DeleteById(viewModel.DepartmentId);
 
-        return View(viewName: "DeleteComplete", model: viewModel);
+        return View("DeleteComplete", viewModel);
     }
 
     private void ValidateDeletableDepartment(int departmentId)
     {
-        if (_departmentService.ExistsEmployeeByDepartmentId(departmentId) is false) return;
+        bool existsEmployee = _departmentService.ExistsEmployeeByDepartmentId(departmentId);
+        if (existsEmployee is false) return;
 
-        ModelState.AddModelError(
-            key: string.Empty,
-            errorMessage: string.Empty
-        );
+        ModelState.AddModelError(key: string.Empty, errorMessage: string.Empty);
     }
 }

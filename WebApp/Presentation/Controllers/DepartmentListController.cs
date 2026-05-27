@@ -23,6 +23,6 @@ public class DepartmentListController(
         var departments = _departmentService.GetDepartments();
         var viewModel = _departmentListViewModelAdapter.Restore(target: departments);
 
-        return View(model: viewModel);
+        return View(viewModel);
     }
 }

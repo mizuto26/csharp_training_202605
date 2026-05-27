@@ -11,9 +11,10 @@ public class EmployeeCreateViewModel
     [Required(ErrorMessage = "{0}は入力必須です。")]
     [StringLength(20, ErrorMessage = "{0}は20文字以内で入力してください")]
     public string Name { get; set; } = string.Empty;
+
     /// 所属部署
     [Display(Name = "所属部署")]
-    public int? DeptId { get; set; }
+    public int? DeptId { get; set; } = null;
 
     [Display(Name = "電話番号")]
     [Required(ErrorMessage = "{0}は入力必須です。")]
@@ -48,10 +49,16 @@ public class EmployeeCreateViewModel
         {
             if (department.Id is not int departmentId) continue;
 
+            string departmentName = department.Name;
+            if (string.IsNullOrEmpty(departmentName))
+            {
+                departmentName = "(名称未設定)";
+            }
+
             Departments.Add(item: new SelectListItem
             {
                 Value = departmentId.ToString(),
-                Text = string.IsNullOrEmpty(value: department.Name) ? "(名称未設定)" : department.Name
+                Text = departmentName
             });
         }
     }

@@ -9,7 +9,7 @@ public class EmployeeEntity
     /// 従業員Id(主キー)
     [Key]
     [Column("id")]
-    public int EmpId { get; set; }
+    public int EmpId { get; set; } = 0;
     [Column("name")]
     /// 従業員名
     public string EmpName { get; set; } = string.Empty;
@@ -24,5 +24,5 @@ public class EmployeeEntity
 
     /// 所属部署Id(外部キー)
     [Column("dept_id")]
-    public int? DeptId { get; set; }
+    public int? DeptId { get; set; } = null;
 }

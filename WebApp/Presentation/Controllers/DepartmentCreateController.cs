@@ -22,65 +22,67 @@ public class DepartmentCreateController(
     [HttpGet("Create")]
     public IActionResult Create()
     {
-        var viewModel = _deptDataStore.Load(controller: this);
+        var viewModel = _deptDataStore.Load(this);
         viewModel ??= new DepartmentCreateViewModel();
 
-        return View(viewName: "Create", model: viewModel);
+        return View("Create", viewModel);
     }
 
     /// 部署登録画面の[確認]ボタンクリックアクションメソッド
     [HttpPost("CreateConfirm")]
     public IActionResult CreateConfirm(DepartmentCreateViewModel viewModel)
     {
-        if (ModelState.IsValid is false) return View(viewName: "Create", model: viewModel);
+        if (ModelState.IsValid is false) return View("Create", viewModel);
 
         ValidateDepartmentName(name: viewModel.DepartmentName);
-        if (ModelState.IsValid is false) return View(viewName: "Create", model: viewModel);
+        if (ModelState.IsValid is false) return View("Create", viewModel);
 
-        return View(viewName: "CreateConfirm", model: viewModel);
+        return View("CreateConfirm", viewModel);
     }
 
     /// 部署登録確認画面の[登録]ボタンクリックアクションメソッド
     [HttpPost("CreateExecute")]
     public IActionResult CreateExecute(DepartmentCreateViewModel viewModel)
     {
-        ValidateDepartmentName(name: viewModel.DepartmentName);
-        if (ModelState.IsValid is false) return View(viewName: "Create", model: viewModel);
+        ValidateDepartmentName(viewModel.DepartmentName);
+        if (ModelState.IsValid is false) return View("Create", viewModel);
 
-        _deptDataStore.Save(controller: this, model: viewModel);
+        _deptDataStore.Save(this, viewModel);
 
-        return RedirectToAction(actionName: "CreateComplete");
+        return RedirectToAction("CreateComplete");
     }
 
     /// 部署登録完了画面表示 アクションメソッド
     [HttpGet("CreateComplete")]
     public IActionResult CreateComplete()
     {
-        var viewModel = _deptDataStore.Load(controller: this);
-        if (viewModel is null) return RedirectToAction(actionName: "Create");
+        var viewModel = _deptDataStore.Load(this);
+        if (viewModel is null) return RedirectToAction("Create");
 
-        Department department = new(name: viewModel.DepartmentName);
+        Department department = new(
+            name: viewModel.DepartmentName
+        );
+
         _departmentService.Create(department);
 
-        return View(viewName: "CreateComplete", model: viewModel);
+        return View("CreateComplete", viewModel);
     }
 
     /// 部署登録確認画面の[戻る]ボタンクリックアクションメソッド
     [HttpPost("CreateBack")]
     public IActionResult CreateBack(DepartmentCreateViewModel viewModel)
     {
-        _deptDataStore.Save(controller: this, model: viewModel);
+        _deptDataStore.Save(this, viewModel);
 
-        return RedirectToAction(actionName: "Create");
+        return RedirectToAction("Create");
     }
 
     private void ValidateDepartmentName(string name)
     {
-        if (_departmentService.ExistsByName(name) is false) return;
+        bool existsByEmail = _departmentService.ExistsByName(name);
 
-        ModelState.AddModelError(
-            key: nameof(DepartmentCreateViewModel.DepartmentName),
-            errorMessage: "同じ部署名の部署が既に存在します。"
-        );
+        if (existsByEmail is false) return;
+
+        ModelState.AddModelError(key: nameof(DepartmentCreateViewModel.DepartmentName), errorMessage: "同じ部署名の部署が既に存在します。");
     }
 }

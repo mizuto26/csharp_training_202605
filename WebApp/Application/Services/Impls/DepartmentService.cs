@@ -47,7 +47,7 @@ public class DepartmentService(
         try
         {
             bool created = _departmentRepository.Create(department);
-            if (created is false) throw new InvalidOperationException(message: "部署を登録できませんでした。");
+            if (created is false) throw new InvalidOperationException("部署を登録できませんでした。");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -55,8 +55,7 @@ public class DepartmentService(
         catch (Exception exception)
         {
             transaction.Rollback();
-            throw new InvalidOperationException(message: "部署を登録できませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("部署を登録できませんでした。", exception);
         }
     }
 
@@ -68,7 +67,7 @@ public class DepartmentService(
         try
         {
             bool deleted = _departmentRepository.DeleteById(id);
-            if (deleted is false) throw new InvalidOperationException(message: $"部署Id{id}に該当する部署は存在しません");
+            if (deleted is false) throw new InvalidOperationException($"部署Id{id}に該当する部署は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -76,8 +75,7 @@ public class DepartmentService(
         catch (Exception exception)
         {
             transaction.Rollback();
-            throw new InvalidOperationException(message: "部署を削除できませんでした。",
-                                                innerException: exception);
+            throw new InvalidOperationException("部署を削除できませんでした。", exception);
         }
     }
 }

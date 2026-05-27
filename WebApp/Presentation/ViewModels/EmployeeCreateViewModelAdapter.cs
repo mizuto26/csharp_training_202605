@@ -9,12 +9,9 @@ public class EmployeeCreateViewModelAdapter : IRestorer<Employee, EmployeeCreate
     /// EmployeeCreateViewModelをドメインオブジェクト:Employeeに変換する
     public Employee Restore(EmployeeCreateViewModel target)
     {
-        if (string.IsNullOrWhiteSpace(target.Name))
-            throw new InvalidOperationException(message: "氏名が設定されていません。");
-        if (string.IsNullOrWhiteSpace(target.Phone))
-            throw new InvalidOperationException(message: "電話番号が設定されていません。");
-        if (string.IsNullOrWhiteSpace(target.Email))
-            throw new InvalidOperationException(message: "メールアドレスが設定されていません。");
+        if (string.IsNullOrWhiteSpace(target.Name)) throw new InvalidOperationException(message: "氏名が設定されていません。");
+        if (string.IsNullOrWhiteSpace(target.Phone)) throw new InvalidOperationException(message: "電話番号が設定されていません。");
+        if (string.IsNullOrWhiteSpace(target.Email)) throw new InvalidOperationException(message: "メールアドレスが設定されていません。");
 
         Department? department = null;
 

@@ -24,6 +24,6 @@ public class EmployeeListController(
         var employees = _employeeService.GetEmployees();
         var viewModel = _employeeListViewModelAdapter.Restore(target: employees);
 
-        return View(model: viewModel);
+        return View(viewModel);
     }
 }
