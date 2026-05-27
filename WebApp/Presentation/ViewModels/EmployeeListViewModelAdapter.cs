@@ -19,7 +19,7 @@ public class EmployeeListViewModelAdapter
             int? departmentId = null;
             string departmentName = "未所属";
 
-            var department = employee.Department;
+            Department? department = employee.Department;
 
             if (department is not null)
             {

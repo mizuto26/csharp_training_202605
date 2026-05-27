@@ -40,14 +40,14 @@ public class EmployeeService(
     /// すべての従業員を取得する
     public IReadOnlyList<Employee> GetEmployees()
     {
-        var employees = _employeeRepository.FindAll();
-        var departments = _departmentRepository.FindAll();
+        IReadOnlyList<Employee> employees = _employeeRepository.FindAll();
+        IReadOnlyList<Department> departments = _departmentRepository.FindAll();
 
-        var departmentById = CreateDepartmentDictionary(departments);
+        Dictionary<int, Department> departmentById = CreateDepartmentDictionary(departments);
 
         foreach (var employee in employees)
         {
-            var department = FindDepartment(employee.Department?.Id, departmentById);
+            Department? department = FindDepartment(employee.Department?.Id, departmentById);
 
             if (department is null) continue;
 

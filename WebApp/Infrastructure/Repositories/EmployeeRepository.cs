@@ -19,7 +19,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
-            var entity = _adapter.Convert(employee);
+            EmployeeEntity entity = _adapter.Convert(employee);
 
             _context.Employees.Add(entity);
             return true;
@@ -36,7 +36,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         try
         {
             // 社員一覧取得
-            var employeeEntities = _context.Employees
+            List<EmployeeEntity> employeeEntities = _context.Employees
                 .OrderBy(employeeEntity => employeeEntity.EmpId)
                 .ToList();
 
@@ -44,7 +44,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
 
             foreach (var employeeEntity in employeeEntities)
             {
-                var employee = _adapter.Restore(employeeEntity);
+                Employee employee = _adapter.Restore(employeeEntity);
                 employees.Add(employee);
             }
 
@@ -61,7 +61,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
-            var entity = _context.Employees
+            EmployeeEntity? entity = _context.Employees
                 .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
 
             if (entity is null) return false;

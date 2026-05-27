@@ -22,7 +22,7 @@ public class DepartmentCreateController(
     [HttpGet("Create")]
     public IActionResult Create()
     {
-        var viewModel = _deptDataStore.Load(this);
+        DepartmentCreateViewModel? viewModel = _deptDataStore.Load(this);
         viewModel ??= new DepartmentCreateViewModel();
 
         return View("Create", viewModel);
@@ -56,7 +56,7 @@ public class DepartmentCreateController(
     [HttpGet("CreateComplete")]
     public IActionResult CreateComplete()
     {
-        var viewModel = _deptDataStore.Load(this);
+        DepartmentCreateViewModel? viewModel = _deptDataStore.Load(this);
         if (viewModel is null) return RedirectToAction("Create");
 
         Department department = new(viewModel.DepartmentName);

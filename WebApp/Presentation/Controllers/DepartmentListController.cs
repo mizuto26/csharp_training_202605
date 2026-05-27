@@ -20,8 +20,8 @@ public class DepartmentListController(
     [HttpGet("Departments")]
     public IActionResult Departments()
     {
-        var departments = _departmentService.GetDepartments();
-        var viewModel = _departmentListViewModelAdapter.Restore(departments);
+        IReadOnlyList<Department> departments = _departmentService.GetDepartments();
+        DepartmentListViewModel viewModel = _departmentListViewModelAdapter.Restore(departments);
 
         return View(viewModel);
     }

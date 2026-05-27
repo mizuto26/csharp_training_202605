@@ -22,7 +22,7 @@ public class DepartmentRepository(
     {
         try
         {
-            var departmentEntities = _context.Departments
+            List<DepartmentEntity> departmentEntities = _context.Departments
                 .OrderBy(departmentEntity => departmentEntity.DeptId)
                 .ToList();
 
@@ -30,7 +30,7 @@ public class DepartmentRepository(
 
             foreach (var departmentEntity in departmentEntities)
             {
-                var department = _adapter.Restore(departmentEntity);
+                Department department = _adapter.Restore(departmentEntity);
                 departments.Add(department);
             }
 
@@ -47,7 +47,7 @@ public class DepartmentRepository(
     {
         try
         {
-            var result = _context.Departments
+            DepartmentEntity? result = _context.Departments
                 .FirstOrDefault(departmentEntity => departmentEntity.DeptId == id);
 
             if (result is null) return null;
@@ -64,7 +64,7 @@ public class DepartmentRepository(
     {
         try
         {
-            var entity = _adapter.Convert(department);
+            DepartmentEntity entity = _adapter.Convert(department);
 
             _context.Departments.Add(entity);
             return true;
@@ -80,7 +80,7 @@ public class DepartmentRepository(
     {
         try
         {
-            var entity = _context.Departments
+            DepartmentEntity? entity = _context.Departments
                 .FirstOrDefault(departmentEntity => departmentEntity.DeptId == id);
 
             if (entity is null) return false;

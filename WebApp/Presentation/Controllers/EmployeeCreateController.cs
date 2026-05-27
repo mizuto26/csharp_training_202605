@@ -62,7 +62,7 @@ public class EmployeeCreateController(
         }
         else
         {
-            var department = _departmentService.FindDepartmentById(departmentId);
+            Department? department = _departmentService.FindDepartmentById(departmentId);
             if (department is null)
             {
                 ModelState.AddModelError(key: nameof(EmployeeCreateViewModel.DeptId), errorMessage: "選択された部署は存在しません。");
@@ -99,10 +99,10 @@ public class EmployeeCreateController(
     [HttpGet("CreateComplete")]
     public IActionResult CreateComplete()
     {
-        var viewModel = _empDataStore.Load(this);
+        EmployeeCreateViewModel? viewModel = _empDataStore.Load(this);
         if (viewModel is null) return RedirectToAction("Create");
 
-        var employee = _adapter.Restore(viewModel);
+        Employee employee = _adapter.Restore(viewModel);
         _employeeService.Create(employee);
 
         return View("CreateComplete", viewModel);
@@ -120,7 +120,7 @@ public class EmployeeCreateController(
     /// 部署一覧を取得してViewModelに設定する(SelectListItem形式)
     private void PopulateDepartments(EmployeeCreateViewModel viewModel)
     {
-        var departments = _departmentService.GetDepartments();
+        IReadOnlyList<Department> departments = _departmentService.GetDepartments();
         viewModel.SetDepartments(departments);
         _logger.LogInformation("{ViewModel}", viewModel.ToString());
     }
