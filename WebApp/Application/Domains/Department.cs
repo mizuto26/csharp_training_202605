@@ -15,7 +15,7 @@ public class Department
         Name = name;
     }
 
-    public Department(string name) : this(id: null, name) { }
+    public Department(string name) : this(id: null, name: name) { }
 
     public Department(int? id)
     {
@@ -33,7 +33,7 @@ public class Department
     /// 等価性の検証
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(objA: this, objB: obj)) return true;
+        if (ReferenceEquals(this, obj)) return true;
         Department? other = obj as Department;
         if (other is null) return false;
 

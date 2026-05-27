@@ -21,11 +21,11 @@ public class EmployeeEntityAdapter
         }
 
         Employee employee = new(
-                target.EmpId,
-                target.EmpName,
-                target.EmpEmail,
-                target.EmpPhone,
-                department
+                id: target.EmpId,
+                name: target.EmpName,
+                phone: target.EmpPhone,
+                email: target.EmpEmail,
+                department: department
         );
 
         return employee;

@@ -15,7 +15,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     // 開発環境でない場合は、エラーハンドラを設定する（/Home/Errorにリダイレクト）
-    app.UseExceptionHandler(errorHandlingPath: "/Home/Error");
+    app.UseExceptionHandler("/Home/Error");
 
     // HTTP Strict Transport Security を有効にする（既定は30日間）
     // 本番環境ではHSTSの期間を調整することも推奨される

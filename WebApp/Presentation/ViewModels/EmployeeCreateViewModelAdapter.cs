@@ -19,17 +19,17 @@ public class EmployeeCreateViewModelAdapter
         if (target.DeptId is int departmentId)
         {
             department = new Department(
-                departmentId,
-                target.DeptName
+                id: departmentId,
+                name: target.DeptName
             );
         }
 
         // 登録するEmployee(従業員)を作成する
         Employee employee = new(
-            target.Name,
-            target.Phone,
-            target.Email,
-            department
+            name: target.Name,
+            phone: target.Phone,
+            email: target.Email,
+            department: department
         );
 
         return employee;

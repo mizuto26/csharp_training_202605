@@ -59,9 +59,7 @@ public class DepartmentCreateController(
         var viewModel = _deptDataStore.Load(this);
         if (viewModel is null) return RedirectToAction("Create");
 
-        Department department = new(
-            viewModel.DepartmentName
-        );
+        Department department = new(viewModel.DepartmentName);
 
         _departmentService.Create(department);
 

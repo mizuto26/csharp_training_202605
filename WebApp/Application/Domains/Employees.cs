@@ -26,7 +26,7 @@ public class Employee
     }
 
     public Employee(string name, string phone, string email, Department? department)
-    : this(id: null, name, phone, email, department) { }
+    : this(id: null, name: name, phone: phone, email: email, department: department) { }
 
     /// 氏名を変更する
     public void ChangeName(string name)
@@ -44,7 +44,7 @@ public class Employee
     /// 等価性（IDによる比較）
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(objA: this, objB: obj)) return true;
+        if (ReferenceEquals(this, obj)) return true;
         Employee? other = obj as Employee;
         if (other is null) return false;
 

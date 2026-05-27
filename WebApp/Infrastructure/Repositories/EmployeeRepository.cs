@@ -80,8 +80,10 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
+            string normalizedEmail = email.ToUpper();
+
             return _context.Employees
-                .Any(employeeEntity => employeeEntity.EmpEmail == email);
+                .Any(employeeEntity => employeeEntity.EmpEmail.ToUpper() == normalizedEmail);
         }
         catch (Exception exception)
         {

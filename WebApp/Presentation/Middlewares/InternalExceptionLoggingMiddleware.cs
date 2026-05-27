@@ -29,7 +29,7 @@ public class InternalExceptionLoggingMiddleware(
                 context.Response.Clear();
                 context.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
                 // システム停止中画面へ遷移
-                context.Response.Redirect(location: "/System/Maintenance");
+                context.Response.Redirect("/System/Maintenance");
             }
         }
     }

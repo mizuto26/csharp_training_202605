@@ -74,7 +74,7 @@ public class EmployeeService(
         if (departmentId is not int departmentIdValue) return null;
 
         //Dictionary にそのキーが存在するか探して、あれば値も取り出す
-        bool foundDepartment = departmentById.TryGetValue(key: departmentIdValue, value: out var department);
+        bool foundDepartment = departmentById.TryGetValue(departmentIdValue, out var department);
 
         if (!foundDepartment) return null;
 

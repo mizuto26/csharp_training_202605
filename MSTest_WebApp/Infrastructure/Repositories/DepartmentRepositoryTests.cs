@@ -72,7 +72,7 @@ public class DepartmentRepositoryTests
         using var context = CreateContext([], departmentEntities);
         DepartmentRepository repository = CreateRepository(context);
 
-        Department department = new(name: "営業部");
+        Department department = new("営業部");
         bool created = repository.Create(department);
 
         IReadOnlyList<DepartmentEntity> savedDepartments = ((QueryableDbSet<DepartmentEntity>)context.Departments).Entities;
@@ -195,7 +195,7 @@ public class DepartmentRepositoryTests
         };
         DepartmentRepository repository = CreateRepository(context);
 
-        Department department = new(name: "営業部");
+        Department department = new("営業部");
 
         InvalidOperationException exception = Assert.ThrowsException<InvalidOperationException>(() => repository.Create(department));
 

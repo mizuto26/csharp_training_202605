@@ -14,7 +14,7 @@ where T : class
     public T? Load(Controller controller)
     {
         // TempDataにキーが存在するか確認
-        bool foundValue = controller.TempData.TryGetValue(key: _key, value: out object? value);
+        bool foundValue = controller.TempData.TryGetValue(_key, out object? value);
         if (!foundValue) return null;
 
         // 値を文字列として取得

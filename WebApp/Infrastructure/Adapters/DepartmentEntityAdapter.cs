@@ -10,7 +10,7 @@ public class DepartmentEntityAdapter
     /// DepartmentEntityからドメインオブジェクトDepartmentを復元する
     public Department Restore(DepartmentEntity target)
     {
-        Department department = new(target.DeptId, target.DeptName);
+        Department department = new(id: target.DeptId, name: target.DeptName);
         return department;
     }
 
