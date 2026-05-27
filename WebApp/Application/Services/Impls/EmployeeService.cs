@@ -48,9 +48,6 @@ public class EmployeeService(
         foreach (var employee in employees)
         {
             Department? department = FindDepartment(employee.Department?.Id, departmentById);
-
-            if (department is null) continue;
-
             employee.ChangeDepartment(department);
         }
 
@@ -63,7 +60,8 @@ public class EmployeeService(
 
         foreach (var department in departments)
         {
-            if (department.Id is int departmentId) departmentById[departmentId] = department;
+            int departmentId = department.Id ?? throw new InvalidOperationException("部署IDが未設定です。");
+            departmentById[departmentId] = department;
         }
 
         return departmentById;
@@ -74,7 +72,7 @@ public class EmployeeService(
         if (departmentId is not int departmentIdValue) return null;
 
         //Dictionary にそのキーが存在するか探して、あれば値も取り出す
-        bool foundDepartment = departmentById.TryGetValue(departmentIdValue, out var department);
+        bool foundDepartment = departmentById.TryGetValue(departmentIdValue, out Department? department);
 
         if (!foundDepartment) return null;
 

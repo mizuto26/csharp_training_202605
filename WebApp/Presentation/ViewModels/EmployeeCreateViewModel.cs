@@ -47,7 +47,7 @@ public class EmployeeCreateViewModel
 
         foreach (var department in departments)
         {
-            if (department.Id is not int departmentId) continue;
+            int departmentId = department.Id ?? throw new InvalidOperationException("部署IDが未設定です。");
 
             string departmentName = department.Name;
             if (string.IsNullOrEmpty(departmentName))
