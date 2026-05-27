@@ -34,7 +34,7 @@ public class DepartmentCreateController(
     {
         if (!ModelState.IsValid) return View("Create", viewModel);
 
-        ValidateDepartmentName(name: viewModel.DepartmentName);
+        ValidateDepartmentName(viewModel.DepartmentName);
         if (!ModelState.IsValid) return View("Create", viewModel);
 
         return View("CreateConfirm", viewModel);
@@ -60,7 +60,7 @@ public class DepartmentCreateController(
         if (viewModel is null) return RedirectToAction("Create");
 
         Department department = new(
-            name: viewModel.DepartmentName
+            viewModel.DepartmentName
         );
 
         _departmentService.Create(department);

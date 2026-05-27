@@ -6,7 +6,7 @@ using WebApp.Infrastructure.Entities;
 
 namespace WebApp.Infrastructure.Repositories;
 
-/// ドメインオブジェクト:部署のCRUD操作インターフェイス実装
+/// ドメインオブジェクト部署のCRUD操作インターフェイス実装
 public class DepartmentRepository(
     AppDbContext context,
     DepartmentEntityAdapter adapter)
@@ -14,7 +14,7 @@ public class DepartmentRepository(
 {
     /// アプリケーション用DbContext
     private readonly AppDbContext _context = context;
-    /// ドメインモデル:部署と部署エンティティの相互変換インターフェイスの実装
+    /// ドメインモデル部署と部署エンティティの相互変換インターフェイスの実装
     private readonly DepartmentEntityAdapter _adapter = adapter;
 
     /// すべての部署を取得する
@@ -30,7 +30,7 @@ public class DepartmentRepository(
 
             foreach (var departmentEntity in departmentEntities)
             {
-                var department = _adapter.Restore(target: departmentEntity);
+                var department = _adapter.Restore(departmentEntity);
                 departments.Add(department);
             }
 
@@ -52,7 +52,7 @@ public class DepartmentRepository(
 
             if (result is null) return null;
 
-            return _adapter.Restore(target: result);
+            return _adapter.Restore(result);
         }
         catch (Exception exception)
         {
@@ -64,7 +64,7 @@ public class DepartmentRepository(
     {
         try
         {
-            var entity = _adapter.Convert(domain: department);
+            var entity = _adapter.Convert(department);
 
             _context.Departments.Add(entity);
             return true;

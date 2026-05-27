@@ -31,8 +31,8 @@ public static class DependencyExtension
     private static void SettingEntityFrameworkCore(IConfiguration configuration, IServiceCollection services)
     {
         // 接続文字列(appsettings.json)から取得
-        string connectionString = configuration.GetConnectionString(name: "PostgreSqlConnection")
-            ?? throw new InvalidOperationException(message: "PostgreSQLの接続文字列が設定されていません。");
+        string connectionString = configuration.GetConnectionString("PostgreSqlConnection")
+            ?? throw new InvalidOperationException("PostgreSQLの接続文字列が設定されていません。");
         // DbContext登録(PostgreSQL用)
         services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
     }
@@ -40,13 +40,13 @@ public static class DependencyExtension
     /// インフラストラクチャ層のインスタンス生成と依存定義
     private static void SettingInfrastructures(IServiceCollection services)
     {
-        // ドメインモデル:部署と部署エンティティの相互変換インターフェイスの実装
+        // ドメインモデル部署と部署エンティティの相互変換インターフェイスの実装
         services.AddScoped<DepartmentEntityAdapter>();
-        // ドメインモデル:従業員と従業員エンティティの相互変換インターフェイスの実装
+        // ドメインモデル従業員と従業員エンティティの相互変換インターフェイスの実装
         services.AddScoped<EmployeeEntityAdapter>();
-        // ドメインオブジェクト:部署のCRUD操作インターフェイス実装
+        // ドメインオブジェクト部署のCRUD操作インターフェイス実装
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-        // ドメインオブジェクト:従業員のCRUD操作インターフェイスの実装
+        // ドメインオブジェクト従業員のCRUD操作インターフェイスの実装
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
     }
 
@@ -62,7 +62,7 @@ public static class DependencyExtension
     /// プレゼンテーション層のインスタンス生成と依存定義
     private static void SettingPresentations(IServiceCollection services)
     {
-        // 従業員登録ViewModelをドメインオブジェクト:従業員に変換するアダプターインターフェイスの実装
+        // 従業員登録ViewModelをドメインオブジェクト従業員に変換するアダプターインターフェイスの実装
         services.AddScoped<EmployeeCreateViewModelAdapter>();
         // 従業員リストを従業員一覧ViewModelに変換するアダプターインターフェイスの実装
         services.AddScoped<EmployeeListViewModelAdapter>();

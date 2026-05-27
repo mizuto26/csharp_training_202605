@@ -17,7 +17,7 @@ public class DepartmentListViewModelAdapter
         {
             int departmentId = department.Id ?? throw new InvalidOperationException("部署IDが未設定です。");
 
-            departments.Add(item: new DepartmentListItemViewModel
+            departments.Add(new DepartmentListItemViewModel
             {
                 DepartmentId = departmentId,
                 DepartmentName = department.Name

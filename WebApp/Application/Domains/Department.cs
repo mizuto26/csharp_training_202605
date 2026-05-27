@@ -48,8 +48,8 @@ public class Department
     private static void ValidateDepartmentName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new InvalidOperationException(message: "部署名は必須です");
+            throw new InvalidOperationException("部署名は必須です");
         if (name.Length > MaxLength)
-            throw new InvalidOperationException(message: $"部署名は{MaxLength}文字以内で入力してください");
+            throw new InvalidOperationException($"部署名は{MaxLength}文字以内で入力してください");
     }
 }

@@ -22,7 +22,7 @@ public class EmployeeListController(
     public IActionResult Employees()
     {
         var employees = _employeeService.GetEmployees();
-        var viewModel = _employeeListViewModelAdapter.Restore(target: employees);
+        var viewModel = _employeeListViewModelAdapter.Restore(employees);
 
         return View(viewModel);
     }

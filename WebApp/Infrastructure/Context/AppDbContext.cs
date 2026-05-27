@@ -3,12 +3,11 @@ using WebApp.Infrastructure.Entities;
 namespace WebApp.Infrastructure.Context;
 
 /// DbContext継承クラス
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options)
+: DbContext(options)
 {
     private DbSet<EmployeeEntity>? _employees;
     private DbSet<DepartmentEntity>? _departments;
-
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     /// employeeテーブルにアクセスするプロパティ
     public virtual DbSet<EmployeeEntity> Employees

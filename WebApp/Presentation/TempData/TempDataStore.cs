@@ -14,14 +14,13 @@ where T : class
     public T? Load(Controller controller)
     {
         // TempDataにキーが存在するか確認
-        bool foundValue = controller.TempData.TryGetValue(_key, value: out object? value);
+        bool foundValue = controller.TempData.TryGetValue(key: _key, value: out object? value);
         if (!foundValue) return null;
 
         // 値を文字列として取得
         if (value is null) return null;
-        string? json = value as string;
-        if (json is null) return null;
-        if (string.IsNullOrWhiteSpace(value: json)) return null;
+        if (value is not string json) return null;
+        if (string.IsNullOrWhiteSpace(json)) return null;
 
         try
         {
@@ -38,7 +37,7 @@ where T : class
     /// 指定されたコントローラのTempDataに、オブジェクトをJSONとして保存する
     public void Save(Controller controller, T model)
     {
-        string json = JsonSerializer.Serialize(value: model);
+        string json = JsonSerializer.Serialize(model);
         controller.TempData[_key] = json;
     }
 }

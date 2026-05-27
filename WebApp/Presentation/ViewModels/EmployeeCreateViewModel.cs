@@ -55,7 +55,7 @@ public class EmployeeCreateViewModel
                 departmentName = "(名称未設定)";
             }
 
-            Departments.Add(item: new SelectListItem
+            Departments.Add(new SelectListItem
             {
                 Value = departmentId.ToString(),
                 Text = departmentName

@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // アプリケーションの依存関係を構築する
-builder.Services.SettingDependencyInjection(configuration: builder.Configuration);
+builder.Services.SettingDependencyInjection(builder.Configuration);
 
 // WbApplicationをビルダーから構築する
 var app = builder.Build();
@@ -40,8 +40,7 @@ app.UseAuthorization();
 // 既定のルートパターンを設定する（例: /Home/Index）
 app.MapControllerRoute(
     name: "default",                            // ルートの名前
-                                                // URLパターン（省略時はHomeコントローラとIndexアクション）
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"); // URLパターン（省略時はHomeコントローラとIndexアクション）
 
 // アプリケーションを起動し、リクエストの受付を開始する
 app.Run();

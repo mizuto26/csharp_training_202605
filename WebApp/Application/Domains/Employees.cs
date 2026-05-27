@@ -58,21 +58,21 @@ public class Employee
     /// 氏名の検証
     private static void ValidateName(string name)
     {
-        if (string.IsNullOrWhiteSpace(value: name))
-            throw new InvalidOperationException(message: "氏名は必須です");
+        if (string.IsNullOrWhiteSpace(name))
+            throw new InvalidOperationException("氏名は必須です");
         if (name.Length > MaxLength)
-            throw new InvalidOperationException(message: $"氏名は{MaxLength}文字以内で入力してください");
+            throw new InvalidOperationException($"氏名は{MaxLength}文字以内で入力してください");
     }
 
     private static void ValidatePhone(string phone)
     {
-        if (string.IsNullOrWhiteSpace(value: phone))
-            throw new InvalidOperationException(message: "電話番号は必須です");
+        if (string.IsNullOrWhiteSpace(phone))
+            throw new InvalidOperationException("電話番号は必須です");
     }
 
     private static void ValidateEmail(string email)
     {
-        if (string.IsNullOrWhiteSpace(value: email))
-            throw new InvalidOperationException(message: "メールアドレスは必須です");
+        if (string.IsNullOrWhiteSpace(email))
+            throw new InvalidOperationException("メールアドレスは必須です");
     }
 }

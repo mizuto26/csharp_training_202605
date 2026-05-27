@@ -14,7 +14,7 @@ public class EmployeeListViewModelAdapter
 
         foreach (var employee in target)
         {
-            int employeeId = employee.Id ?? throw new InvalidOperationException(message: "従業員IDが未設定です。");
+            int employeeId = employee.Id ?? throw new InvalidOperationException("従業員IDが未設定です。");
 
             int? departmentId = null;
             string departmentName = "未所属";
@@ -27,7 +27,7 @@ public class EmployeeListViewModelAdapter
                 departmentName = department.Name;
             }
 
-            employees.Add(item: new EmployeeListItemViewModel
+            employees.Add(new EmployeeListItemViewModel
             {
                 EmployeeId = employeeId,
                 EmployeeName = employee.Name,

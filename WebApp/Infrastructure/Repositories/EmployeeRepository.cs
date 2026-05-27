@@ -6,12 +6,12 @@ using WebApp.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 namespace WebApp.Infrastructure.Repositories;
 
-/// ドメインオブジェクト:従業員のCRUD操作インターフェイスの実装
+/// ドメインオブジェクト従業員のCRUD操作インターフェイスの実装
 public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adapter) : IEmployeeRepository
 {
     /// アプリケーション用DbContext
     private readonly AppDbContext _context = context;
-    /// ドメインモデル:従業員と従業員エンティティの相互変換インターフェイスの実装
+    /// ドメインモデル従業員と従業員エンティティの相互変換インターフェイスの実装
     private readonly EmployeeEntityAdapter _adapter = adapter;
 
     /// 従業員を永続化する
@@ -19,7 +19,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
-            var entity = _adapter.Convert(domain: employee);
+            var entity = _adapter.Convert(employee);
 
             _context.Employees.Add(entity);
             return true;
@@ -44,7 +44,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
 
             foreach (var employeeEntity in employeeEntities)
             {
-                var employee = _adapter.Restore(target: employeeEntity);
+                var employee = _adapter.Restore(employeeEntity);
                 employees.Add(employee);
             }
 

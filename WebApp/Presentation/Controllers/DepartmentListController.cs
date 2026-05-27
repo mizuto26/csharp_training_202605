@@ -21,7 +21,7 @@ public class DepartmentListController(
     public IActionResult Departments()
     {
         var departments = _departmentService.GetDepartments();
-        var viewModel = _departmentListViewModelAdapter.Restore(target: departments);
+        var viewModel = _departmentListViewModelAdapter.Restore(departments);
 
         return View(viewModel);
     }

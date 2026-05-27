@@ -12,9 +12,9 @@ public class EmployeeService(
 : IEmployeeService
 {
     private readonly AppDbContext _context = context;
-    /// ドメインオブジェクト:従業員のCRUD操作インターフェイス
+    /// ドメインオブジェクト従業員のCRUD操作インターフェイス
     private readonly IEmployeeRepository _employeeRepository = employeeRepository;
-    /// ドメインオブジェクト:部署のCRUD操作インターフェイス
+    /// ドメインオブジェクト部署のCRUD操作インターフェイス
     private readonly IDepartmentRepository _departmentRepository = departmentRepository;
 
     /// 新しい従業員を登録する

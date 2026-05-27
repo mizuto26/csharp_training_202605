@@ -45,7 +45,7 @@ public class EmployeeCreateController(
         if (!ModelState.IsValid)
         {
             PopulateDepartments(viewModel);
-            return View("Create", model: viewModel);
+            return View("Create", viewModel);
         }
 
         ValidateEmployee(viewModel);
@@ -67,7 +67,7 @@ public class EmployeeCreateController(
             {
                 ModelState.AddModelError(key: nameof(EmployeeCreateViewModel.DeptId), errorMessage: "選択された部署は存在しません。");
                 PopulateDepartments(viewModel);
-                return View(viewName: "Create", model: viewModel);
+                return View("Create", viewModel);
             }
 
             viewModel.DeptName = department.Name;
@@ -102,7 +102,7 @@ public class EmployeeCreateController(
         var viewModel = _empDataStore.Load(this);
         if (viewModel is null) return RedirectToAction("Create");
 
-        var employee = _adapter.Restore(target: viewModel);
+        var employee = _adapter.Restore(viewModel);
         _employeeService.Create(employee);
 
         return View("CreateComplete", viewModel);

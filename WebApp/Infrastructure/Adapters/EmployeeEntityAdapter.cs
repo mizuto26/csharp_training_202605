@@ -3,11 +3,11 @@ using WebApp.Application.Domains;
 using WebApp.Infrastructure.Entities;
 namespace WebApp.Infrastructure.Adapters;
 
-/// ドメインオブジェクト:EmployeeとEmployeeEntityの相互変換インターフェイスの実装
+/// ドメインオブジェクトEmployeeとEmployeeEntityの相互変換インターフェイスの実装
 public class EmployeeEntityAdapter
 : IConverter<Employee, EmployeeEntity>
 {
-    /// EmployeeEntityからドメインオブジェクト:Employeeを復元する
+    /// EmployeeEntityからドメインオブジェクトEmployeeを復元する
     public Employee Restore(EmployeeEntity target)
     {
         Department? department = null;
@@ -16,22 +16,22 @@ public class EmployeeEntityAdapter
         {
             //departmentNameは後から入れるため設定しない
             department = new(
-                id: departmentId
+                departmentId
             );
         }
 
         Employee employee = new(
-                id: target.EmpId,
-                name: target.EmpName,
-                email: target.EmpEmail,
-                phone: target.EmpPhone,
-                department: department
+                target.EmpId,
+                target.EmpName,
+                target.EmpEmail,
+                target.EmpPhone,
+                department
         );
 
         return employee;
     }
 
-    /// ドメインオブジェクト:EmployeeをEmployeeEntityに変換する
+    /// ドメインオブジェクトEmployeeをEmployeeEntityに変換する
     public EmployeeEntity Convert(Employee domain)
     {
         // EmpId はDB保存時に自動採番されるため設定しない
