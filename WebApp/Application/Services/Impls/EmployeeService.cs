@@ -20,7 +20,7 @@ public class EmployeeService(
     /// 新しい従業員を登録する
     public void Create(Employee employee)
     {
-        using IDbContextTransaction? transaction = _context.Database.BeginTransaction();
+        using var transaction = _context.Database.BeginTransaction();
 
         try
         {
@@ -41,14 +41,12 @@ public class EmployeeService(
     /// すべての従業員を取得する
     public IReadOnlyList<Employee> GetEmployees()
     {
-        IReadOnlyList<Employee> employees = _employeeRepository.FindAll();
-        IReadOnlyDictionary<int, Department> departmentById = CreateDepartmentDictionary(
-            departments: _departmentRepository.FindAll()
-        );
+        var employees = _employeeRepository.FindAll();
+        var departmentById = CreateDepartmentDictionary(departments: _departmentRepository.FindAll());
 
-        foreach (Employee employee in employees)
+        foreach (var employee in employees)
         {
-            Department? department = FindDepartment(
+            var department = FindDepartment(
                 departmentId: employee.Department?.Id,
                 departmentById: departmentById
             );
@@ -65,7 +63,7 @@ public class EmployeeService(
     {
         Dictionary<int, Department> departmentById = [];
 
-        foreach (Department department in departments)
+        foreach (var department in departments)
         {
             if (department.Id is int departmentId) departmentById[departmentId] = department;
         }
@@ -79,7 +77,7 @@ public class EmployeeService(
 
         bool foundDepartment = departmentById.TryGetValue(
             key: departmentIdValue,
-            value: out Department? department
+            value: out var department
         );
 
         if (foundDepartment is false) return null;
@@ -90,7 +88,7 @@ public class EmployeeService(
     /// 指定された従業員Idの従業員を削除する
     public void DeleteById(int id)
     {
-        using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+        using var transaction = _context.Database.BeginTransaction();
 
         try
         {

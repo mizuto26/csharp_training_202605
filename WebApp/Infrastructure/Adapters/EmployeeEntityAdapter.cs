@@ -26,7 +26,10 @@ public class EmployeeEntityAdapter
     {
         Department? department = null;
 
-        if (employeeEntity.DeptId is int departmentId) department = new Department(id: departmentId);
+        if (employeeEntity.DeptId is int departmentId)
+        {
+            department = new(id: departmentId);
+        }
 
         Employee employee = new(
                 id: employeeEntity.EmpId,

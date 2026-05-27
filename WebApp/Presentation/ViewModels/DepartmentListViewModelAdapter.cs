@@ -13,7 +13,7 @@ public class DepartmentListViewModelAdapter
     {
         List<DepartmentListItemViewModel> departments = [];
 
-        foreach (Department department in target)
+        foreach (var department in target)
         {
             int departmentId = department.Id ?? throw new InvalidOperationException(message: "部署IDが未設定です。");
 

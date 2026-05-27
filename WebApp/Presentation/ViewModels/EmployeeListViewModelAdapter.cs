@@ -12,14 +12,14 @@ public class EmployeeListViewModelAdapter
     {
         List<EmployeeListItemViewModel> employees = [];
 
-        foreach (Employee employee in target)
+        foreach (var employee in target)
         {
             int employeeId = employee.Id ?? throw new InvalidOperationException(message: "従業員IDが未設定です。");
 
             int? departmentId = null;
             string departmentName = "未所属";
 
-            Department? department = employee.Department;
+            var department = employee.Department;
 
             if (department is not null)
             {

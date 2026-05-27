@@ -42,7 +42,7 @@ public class DepartmentService(
     // 新しい部署を登録する
     public void Create(Department department)
     {
-        using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+        using var transaction = _context.Database.BeginTransaction();
 
         try
         {
@@ -63,7 +63,7 @@ public class DepartmentService(
     /// 指定された部署Idの部署を削除する
     public void DeleteById(int id)
     {
-        using IDbContextTransaction transaction = _context.Database.BeginTransaction();
+        using var transaction = _context.Database.BeginTransaction();
 
         try
         {

@@ -44,7 +44,7 @@ public class EmployeeCreateViewModel
             }
         ];
 
-        foreach (Department department in departments)
+        foreach (var department in departments)
         {
             if (department.Id is not int departmentId) continue;
 

@@ -19,7 +19,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
-            EmployeeEntity entity = _adapter.Convert(domain: employee);
+            var entity = _adapter.Convert(domain: employee);
 
             _context.Employees.Add(entity);
             return true;
@@ -37,16 +37,15 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
         try
         {
             // 社員一覧取得
-            List<EmployeeEntity> employeeEntities = _context.Employees
+            var employeeEntities = _context.Employees
                 .OrderBy(employeeEntity => employeeEntity.EmpId)
-                .ToList()
-            ;
+                .ToList();
 
             List<Employee> employees = [];
 
-            foreach (EmployeeEntity employeeEntity in employeeEntities)
+            foreach (var employeeEntity in employeeEntities)
             {
-                Employee employee = _adapter.Restore(employeeEntity);
+                var employee = _adapter.Restore(employeeEntity);
 
                 employees.Add(employee);
             }
@@ -65,7 +64,7 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
-            EmployeeEntity? entity = _context.Employees
+            var entity = _context.Employees
                 .FirstOrDefault(employeeEntity => employeeEntity.EmpId == id);
 
             if (entity is null) return false;
@@ -85,24 +84,14 @@ public class EmployeeRepository(AppDbContext context, EmployeeEntityAdapter adap
     {
         try
         {
-            string normalizedEmail = email.ToLower();
-
             return _context.Employees
-                .Any(employeeEntity => HasSameEmail(employeeEntity, normalizedEmail));
+                .Any(employeeEntity => employeeEntity.EmpEmail == email);
         }
         catch (Exception exception)
         {
             throw new InvalidOperationException(message: "指定されたメールアドレスの従業員を確認できませんでした。",
                                                 innerException: exception);
         }
-    }
-
-    private static bool HasSameEmail(EmployeeEntity employeeEntity, string normalizedEmail)
-    {
-        string? employeeEmail = employeeEntity.EmpEmail;
-        if (employeeEmail is null) return false;
-
-        return employeeEmail.ToLower() == normalizedEmail;
     }
 
     /// 指定された電話番号の従業員が存在するか確認する

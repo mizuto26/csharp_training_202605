@@ -50,7 +50,7 @@ public class EmployeeDeleteController(
     [HttpGet("DeleteComplete")]
     public IActionResult DeleteComplete()
     {
-        EmployeeDeleteViewModel? viewModel = _employeeDeleteDataStore.Load(controller: this);
+        var viewModel = _employeeDeleteDataStore.Load(controller: this);
 
         if (viewModel is null) return RedirectToAction(actionName: "Employees", controllerName: "EmployeeList");
 

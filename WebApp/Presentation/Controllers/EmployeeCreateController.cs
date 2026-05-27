@@ -62,7 +62,7 @@ public class EmployeeCreateController(
         }
         else
         {
-            Department? department = _departmentService.FindDepartmentById(id: departmentId);
+            var department = _departmentService.FindDepartmentById(id: departmentId);
             if (department is null)
             {
                 ModelState.AddModelError(
@@ -102,10 +102,10 @@ public class EmployeeCreateController(
     [HttpGet("CreateComplete")]
     public IActionResult CreateComplete()
     {
-        EmployeeCreateViewModel? viewModel = _empDataStore.Load(controller: this);
+        var viewModel = _empDataStore.Load(controller: this);
         if (viewModel is null) return RedirectToAction(actionName: "Create");
 
-        Employee employee = _adapter.Restore(target: viewModel);
+        var employee = _adapter.Restore(target: viewModel);
         _employeeService.Create(employee);
 
         return View(viewName: "CreateComplete", model: viewModel);
@@ -123,7 +123,7 @@ public class EmployeeCreateController(
     /// 部署一覧を取得してViewModelに設定する(SelectListItem形式)
     private void PopulateDepartments(EmployeeCreateViewModel viewModel)
     {
-        IReadOnlyList<Department> departments = _departmentService.GetDepartments();
+        var departments = _departmentService.GetDepartments();
         viewModel.SetDepartments(departments);
         _logger.LogInformation(message: "{ViewModel}", args: viewModel.ToString());
     }

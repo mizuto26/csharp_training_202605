@@ -54,7 +54,7 @@ public class DepartmentDeleteController(
     [HttpGet("DeleteComplete")]
     public IActionResult DeleteComplete()
     {
-        DepartmentDeleteViewModel? viewModel = _departmentDeleteDataStore.Load(controller: this);
+        var viewModel = _departmentDeleteDataStore.Load(controller: this);
         if (viewModel is null) return RedirectToAction(actionName: "Departments", controllerName: "DepartmentList");
 
         _departmentService.DeleteById(id: viewModel.DepartmentId);
