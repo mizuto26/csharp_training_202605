@@ -15,7 +15,7 @@ where T : class
     {
         // TempDataにキーが存在するか確認
         bool foundValue = controller.TempData.TryGetValue(_key, value: out object? value);
-        if (foundValue is false) return null;
+        if (!foundValue) return null;
 
         // 値を文字列として取得
         if (value is null) return null;

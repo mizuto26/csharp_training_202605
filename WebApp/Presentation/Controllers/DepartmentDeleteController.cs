@@ -37,7 +37,7 @@ public class DepartmentDeleteController(
     {
         ValidateDeletableDepartment(viewModel.DepartmentId);
 
-        if (ModelState.IsValid is false) return View("DeleteConfirm", viewModel);
+        if (!ModelState.IsValid) return View("DeleteConfirm", viewModel);
 
         _departmentDeleteDataStore.Save(this, viewModel);
 
@@ -67,7 +67,7 @@ public class DepartmentDeleteController(
     private void ValidateDeletableDepartment(int departmentId)
     {
         bool existsEmployee = _departmentService.ExistsEmployeeByDepartmentId(departmentId);
-        if (existsEmployee is false) return;
+        if (!existsEmployee) return;
 
         ModelState.AddModelError(key: string.Empty, errorMessage: string.Empty);
     }

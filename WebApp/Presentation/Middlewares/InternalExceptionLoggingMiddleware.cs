@@ -24,7 +24,7 @@ public class InternalExceptionLoggingMiddleware(
             _logger.LogError(exception, message: "InternalException が発生しました");
 
             // レスポンスが未送信の場合のみ処理
-            if (context.Response.HasStarted is false)
+            if (!context.Response.HasStarted)
             {
                 context.Response.Clear();
                 context.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;

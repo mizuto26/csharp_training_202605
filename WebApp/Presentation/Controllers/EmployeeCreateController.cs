@@ -42,15 +42,15 @@ public class EmployeeCreateController(
     [HttpPost("CreateConfirm")]
     public IActionResult CreateConfirm(EmployeeCreateViewModel viewModel)
     {
-        if (ModelState.IsValid is false)
+        if (!ModelState.IsValid)
         {
             PopulateDepartments(viewModel);
-            return View("Create", viewModel);
+            return View("Create", model: viewModel);
         }
 
         ValidateEmployee(viewModel);
 
-        if (ModelState.IsValid is false)
+        if (!ModelState.IsValid)
         {
             PopulateDepartments(viewModel);
             return View("Create", viewModel);
@@ -84,7 +84,7 @@ public class EmployeeCreateController(
     {
         ValidateEmployee(viewModel);
 
-        if (ModelState.IsValid is false)
+        if (!ModelState.IsValid)
         {
             PopulateDepartments(viewModel);
             return View("Create", viewModel);

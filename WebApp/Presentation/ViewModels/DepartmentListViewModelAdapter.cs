@@ -15,7 +15,7 @@ public class DepartmentListViewModelAdapter
 
         foreach (var department in target)
         {
-            int departmentId = department.Id ?? throw new InvalidOperationException(message: "部署IDが未設定です。");
+            int departmentId = department.Id ?? throw new InvalidOperationException("部署IDが未設定です。");
 
             departments.Add(item: new DepartmentListItemViewModel
             {

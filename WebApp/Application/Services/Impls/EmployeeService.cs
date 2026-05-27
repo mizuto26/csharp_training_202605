@@ -25,7 +25,7 @@ public class EmployeeService(
         try
         {
             bool create = _employeeRepository.Create(employee);
-            if (create is false) throw new InvalidOperationException($"従業員Id{employee.Id}に該当する従業員は存在しません");
+            if (!create) throw new InvalidOperationException($"従業員Id{employee.Id}に該当する従業員は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();
@@ -76,7 +76,7 @@ public class EmployeeService(
         //Dictionary にそのキーが存在するか探して、あれば値も取り出す
         bool foundDepartment = departmentById.TryGetValue(key: departmentIdValue, value: out var department);
 
-        if (foundDepartment is false) return null;
+        if (!foundDepartment) return null;
 
         return department;
     }
@@ -89,7 +89,7 @@ public class EmployeeService(
         try
         {
             bool deleted = _employeeRepository.DeleteById(id);
-            if (deleted is false) throw new InvalidOperationException($"従業員Id{id}に該当する従業員は存在しません");
+            if (!deleted) throw new InvalidOperationException($"従業員Id{id}に該当する従業員は存在しません");
 
             _context.SaveChanges();
             transaction.Commit();

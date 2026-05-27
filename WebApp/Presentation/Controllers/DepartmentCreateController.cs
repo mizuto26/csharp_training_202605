@@ -32,10 +32,10 @@ public class DepartmentCreateController(
     [HttpPost("CreateConfirm")]
     public IActionResult CreateConfirm(DepartmentCreateViewModel viewModel)
     {
-        if (ModelState.IsValid is false) return View("Create", viewModel);
+        if (!ModelState.IsValid) return View("Create", viewModel);
 
         ValidateDepartmentName(name: viewModel.DepartmentName);
-        if (ModelState.IsValid is false) return View("Create", viewModel);
+        if (!ModelState.IsValid) return View("Create", viewModel);
 
         return View("CreateConfirm", viewModel);
     }
@@ -45,7 +45,7 @@ public class DepartmentCreateController(
     public IActionResult CreateExecute(DepartmentCreateViewModel viewModel)
     {
         ValidateDepartmentName(viewModel.DepartmentName);
-        if (ModelState.IsValid is false) return View("Create", viewModel);
+        if (!ModelState.IsValid) return View("Create", viewModel);
 
         _deptDataStore.Save(this, viewModel);
 
@@ -81,7 +81,7 @@ public class DepartmentCreateController(
     {
         bool existsByEmail = _departmentService.ExistsByName(name);
 
-        if (existsByEmail is false) return;
+        if (!existsByEmail) return;
 
         ModelState.AddModelError(key: nameof(DepartmentCreateViewModel.DepartmentName), errorMessage: "同じ部署名の部署が既に存在します。");
     }
