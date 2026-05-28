@@ -18,7 +18,7 @@ public class EmployeeCreateViewModelAdapter
 
         if (target.DeptId is int departmentId)
         {
-            department = new Department(
+            department = new(
                 id: departmentId,
                 name: target.DeptName
             );
